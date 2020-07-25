@@ -11,6 +11,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UI", "UI", "{B5A9ABC7-C3FF-
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MoveMe.WinUI", "MoveMe.WinUI\MoveMe.WinUI.csproj", "{DE3D9AD3-4BEC-47C2-BB55-4A5A6BDB3B83}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoveMe.WinForms", "MoveMe.WinForms\MoveMe.WinForms.csproj", "{6F277426-C537-4C6D-9C4B-C6029CDA75AB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,12 +31,17 @@ Global
 		{DE3D9AD3-4BEC-47C2-BB55-4A5A6BDB3B83}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DE3D9AD3-4BEC-47C2-BB55-4A5A6BDB3B83}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DE3D9AD3-4BEC-47C2-BB55-4A5A6BDB3B83}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6F277426-C537-4C6D-9C4B-C6029CDA75AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6F277426-C537-4C6D-9C4B-C6029CDA75AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6F277426-C537-4C6D-9C4B-C6029CDA75AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6F277426-C537-4C6D-9C4B-C6029CDA75AB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{DE3D9AD3-4BEC-47C2-BB55-4A5A6BDB3B83} = {B5A9ABC7-C3FF-4A03-B739-BFD709419521}
+		{6F277426-C537-4C6D-9C4B-C6029CDA75AB} = {B5A9ABC7-C3FF-4A03-B739-BFD709419521}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {FECF8D81-DBAC-4184-8431-886AD11DFBE5}
