@@ -1,21 +1,22 @@
-﻿using System;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
+using MoveMe.Model;
+using MoveMe.Model.Requests;
+using MoveMe.WebAPI.Other;
+using MoveMe.WebAPI.Services;
+using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
-using MoveMe.Model.Requests;
-using MoveMe.WebAPI.Database;
-using MoveMe.WebAPI.Other;
-using MoveMe.WebAPI.Services;
 
 namespace MoveMe.WebAPI.Controllers
 {
@@ -23,27 +24,36 @@ namespace MoveMe.WebAPI.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        private readonly UserManager<User> _userManager;
+        private readonly UserManager<Database.User> _userManager;
         private readonly RoleManager<IdentityRole<int>> _roleManager;
         private readonly ICRUDService<Model.Address, object, AddressUpsertRequest, AddressUpsertRequest> _addressService;
         private readonly ApplicationSettings _appSettings;
-        public AuthController(UserManager<User> userManager, RoleManager<IdentityRole<int>> roleManager,
+        private readonly IMapper _mapper;
+        public AuthController(UserManager<Database.User> userManager, RoleManager<IdentityRole<int>> roleManager,
             ICRUDService<Model.Address, object, AddressUpsertRequest, AddressUpsertRequest> addressService,
-            IOptions<ApplicationSettings> appSettings)
+            IOptions<ApplicationSettings> appSettings, IMapper mapper)
         {
             _userManager = userManager;
             _roleManager = roleManager;
             _addressService = addressService;
             _appSettings = appSettings.Value;
+            _mapper = mapper;
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login(LoginRequest request)
+        public async Task<Login> Login(LoginRequest request)
         {
             var user = await _userManager.FindByEmailAsync(request.Email);
-            
+
             if (user != null && await _userManager.CheckPasswordAsync(user, request.Password))
             {
+                var roles = await _userManager.GetRolesAsync(user);
+
+                if (!roles.Any(x => request.Roles.Any(y => y == x)))
+                {
+                    throw new UserException("Not authorized");
+                }
+
                 var identity = new ClaimsIdentity(IdentityConstants.ApplicationScheme);
                 identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, user.Id.ToString(), null));
                 identity.AddClaim(new Claim(ClaimTypes.Name, user.UserName));
@@ -53,16 +63,19 @@ namespace MoveMe.WebAPI.Controllers
 
                 var token = GenerateToken(user.Id);
 
-                return Ok(new { token });
+                return new Login
+                {
+                    Token = token
+                };
             }
             else
             {
-                return BadRequest("Invalid username or password");
+                throw new UserException("Invalid username or password");
             }
         }
 
         [HttpPost("register")]
-        public async Task<IActionResult> Register(RegisterRequest request)
+        public async Task<User> Register(RegisterRequest request)
         {
             if (request.Password == request.ConfirmPassword)
             {
@@ -70,7 +83,7 @@ namespace MoveMe.WebAPI.Controllers
 
                 if (userCheck != null)
                 {
-                    return BadRequest("Email already exists");
+                    throw new UserException("Email already exists");
                 }
 
                 var address = _addressService.Insert(new AddressUpsertRequest
@@ -82,14 +95,15 @@ namespace MoveMe.WebAPI.Controllers
                     ZipCode = request.ZipCode
                 });
 
-                var user = new User
+                var user = new Database.User
                 {
                     Email = request.Email,
                     UserName = request.Email,
                     EmailConfirmed = false,
                     Active = true,
                     AddressId = address.AddressId,
-                    PhoneNumber = request.PhoneNumber
+                    PhoneNumber = request.PhoneNumber,
+                    CreatedAt = request.CreatedAt
                 };
 
                 var result = await _userManager.CreateAsync(user, request.Password);
@@ -98,33 +112,36 @@ namespace MoveMe.WebAPI.Controllers
                 {
                     //Admin
                     await _userManager.AddToRoleAsync(user, "Admin");
-                } else if (request.RoleId == 2)
-                {
-                    //Supplier
-                    await _userManager.AddToRoleAsync(user, "Supplier");
-                    user.Company = request.Company;
-                    user.Image = request.Image;
-                } else if (request.RoleId == 3)
+                }
+                else if (request.RoleId == 2)
                 {
                     //Client
                     await _userManager.AddToRoleAsync(user, "Client");
                     user.FirstName = request.FirstName;
                     user.LastName = request.LastName;
                 }
+                else if (request.RoleId == 3)
+                {
+                    //Supplier
+                    await _userManager.AddToRoleAsync(user, "Supplier");
+                    user.Company = request.Company;
+                    user.Image = request.Image;
+                }
+               
                 await _userManager.UpdateAsync(user);
 
                 if (result.Succeeded)
                 {
-                    return Ok();
+                    return _mapper.Map<User>(user);
                 }
                 else
                 {
-                    return BadRequest(result.Errors);
+                    throw new UserException(result.Errors.ToString());
                 }
             }
             else
             {
-                return BadRequest("Passwords do not match");
+                throw new UserException("Passwords do not match");
             }
         }
 
@@ -143,6 +160,79 @@ namespace MoveMe.WebAPI.Controllers
             var tokenHandler = new JwtSecurityTokenHandler();
             var securityToken = tokenHandler.CreateToken(tokenDescription);
             return tokenHandler.WriteToken(securityToken);
+        }
+
+        [HttpGet]
+        public async Task<List<User>> GetAll([FromQuery]UserSearchReqeust request)
+        {
+            List<Database.User> allUsers;
+            if (request?.RoleId.HasValue == true && request?.RoleId != 0 && request?.RoleId != 1)
+            {
+                var roles = await GetRoles(false);
+
+                var role = await _roleManager.Roles.FirstAsync(x => x.Id == request.RoleId);
+                allUsers = await _userManager.GetUsersInRoleAsync(role.Name) as List<Database.User>;
+            } 
+            else
+            {
+                allUsers = _userManager.Users.Where(x => x.Id != 1).ToList();
+            }
+
+            if (!string.IsNullOrWhiteSpace(request?.Name))
+            {
+                foreach (var item in allUsers)
+                {
+                    var cName = item.Company.ToLower();
+                    var requestName = request.Name.ToLower();
+                }
+                // allUsers = allUsers.Where(x => x.Company.ToLower().StartsWith(request.Name.ToLower()) || $"{x.FirstName} {x.LastName}".ToLower().StartsWith(request.Name.ToLower())).ToList();
+                allUsers = allUsers.Where(x => x.Company.ToLower().StartsWith(request.Name.ToLower())).ToList();
+            }
+            
+            if (request?.ShowInactive == false)
+            {
+                allUsers = allUsers.Where(x => x.Active == true).ToList();
+            }
+
+            return _mapper.Map<List<User>>(allUsers);
+        }
+
+        [HttpGet("get-roles")]
+        public async Task<List<ComboBoxItem>> GetRoles(bool includeAdmin = true)
+        {
+            var roles = new List<ComboBoxItem>();
+
+            var rolesDb = await _roleManager.Roles.ToListAsync();
+
+            foreach (var role in rolesDb)
+            {
+                if (includeAdmin || role.Name != "Admin")
+                {
+                    roles.Add(new ComboBoxItem
+                    {
+                        Text = role.Name,
+                        Value = role.Id
+                    });
+                }
+            }
+            
+            return roles;
+        }
+
+        [HttpPost("craete-role")]
+        public async Task<IActionResult> CreateRole(string role)
+        {
+            IdentityRole<int> newRole = new IdentityRole<int> { Name = role };
+            await _roleManager.CreateAsync(newRole);
+
+            return Ok();
+        }
+
+        [HttpGet("{id}")]
+        public async Task<User> GetById(int id)
+        {
+            var user = await _userManager.FindByIdAsync(id.ToString());
+            return _mapper.Map<User>(user);
         }
     }
 }

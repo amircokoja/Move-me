@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:vm="clr-namespace:MoveMe.MobileApp.ViewModels"
+             mc:Ignorable="d"
+             x:Class="MoveMe.MobileApp.Views.RegisterPage">
+    <ContentPage.BindingContext>
+        <vm:RegisterViewModel />
+    </ContentPage.BindingContext>
+    <ContentPage.Content>
+        <StackLayout Padding="15" VerticalOptions="CenterAndExpand" HorizontalOptions="FillAndExpand">
+            <Label Text="Email" />
+            <Entry Text="{Binding Email}"></Entry>
+            <Label Text="{Binding EmailError}" TextColor="Red" FontSize="11"></Label>
+          
+            <Label Text="FirstName" />
+            <Entry Text="{Binding FirstName}"></Entry>
+            <Label Text="{Binding FirstNameError}" TextColor="Red" FontSize="11"></Label>
+
+            <Label Text="LastName" />
+            <Entry Text="{Binding LastName}"></Entry>
+            <Label Text="{Binding LastNameError}" TextColor="Red" FontSize="11"></Label>
+
+            <Label Text="PhoneNumber" />
+            <Entry Text="{Binding PhoneNumber}"></Entry>
+            <Label Text="{Binding PhoneNumberError}" TextColor="Red" FontSize="11"></Label>
+
+            <Label Text="Country" />
+            <Picker ItemsSource="{Binding CountryList}" SelectedItem="{Binding SelectedCountry}" ItemDisplayBinding="{Binding Name}"></Picker>
+            <Label Text="{Binding CountryError}" TextColor="Red" FontSize="11"></Label>
+
+            <Label Text="City" />
+            <Entry Text="{Binding City}"></Entry>
+            <Label Text="{Binding CityError}" TextColor="Red" FontSize="11"></Label>
+
+            <Label Text="Street" />
+            <Entry Text="{Binding Street}"></Entry>
+            <Label Text="{Binding StreetErrror}" TextColor="Red" FontSize="11"></Label>
+          
+            <Label Text="ZipCode" />
+            <Entry Text="{Binding ZipCode}"></Entry>
+            <Label Text="{Binding ZipCodeError}" TextColor="Red" FontSize="11"></Label>
+          
+            <Label Text="Additional address" />
+            <Entry Text="{Binding Additional}"></Entry>
+
+            <Label Text="Password" />
+            <Entry Text="{Binding Password}" IsPassword="True"></Entry>
+            <Label Text="{Binding PasswordError}" TextColor="Red" FontSize="11"></Label>
+            
+            <Label Text="ConfirmPassword" />
+            <Entry Text="{Binding ConfirmPassword}" IsPassword="True"></Entry>
+            
+            <Button Text="Register" Command="{Binding RegisterCommand}"></Button>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:vm="clr-namespace:MoveMe.MobileApp.ViewModels" xmlns:converters="clr-namespace:MoveMe.MobileApp.Converters"
+             mc:Ignorable="d"
+             x:Class="MoveMe.MobileApp.Views.ClientSupplierDetailsPage">
+    <ContentPage.BindingContext>
+        <vm:ClientSupplierDetailsViewModel />
+    </ContentPage.BindingContext>
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:ImageConverter x:Key="imgConv"></converters:ImageConverter>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <StackLayout Padding="10">
+            <StackLayout Orientation="Horizontal">
+                <StackLayout>
+                    <Image Source="{Binding Image, Converter={StaticResource imgConv}}"></Image>
+                </StackLayout>
+                <StackLayout Orientation="Vertical">
+                    <Label Text="{Binding Company}" 
+                                           LineBreakMode="NoWrap" 
+                                           FontSize="16" />
+                    <Label Text="{Binding Email}" 
+                                           LineBreakMode="NoWrap"
+                                           FontSize="13" />
+                    <Label Text="{Binding PhoneNumber}" 
+                                           LineBreakMode="NoWrap"
+                                           FontSize="13" />
+                </StackLayout>
+            </StackLayout>
+            <Label Text="Country" FontSize="15"></Label>
+            <Label Text="{Binding Country}" LineBreakMode="NoWrap" FontSize="13" />
+            <Label Text="Zip code" FontSize="15"></Label>
+            <Label Text="{Binding ZipCode}" LineBreakMode="NoWrap" FontSize="13" />
+            <Label Text="City" FontSize="15"></Label>
+            <Label Text="{Binding City}" LineBreakMode="NoWrap" FontSize="13" />
+            <Label Text="Street" FontSize="15"></Label>
+            <Label Text="{Binding Street}" LineBreakMode="NoWrap" FontSize="13" />
+            <Label Text="Additional address" FontSize="15"></Label>
+            <Label Text="{Binding AdditionalAddress}" LineBreakMode="NoWrap" FontSize="13" />
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

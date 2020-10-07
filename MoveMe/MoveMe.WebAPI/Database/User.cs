@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
 
 namespace MoveMe.WebAPI.Database
@@ -17,6 +18,7 @@ namespace MoveMe.WebAPI.Database
         public int? AddressId { get; set; }
         public byte[] Image { get; set; }
         public bool Active { get; set; }
+        public DateTime CreatedAt { get; set; }
         public virtual Address Address { get; set; }
         public virtual ICollection<Request> Request { get; set; }
     }

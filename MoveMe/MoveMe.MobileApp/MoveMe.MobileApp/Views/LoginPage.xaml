@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:vm="clr-namespace:MoveMe.MobileApp.ViewModels"
+             mc:Ignorable="d"
+             x:Class="MoveMe.MobileApp.Views.LoginPage">
+    <ContentPage.BindingContext>
+        <vm:LoginViewModel />
+    </ContentPage.BindingContext>
+    <ContentPage.Content>
+        <StackLayout Padding="15" VerticalOptions="CenterAndExpand" HorizontalOptions="FillAndExpand">
+            <Label Text="Email" />
+            <Entry Text="{Binding Email}"></Entry>
+            <Label Text="Password" />
+            <Entry Text="{Binding Password}" IsPassword="True"></Entry>
+            <Button Text="Login" Command="{Binding LoginCommand}"></Button>
+            <Label Text="Don't have an account?"></Label>
+            <Button Text="Register now!" Command="{Binding RegisterNavigate}"></Button>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

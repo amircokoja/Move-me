@@ -111,8 +111,11 @@ namespace MoveMe.WebAPI
 
             services.AddMvc(x => x.Filters.Add<ErrorFilter>()).SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
 
+            services.AddScoped<IService<Model.Status, object>, BaseService<Model.Status, object, Status>>();
+
             services.AddScoped<ICRUDService<Model.Country, object, Model.Requests.CountryUpsertRequest, Model.Requests.CountryUpsertRequest>, BaseCRUDService<Model.Country, object, Model.Requests.CountryUpsertRequest, Model.Requests.CountryUpsertRequest, Country>>();
             services.AddScoped<ICRUDService<Model.Address, object, Model.Requests.AddressUpsertRequest, Model.Requests.AddressUpsertRequest>, BaseCRUDService<Model.Address, object, Model.Requests.AddressUpsertRequest, Model.Requests.AddressUpsertRequest, Address>>();
+            services.AddScoped<ICRUDService<Model.Request, Model.Requests.RequestSearchRequest, Model.Requests.RequestInsertRequest, Model.Requests.RequestUpdateRequest>, BaseCRUDService<Model.Request, Model.Requests.RequestSearchRequest, Model.Requests.RequestInsertRequest, Model.Requests.RequestUpdateRequest, Request>>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -131,7 +134,7 @@ namespace MoveMe.WebAPI
                 c.RoutePrefix = string.Empty;
             });
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
 
             app.UseRouting();
 

@@ -13,6 +13,14 @@ namespace MoveMe.WebAPI.Other
 
             CreateMap<Database.Address, Address>();
             CreateMap<AddressUpsertRequest, Database.Address>();
+
+            CreateMap<Database.Request, Request>();
+            CreateMap<RequestInsertRequest, Database.Request>();
+            CreateMap<RequestUpdateRequest, Database.Request>();
+
+            CreateMap<Database.User, User>();
+            
+            CreateMap<Database.Status, Status>();
         }
     }
 

@@ -46,6 +46,29 @@ namespace MoveMe.WebAPI.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            ConcurrencyStamp = "ac96b086-d2b1-4abd-8d38-41ed71576563",
+                            Name = "Admin",
+                            NormalizedName = "ADMIN"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            ConcurrencyStamp = "1e0bf45d-54e1-4292-8e6e-986fdf10fba5",
+                            Name = "Client",
+                            NormalizedName = "CLIENT"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            ConcurrencyStamp = "ce88c211-8302-49c3-a99b-dd638c28b304",
+                            Name = "Supplier",
+                            NormalizedName = "SUPPLIER"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
@@ -128,6 +151,13 @@ namespace MoveMe.WebAPI.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles");
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = 1,
+                            RoleId = 1
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>
@@ -180,6 +210,13 @@ namespace MoveMe.WebAPI.Migrations
                     b.HasIndex("CountryId");
 
                     b.ToTable("Address");
+
+                    b.HasData(
+                        new
+                        {
+                            AddressId = 1,
+                            CountryId = 1
+                        });
                 });
 
             modelBuilder.Entity("MoveMe.WebAPI.Database.Country", b =>
@@ -197,6 +234,135 @@ namespace MoveMe.WebAPI.Migrations
                     b.HasKey("CountryId");
 
                     b.ToTable("Country");
+
+                    b.HasData(
+                        new
+                        {
+                            CountryId = 1,
+                            Name = "Germany"
+                        },
+                        new
+                        {
+                            CountryId = 2,
+                            Name = "Spain"
+                        },
+                        new
+                        {
+                            CountryId = 3,
+                            Name = "Italy"
+                        },
+                        new
+                        {
+                            CountryId = 4,
+                            Name = "France"
+                        });
+                });
+
+            modelBuilder.Entity("MoveMe.WebAPI.Database.Notification", b =>
+                {
+                    b.Property<int>("NotificationId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("NotificationTypeId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserFromId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserToId")
+                        .HasColumnType("int");
+
+                    b.HasKey("NotificationId");
+
+                    b.HasIndex("NotificationTypeId");
+
+                    b.HasIndex("UserFromId");
+
+                    b.HasIndex("UserToId");
+
+                    b.ToTable("Notification");
+                });
+
+            modelBuilder.Entity("MoveMe.WebAPI.Database.NotificationType", b =>
+                {
+                    b.Property<int>("NotificationTypeId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Type")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("NotificationTypeId");
+
+                    b.ToTable("NotificationType");
+                });
+
+            modelBuilder.Entity("MoveMe.WebAPI.Database.Offer", b =>
+                {
+                    b.Property<int>("OfferId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("OfferStatusId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RequestId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("OfferId");
+
+                    b.HasIndex("OfferStatusId");
+
+                    b.HasIndex("RequestId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Offer");
+                });
+
+            modelBuilder.Entity("MoveMe.WebAPI.Database.OfferStatus", b =>
+                {
+                    b.Property<int>("OfferStatusId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("OfferStatusId");
+
+                    b.ToTable("OfferStatus");
+
+                    b.HasData(
+                        new
+                        {
+                            OfferStatusId = 1,
+                            Name = "Active"
+                        },
+                        new
+                        {
+                            OfferStatusId = 2,
+                            Name = "Accepted"
+                        },
+                        new
+                        {
+                            OfferStatusId = 3,
+                            Name = "Rejected"
+                        });
                 });
 
             modelBuilder.Entity("MoveMe.WebAPI.Database.Rating", b =>
@@ -205,6 +371,12 @@ namespace MoveMe.WebAPI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(300)")
@@ -240,6 +412,23 @@ namespace MoveMe.WebAPI.Migrations
                     b.HasKey("RatingTypeId");
 
                     b.ToTable("RatingType");
+
+                    b.HasData(
+                        new
+                        {
+                            RatingTypeId = 1,
+                            Type = "Positive"
+                        },
+                        new
+                        {
+                            RatingTypeId = 2,
+                            Type = "Neutral"
+                        },
+                        new
+                        {
+                            RatingTypeId = 3,
+                            Type = "Negative"
+                        });
                 });
 
             modelBuilder.Entity("MoveMe.WebAPI.Database.Request", b =>
@@ -255,6 +444,9 @@ namespace MoveMe.WebAPI.Migrations
 
                     b.Property<int?>("ClientId")
                         .HasColumnType("int");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("Date")
                         .HasColumnType("date");
@@ -300,6 +492,23 @@ namespace MoveMe.WebAPI.Migrations
                     b.HasKey("StatusId");
 
                     b.ToTable("Status");
+
+                    b.HasData(
+                        new
+                        {
+                            StatusId = 1,
+                            Name = "Pending"
+                        },
+                        new
+                        {
+                            StatusId = 2,
+                            Name = "Accepted"
+                        },
+                        new
+                        {
+                            StatusId = 3,
+                            Name = "Finished"
+                        });
                 });
 
             modelBuilder.Entity("MoveMe.WebAPI.Database.User", b =>
@@ -325,6 +534,9 @@ namespace MoveMe.WebAPI.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(256)")
@@ -394,6 +606,30 @@ namespace MoveMe.WebAPI.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            AccessFailedCount = 0,
+                            Active = true,
+                            AddressId = 1,
+                            ConcurrencyStamp = "17a3e49a-234c-48b4-92c7-724f88162e7f",
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "admin@admin.com",
+                            EmailConfirmed = true,
+                            FirstName = "Admin",
+                            LastName = "Admin",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "ADMIN@ADMIN.COM",
+                            NormalizedUserName = "ADMIN@ADMIN.COM",
+                            PasswordHash = "AQAAAAEAACcQAAAAEF5IerjnzGkpGIOtT56pyL6LvzPGnzy1i6oyMmVohsdUntLYncjkB3VUKWxUYm66pA==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "",
+                            TwoFactorEnabled = false,
+                            UserId = 0,
+                            UserName = "admin@admin.com"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
@@ -453,6 +689,48 @@ namespace MoveMe.WebAPI.Migrations
                         .WithMany("Address")
                         .HasForeignKey("CountryId")
                         .HasConstraintName("FK__Address__Country__267ABA7A");
+                });
+
+            modelBuilder.Entity("MoveMe.WebAPI.Database.Notification", b =>
+                {
+                    b.HasOne("MoveMe.WebAPI.Database.NotificationType", "NotificationType")
+                        .WithMany()
+                        .HasForeignKey("NotificationTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MoveMe.WebAPI.Database.User", "UserFrom")
+                        .WithMany()
+                        .HasForeignKey("UserFromId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MoveMe.WebAPI.Database.User", "UserTo")
+                        .WithMany()
+                        .HasForeignKey("UserToId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("MoveMe.WebAPI.Database.Offer", b =>
+                {
+                    b.HasOne("MoveMe.WebAPI.Database.OfferStatus", "OfferStatus")
+                        .WithMany()
+                        .HasForeignKey("OfferStatusId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MoveMe.WebAPI.Database.Request", "Request")
+                        .WithMany()
+                        .HasForeignKey("RequestId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MoveMe.WebAPI.Database.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("MoveMe.WebAPI.Database.Rating", b =>

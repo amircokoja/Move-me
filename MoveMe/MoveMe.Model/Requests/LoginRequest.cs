@@ -1,15 +1,16 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
-namespace MoveMe.Model.Requests
-{
-    public class LoginRequest
+namespace MoveMe.Model.Requests {
+    public class LoginRequest 
     {
         [Required]
         [EmailAddress]
         public string Email { get; set; }
 
         [Required]
-        [DataType(DataType.Password)]
+        [DataType (DataType.Password)]
         public string Password { get; set; }
+        public IList<string> Roles { get; set; }
     }
 }

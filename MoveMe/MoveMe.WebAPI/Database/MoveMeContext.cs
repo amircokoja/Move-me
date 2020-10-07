@@ -22,6 +22,10 @@ namespace MoveMe.WebAPI.Database
         public virtual DbSet<Request> Request { get; set; }
         public virtual DbSet<Status> Status { get; set; }
         public virtual DbSet<User> User { get; set; }
+        public virtual DbSet<Notification> Notification { get; set; }
+        public virtual DbSet<NotificationType> NotificationType { get; set; }
+        public virtual DbSet<Offer> Offer { get; set; }
+        public virtual DbSet<OfferStatus> OfferStatus { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
