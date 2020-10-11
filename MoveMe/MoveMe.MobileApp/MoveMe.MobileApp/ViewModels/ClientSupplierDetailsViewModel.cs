@@ -84,7 +84,6 @@ namespace MoveMe.MobileApp.ViewModels
         private readonly AuthService _authService = new AuthService();
         private readonly APIService _addressService = new APIService("address");
         private readonly APIService _countryService = new APIService("country");
-        private readonly int id;
 
         public ClientSupplierDetailsViewModel()
         {

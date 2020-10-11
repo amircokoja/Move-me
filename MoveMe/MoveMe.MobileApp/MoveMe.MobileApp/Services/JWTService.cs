@@ -28,5 +28,28 @@ namespace MoveMe.MobileApp.Services
             }
         }
 
+        public static string DecodeJWTRole()
+        {
+            try
+            {
+                var token = APIService.token;
+                var handler = new JwtSecurityTokenHandler();
+                var data = handler.ReadJwtToken(token);
+
+                foreach (var claim in data.Claims)
+                {
+                    if (claim.Type == "Role")
+                    {
+                        return claim.Value;
+                    }
+                }
+                return null;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
     }
 }

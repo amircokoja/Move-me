@@ -41,6 +41,12 @@ namespace MoveMe.MobileApp.ViewModels
             get { return _totalWeightApprox; }
             set { SetProperty(ref _totalWeightApprox, value); }
         }
+        int _transportDistanceApprox;
+        public int TransportDistanceApprox
+        {
+            get { return _transportDistanceApprox; }
+            set { SetProperty(ref _transportDistanceApprox, value); }
+        }
         string _additionalInformation = string.Empty;
         public string AdditionalInformation
         {
@@ -89,6 +95,12 @@ namespace MoveMe.MobileApp.ViewModels
             get { return _status; }
             set { SetProperty(ref _status, value); }
         }
+        string _address = string.Empty;
+        public string Address
+        {
+            get { return _address; }
+            set { SetProperty(ref _address, value); }
+        }
         #endregion
 
         public ICommand InitCommand { get; set; }
@@ -113,6 +125,8 @@ namespace MoveMe.MobileApp.ViewModels
             InitCountry(country);
             var status = await _statusService.GetById<Status>(request.StatusId);
             InitStatus(status);
+
+            Address = $"${country.Name}, ${address.ZipCode}, ${address.City}";
         }
 
         private void InitRequest(Request request)
@@ -131,6 +145,7 @@ namespace MoveMe.MobileApp.ViewModels
             Street = address.Street;
             ZipCode = address.ZipCode;
             Additional = address.AdditionalAddress;
+
         }
 
         private void InitCountry(Country country)

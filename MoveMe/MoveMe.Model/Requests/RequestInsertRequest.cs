@@ -13,5 +13,6 @@ namespace MoveMe.Model.Requests
         public int ClientId { get; set; }
         public int DeliveryAddress { get; set; }
         public int StatusId { get; set; }
+        public int TransportDistanceApprox { get; set; }
     }
 }

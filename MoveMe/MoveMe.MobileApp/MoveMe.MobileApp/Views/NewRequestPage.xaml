@@ -12,35 +12,35 @@
         <StackLayout Padding="15" VerticalOptions="CenterAndExpand" HorizontalOptions="FillAndExpand">
             <Label Text="Number of rooms" />
             <Entry Text="{Binding Rooms}"></Entry>
-            <Label Text="{Binding RoomsError}" TextColor="Red" FontSize="11"></Label>
+            <Label IsVisible="{Binding RoomsErrorVisible}" Text="{Binding RoomsError}" TextColor="Red" FontSize="11"></Label>
 
             <Label Text="Total weight approx" />
             <Entry Text="{Binding TotalWeightApprox}"></Entry>
-            <Label Text="{Binding TotalWeightApproxError}" TextColor="Red" FontSize="11"></Label>
+            <Label IsVisible="{Binding TotalWeightApproxErrorVisible}" Text="{Binding TotalWeightApproxError}" TextColor="Red" FontSize="11"></Label>
 
             <Label Text="Transport distance approx" />
             <Entry Text="{Binding TransportDistanceApprox}"></Entry>
-            <Label Text="{Binding TransportDistanceApproxError}" TextColor="Red" FontSize="11"></Label>
+            <Label IsVisible="{Binding TransportDistanceApproxErrorVisible}" Text="{Binding TransportDistanceApproxError}" TextColor="Red" FontSize="11"></Label>
 
             <Label Text="Transport date" />
             <DatePicker MinimumDate="{Binding MinDate}" Date="{Binding Date}"/>
-            <Label Text="{Binding DateError}" TextColor="Red" FontSize="11"></Label>
+            <Label IsVisible="{Binding DateErrorVisible}" Text="{Binding DateError}" TextColor="Red" FontSize="11"></Label>
 
             <Label Text="Country" />
             <Picker ItemsSource="{Binding CountryList}" SelectedItem="{Binding SelectedCountry}" ItemDisplayBinding="{Binding Name}"></Picker>
-            <Label Text="{Binding CountryError}" TextColor="Red" FontSize="11"></Label>
+            <Label IsVisible="{Binding CountryErrorVisible}" Text="{Binding CountryError}" TextColor="Red" FontSize="11"></Label>
 
             <Label Text="City" />
             <Entry Text="{Binding City}"></Entry>
-            <Label Text="{Binding CityError}" TextColor="Red" FontSize="11"></Label>
+            <Label IsVisible="{Binding CityErrorVisible}" Text="{Binding CityError}" TextColor="Red" FontSize="11"></Label>
 
             <Label Text="Street" />
             <Entry Text="{Binding Street}"></Entry>
-            <Label Text="{Binding StreetError}" TextColor="Red" FontSize="11"></Label>
+            <Label IsVisible="{Binding StreetErrorVisible}" Text="{Binding StreetError}" TextColor="Red" FontSize="11"></Label>
 
             <Label Text="ZipCode" />
             <Entry Text="{Binding ZipCode}"></Entry>
-            <Label Text="{Binding ZipCodeError}" TextColor="Red" FontSize="11"></Label>
+            <Label IsVisible="{Binding ZipCodeErrorVisible}" Text="{Binding ZipCodeError}" TextColor="Red" FontSize="11"></Label>
 
             <Label Text="Additional address" />
             <Entry Text="{Binding Additional}"></Entry>
@@ -52,7 +52,7 @@
 
             <Label Text="Price" />
             <Label Text="{Binding Price, StringFormat='{0:C}'}" />
-            <Label Text="{Binding PriceError}" TextColor="Red" FontSize="11"></Label>
+            <Label IsVisible="{Binding PriceErrorVisible}" Text="{Binding PriceError}" TextColor="Red" FontSize="11"></Label>
 
             <Button Text="Submit" Command="{Binding SubmitCommand}"></Button>
         </StackLayout>

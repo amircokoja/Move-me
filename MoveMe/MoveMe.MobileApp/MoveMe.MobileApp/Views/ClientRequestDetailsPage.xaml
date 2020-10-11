@@ -7,9 +7,48 @@
              x:Class="MoveMe.MobileApp.Views.ClientRequestDetailsPage">
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+            <StackLayout Orientation="Horizontal">
+                    <Label Text="{Binding Address}" LineBreakMode="NoWrap" FontSize="16" />
+                    <Label Text="{Binding Price}" LineBreakMode="NoWrap" FontSize="16" />
+            </StackLayout>
+            <Label Text="{Binding Status}" LineBreakMode="NoWrap" FontSize="16" />
+            <StackLayout>
+                <Label Text="Address" LineBreakMode="NoWrap" FontSize="16"></Label>
+                
+                <Label Text="Country" LineBreakMode="NoWrap" FontSize="16"></Label>
+                <Label Text="{Binding Country}" LineBreakMode="NoWrap" FontSize="16" />
+
+                <Label Text="Zip code" LineBreakMode="NoWrap" FontSize="16"></Label>
+                <Label Text="{Binding ZipCode}" LineBreakMode="NoWrap" FontSize="16" />
+
+                <Label Text="City" LineBreakMode="NoWrap" FontSize="16"></Label>
+                <Label Text="{Binding City}" LineBreakMode="NoWrap" FontSize="16" />
+
+                <Label Text="Street" LineBreakMode="NoWrap" FontSize="16"></Label>
+                <Label Text="{Binding Street}" LineBreakMode="NoWrap" FontSize="16" />
+
+                <Label Text="Additional address" LineBreakMode="NoWrap" FontSize="16"></Label>
+                <Label Text="{Binding AdditionalAddress}" LineBreakMode="NoWrap" FontSize="16" />
+
+                
+            </StackLayout>
+            <StackLayout>
+                <Label Text="Request details" LineBreakMode="NoWrap" FontSize="16"></Label>
+                <Label Text="Date" LineBreakMode="NoWrap" FontSize="16"></Label>
+                <Label Text="{Binding Date}" LineBreakMode="NoWrap" FontSize="16" />
+
+                <Label Text="Number of rooms" LineBreakMode="NoWrap" FontSize="16"></Label>
+                <Label Text="{Binding Rooms}" LineBreakMode="NoWrap" FontSize="16" />
+
+                <Label Text="Total weight approx" LineBreakMode="NoWrap" FontSize="16"></Label>
+                <Label Text="{Binding TotalWeightApprox}" LineBreakMode="NoWrap" FontSize="16" />
+
+                <Label Text="Transport distance approx" LineBreakMode="NoWrap" FontSize="16"></Label>
+                <Label Text="{Binding TransportDistanceApprox}" LineBreakMode="NoWrap" FontSize="16" />
+
+                <Label Text="Additional information" LineBreakMode="NoWrap" FontSize="16"></Label>
+                <Label Text="{Binding Additional}" LineBreakMode="NoWrap" FontSize="16" />
+            </StackLayout>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

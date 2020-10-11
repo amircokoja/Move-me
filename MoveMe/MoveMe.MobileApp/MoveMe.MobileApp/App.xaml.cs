@@ -1,12 +1,12 @@
 ﻿using MoveMe.MobileApp.Services;
 using MoveMe.MobileApp.Views;
 using Xamarin.Forms;
+[assembly: ExportFont("WorkSans.ttf")]
 
 namespace MoveMe.MobileApp
 {
     public partial class App : Application
     {
-
         public App()
         {
             InitializeComponent();

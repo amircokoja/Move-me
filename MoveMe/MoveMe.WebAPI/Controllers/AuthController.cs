@@ -61,11 +61,12 @@ namespace MoveMe.WebAPI.Controllers
                 await HttpContext.SignInAsync(IdentityConstants.ApplicationScheme,
                     new ClaimsPrincipal(identity));
 
-                var token = GenerateToken(user.Id);
+                var token = GenerateToken(user.Id, roles[0]);
 
                 return new Login
                 {
-                    Token = token
+                    Token = token,
+                    Role = roles.FirstOrDefault()
                 };
             }
             else
@@ -145,14 +146,15 @@ namespace MoveMe.WebAPI.Controllers
             }
         }
 
-        private string GenerateToken(int userId)
+        private string GenerateToken(int userId, string role)
         {
             var tokenDescription = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new Claim[]
-                    {
-                            new Claim("UserID", userId.ToString())
-                    }),
+                {
+                    new Claim("UserID", userId.ToString()),
+                    new Claim("Role", role)
+                }),
                 Expires = DateTime.UtcNow.AddDays(1),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_appSettings.JWT_Secret)), SecurityAlgorithms.HmacSha256Signature)
             };
@@ -185,8 +187,7 @@ namespace MoveMe.WebAPI.Controllers
                     var cName = item.Company.ToLower();
                     var requestName = request.Name.ToLower();
                 }
-                // allUsers = allUsers.Where(x => x.Company.ToLower().StartsWith(request.Name.ToLower()) || $"{x.FirstName} {x.LastName}".ToLower().StartsWith(request.Name.ToLower())).ToList();
-                allUsers = allUsers.Where(x => x.Company.ToLower().StartsWith(request.Name.ToLower())).ToList();
+                allUsers = allUsers.Where(x => x.Company.ToLower().StartsWith(request.Name.ToLower()) || $"{x.FirstName} {x.LastName}".ToLower().StartsWith(request.Name.ToLower())).ToList();
             }
             
             if (request?.ShowInactive == false)
@@ -233,6 +234,53 @@ namespace MoveMe.WebAPI.Controllers
         {
             var user = await _userManager.FindByIdAsync(id.ToString());
             return _mapper.Map<User>(user);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<User> Update(int id, UserUpdateRequest request)
+        {
+            var user = await _userManager.FindByIdAsync(id.ToString());
+
+            if (user == null)
+            {
+                throw new UserException("User is not found");
+            }
+
+            _mapper.Map(request, user);
+
+            var result = await _userManager.UpdateAsync(user);
+
+            if (result.Succeeded)
+            {
+                return _mapper.Map<User>(user);
+            }
+            else
+            {
+                throw new UserException("Bad request");
+            }
+        }
+
+        [HttpPost("changepassword/{id}")]
+        public async Task<User> ChangePassword(int id, [FromBody]PasswordChangeRequest request)
+        {
+            var user = await _userManager.FindByIdAsync(id.ToString());
+
+            if (request.NewPassword == request.ConfirmPassword)
+            {
+                var result = await _userManager.ChangePasswordAsync(user, request.CurrentPassword, request.NewPassword);
+                if (result.Succeeded)
+                {
+                    return _mapper.Map<User>(user);
+                }
+                else
+                {
+                    throw new UserException("Current password is not correct");
+                }
+            }
+            else
+            {
+                throw new UserException("New password and confirm password are not equal");
+            }
         }
     }
 }

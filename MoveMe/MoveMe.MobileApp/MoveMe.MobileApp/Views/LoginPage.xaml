@@ -10,7 +10,7 @@
     </ContentPage.BindingContext>
     <ContentPage.Content>
         <StackLayout Padding="15" VerticalOptions="CenterAndExpand" HorizontalOptions="FillAndExpand">
-            <Label Text="Email" />
+            <Label Text="Email" FontFamily="WorkSans" />
             <Entry Text="{Binding Email}"></Entry>
             <Label Text="Password" />
             <Entry Text="{Binding Password}" IsPassword="True"></Entry>

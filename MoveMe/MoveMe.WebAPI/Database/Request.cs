@@ -20,6 +20,7 @@ namespace MoveMe.WebAPI.Database
         public int? ClientId { get; set; }
         public int? DeliveryAddress { get; set; }
         public int? StatusId { get; set; }
+        public int TransportDistanceApprox { get; set; }
         public virtual User Client { get; set; }
         public virtual Address DeliveryAddressNavigation { get; set; }
         public virtual Status Status { get; set; }

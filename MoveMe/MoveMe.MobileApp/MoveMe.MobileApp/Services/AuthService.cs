@@ -1,6 +1,7 @@
 ﻿using Flurl.Http;
 using MoveMe.MobileApp.Models;
 using MoveMe.Model;
+using MoveMe.Model.Requests;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,7 +17,7 @@ namespace MoveMe.MobileApp.Services
         public AuthService()
         {
         }
-        public async Task<Login> Login(Model.Requests.LoginRequest request)
+        public async Task<Login> Login(LoginRequest request)
         {
             var fullUrl = _apiUrl + "/login";
 
@@ -33,7 +34,7 @@ namespace MoveMe.MobileApp.Services
             }
         }
 
-        public async Task<User> Register(Model.Requests.RegisterRequest request)
+        public async Task<User> Register(RegisterRequest request)
         {
             var fullUrl = _apiUrl + "/register";
 
@@ -57,7 +58,7 @@ namespace MoveMe.MobileApp.Services
         //    return result;
         //}
 
-        public async Task<List<User>> GetAll(Model.Requests.UserSearchReqeust request)
+        public async Task<List<User>> GetAll(UserSearchReqeust request)
         {
             var fullUrl = _apiUrl;
             if (request != null)
@@ -94,6 +95,42 @@ namespace MoveMe.MobileApp.Services
         {
             var fullUrl = _apiUrl + "/" + id;
             return await fullUrl.GetJsonAsync<User>();
+        }
+
+        public async Task<User> Update(int id, UserUpdateRequest request)
+        {
+            var fullUrl = _apiUrl + "/" + id;
+
+            try
+            {
+                var result = await fullUrl.PutJsonAsync(request).ReceiveJson<User>();
+                await Application.Current.MainPage.DisplayAlert(Constants.Saved, Constants.SavedMessage, Constants.OK);
+                return result;
+            }
+            catch (FlurlHttpException ex)
+            {
+                var error = await GetErrorMessage(ex);
+                await Application.Current.MainPage.DisplayAlert(Constants.Error, error, Constants.OK);
+                return default(User);
+            }
+        }
+        
+        public async Task<User> ChangePassword(int id, PasswordChangeRequest request)
+        {
+            var fullUrl = _apiUrl + "/changepassword/" + id;
+            try
+            {
+                var result = await fullUrl.PostJsonAsync(request).ReceiveJson<User>();
+                await Application.Current.MainPage.DisplayAlert(Constants.PasswordUpdated, Constants.PasswordUpdatedMessage, Constants.OK);
+                return result;
+            }
+            catch (FlurlHttpException ex)
+            {
+                var message = await GetErrorMessage(ex);
+
+                await Application.Current.MainPage.DisplayAlert(Constants.Error, message, Constants.OK);
+                throw;
+            }
         }
     }
 }

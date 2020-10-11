@@ -11,6 +11,7 @@ namespace MoveMe.MobileApp.Services
     public class APIService
     {
         public static string token { get; set; }
+        public static int roleId { get; set; }
         public string url = null;
 
 #if DEBUG
@@ -24,15 +25,16 @@ namespace MoveMe.MobileApp.Services
 
         public async Task<T> GetAll<T>(object search = null)
         {
+            var fullUrl = url;
             try
             {
                 if (search != null)
                 {
-                    url += "?";
-                    url += await search.ToQueryString();
+                    fullUrl += "?";
+                    fullUrl += await search.ToQueryString();
                 }
 
-                return await url.WithOAuthBearerToken(token).GetJsonAsync<T>();
+                return await fullUrl.WithOAuthBearerToken(token).GetJsonAsync<T>();
 
             }
             catch (FlurlHttpException ex)
@@ -77,6 +79,24 @@ namespace MoveMe.MobileApp.Services
         {
             var fullUrl = url + "/" + id;
             return await fullUrl.WithOAuthBearerToken(token).GetJsonAsync<T>();
+        }
+
+        public async Task<T> Update<T>(int id, object request)
+        {
+            var fullUrl = url + "/" + id;
+
+            try
+            {
+                var result = await fullUrl.WithOAuthBearerToken(token).PutJsonAsync(request).ReceiveJson<T>();
+                await Application.Current.MainPage.DisplayAlert(Constants.Saved, Constants.SavedMessage, Constants.OK);
+                return result;
+            }
+            catch (FlurlHttpException ex)
+            {
+                var error = await GetErrorMessage(ex);
+                await Application.Current.MainPage.DisplayAlert(Constants.Error, error, Constants.OK);
+                return default(T);
+            }
         }
     }
 }

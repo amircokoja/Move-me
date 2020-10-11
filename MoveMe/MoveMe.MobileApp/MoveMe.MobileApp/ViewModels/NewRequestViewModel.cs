@@ -42,6 +42,12 @@ namespace MoveMe.MobileApp.ViewModels
             get { return _dateError; }
             set { SetProperty(ref _dateError, value); }
         }
+        bool _dateErrorVisible;
+        public bool DateErrorVisible
+        {
+            get { return _dateErrorVisible; }
+            set { SetProperty(ref _dateErrorVisible, value); }
+        }
         double _price;
         public double Price
         {
@@ -54,6 +60,12 @@ namespace MoveMe.MobileApp.ViewModels
             get { return _priceError; }
             set { SetProperty(ref _priceError, value); }
         }
+        bool _priceErrorVisible;
+        public bool PriceErrorVisible
+        {
+            get { return _priceErrorVisible; }
+            set { SetProperty(ref _priceErrorVisible, value); }
+        }
         int _rooms;
         public int Rooms
         {
@@ -65,6 +77,12 @@ namespace MoveMe.MobileApp.ViewModels
         {
             get { return _roomsError; }
             set { SetProperty(ref _roomsError, value); }
+        }
+        bool _roomsErrorVisible;
+        public bool RoomsErrorVisible
+        {
+            get { return _roomsErrorVisible; }
+            set { SetProperty(ref _roomsErrorVisible, value); }
         }
 
         int _totalWeightApprox;
@@ -79,6 +97,12 @@ namespace MoveMe.MobileApp.ViewModels
             get { return _totalWeightApproxError; }
             set { SetProperty(ref _totalWeightApproxError, value); }
         }
+        bool _totalWeightApproxErrorVisible;
+        public bool TotalWeightApproxErrorVisible
+        {
+            get { return _totalWeightApproxErrorVisible; }
+            set { SetProperty(ref _totalWeightApproxErrorVisible, value); }
+        }
 
         int _transportDistanceApprox;
         public int TransportDistanceApprox
@@ -91,6 +115,12 @@ namespace MoveMe.MobileApp.ViewModels
         {
             get { return _transportDistanceApproxError; }
             set { SetProperty(ref _transportDistanceApproxError, value); }
+        }
+        bool _transportDistanceApproxErrorVisible;
+        public bool TransportDistanceApproxErrorVisible
+        {
+            get { return _transportDistanceApproxErrorVisible; }
+            set { SetProperty(ref _transportDistanceApproxErrorVisible, value); }
         }
 
         string _additionalInformation = string.Empty;
@@ -112,7 +142,12 @@ namespace MoveMe.MobileApp.ViewModels
             get { return _streetError; }
             set { SetProperty(ref _streetError, value); }
         }
-
+        bool _streetErrorVisible;
+        public bool StreetErrorVisible
+        {
+            get { return _streetErrorVisible; }
+            set { SetProperty(ref _streetErrorVisible, value); }
+        }
         string _city = string.Empty;
         public string City
         {
@@ -124,6 +159,12 @@ namespace MoveMe.MobileApp.ViewModels
         {
             get { return _cityError; }
             set { SetProperty(ref _cityError, value); }
+        }
+        bool _cityErrorVisible;
+        public bool CityErrorVisible
+        {
+            get { return _cityErrorVisible; }
+            set { SetProperty(ref _cityErrorVisible, value); }
         }
 
         string _zipCode = string.Empty;
@@ -137,6 +178,12 @@ namespace MoveMe.MobileApp.ViewModels
         {
             get { return _zipCodeError; }
             set { SetProperty(ref _zipCodeError, value); }
+        }
+        bool _zipCodeErrorVisible;
+        public bool ZipCodeErrorVisible
+        {
+            get { return _zipCodeErrorVisible; }
+            set { SetProperty(ref _zipCodeErrorVisible, value); }
         }
 
         string _additional = string.Empty;
@@ -157,6 +204,12 @@ namespace MoveMe.MobileApp.ViewModels
         {
             get { return _countryError; }
             set { SetProperty(ref _countryError, value); }
+        }
+        bool _countryErrorVisible;
+        public bool CountryErrorVisible
+        {
+            get { return _countryErrorVisible; }
+            set { SetProperty(ref _countryErrorVisible, value); }
         }
         public ObservableCollection<Country> CountryList { get; set; } = new ObservableCollection<Country>();
         Country _selectedCountry = null;
@@ -189,8 +242,6 @@ namespace MoveMe.MobileApp.ViewModels
 
         public void CalculatePrice()
         {
-            CleanErrors();
-
             if (!isValid())
             {
                 return;
@@ -203,6 +254,7 @@ namespace MoveMe.MobileApp.ViewModels
         {
             if (_price <= 0)
             {
+                PriceErrorVisible = true;
                 PriceError = Constants.CalculatePrice;
                 return;
             }
@@ -230,8 +282,10 @@ namespace MoveMe.MobileApp.ViewModels
                     Rooms = _rooms,
                     TotalWeightApprox = _totalWeightApprox,
                     ClientId = clientId,
-                    StatusId = (int)Status.Pending,
-                    DeliveryAddress = address.AddressId
+                    StatusId = (int)Models.Status.Pending,
+                    DeliveryAddress = address.AddressId,
+                    TransportDistanceApprox = _transportDistanceApprox
+                    
                 };
 
                 var result = await _requestService.Insert<Request>(request);
@@ -244,52 +298,61 @@ namespace MoveMe.MobileApp.ViewModels
 
         private bool isValid()
         {
+            HideErrors();
             var valid = true;
 
             if (_rooms <= 0)
             {
+                RoomsErrorVisible = true;
                 RoomsError = Constants.EnterValidValue;
                 valid = false;
             }
 
             if (_date == DateTime.MinValue)
             {
+                DateErrorVisible = true;
                 DateError = Constants.EnterValidValue;
                 valid = false;
             }
 
             if (_totalWeightApprox <= 0)
             {
+                TotalWeightApproxErrorVisible = true;
                 TotalWeightApproxError = Constants.EnterValidValue;
                 valid = false;
             }
 
             if (_transportDistanceApprox <= 0)
             {
+                TransportDistanceApproxErrorVisible = true;
                 TransportDistanceApproxError = Constants.EnterValidValue;
                 valid = false;
             }
 
-            if (_city.Length < 2)
+            if (_city.Length < 3)
             {
+                CityErrorVisible = true;
                 CityError = Constants.EnterValidCity;
                 valid = false;
             }
 
-            if (_street.Length < 2)
+            if (_street.Length < 3)
             {
+                StreetErrorVisible = true;
                 StreetError = Constants.EnterValidStreet;
                 valid = false;
             }
 
             if (_zipCode.Length < 4)
             {
+                ZipCodeErrorVisible = true;
                 ZipCodeError = Constants.EnterValidZipCode;
                 valid = false;
             }
 
             if (_selectedCountry == null)
             {
+                CountryErrorVisible = true;
                 CountryError = Constants.SelectCountry;
                 valid = false;
             }
@@ -297,9 +360,9 @@ namespace MoveMe.MobileApp.ViewModels
             return valid;
         }
 
-        void CleanErrors()
+        void HideErrors()
         {
-            RoomsError = TotalWeightApproxError = TransportDistanceApproxError = PriceError = StreetError = CityError = ZipCodeError = CountryError = "";
+            DateErrorVisible = RoomsErrorVisible = TotalWeightApproxErrorVisible = TransportDistanceApproxErrorVisible = PriceErrorVisible = StreetErrorVisible = CityErrorVisible = ZipCodeErrorVisible = CountryErrorVisible = false;
         }
     }
 }

@@ -1,11 +1,8 @@
-﻿using System;
+﻿using MoveMe.MobileApp.Models;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Threading.Tasks;
 using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
-
-using MoveMe.MobileApp.Models;
 
 namespace MoveMe.MobileApp.Views
 {
@@ -30,12 +27,6 @@ namespace MoveMe.MobileApp.Views
             {
                 switch (id)
                 {
-                    case (int)MenuItemType.Browse:
-                        MenuPages.Add(id, new NavigationPage(new ItemsPage()));
-                        break;
-                    case (int)MenuItemType.About:
-                        MenuPages.Add(id, new NavigationPage(new AboutPage()));
-                        break;
                     case (int)MenuItemType.NewRequest:
                         MenuPages.Add(id, new NavigationPage(new NewRequestPage()));
                         break;
@@ -44,6 +35,21 @@ namespace MoveMe.MobileApp.Views
                         break;
                     case (int)MenuItemType.AllSuppliers:
                         MenuPages.Add(id, new NavigationPage(new ClientAllSuppliersPage()));
+                        break;
+                    case (int)MenuItemType.SupplierDashboard:
+                        MenuPages.Add(id, new NavigationPage(new SupplierDashboardPage()));
+                        break;
+                    case (int)MenuItemType.Notifications:
+                        MenuPages.Add(id, new NavigationPage(new NotificationsPage()));
+                        break;
+                    case (int)MenuItemType.MyOffers:
+                        MenuPages.Add(id, new NavigationPage(new MyOffersPage()));
+                        break;
+                    case (int)MenuItemType.Profile:
+                        MenuPages.Add(id, new NavigationPage(new ProfilePage()));
+                        break;
+                    case (int)MenuItemType.LogOut:
+                        MenuPages.Add(id, new NavigationPage(new LogOutPage()));
                         break;
                 }
             }

@@ -32,17 +32,46 @@ namespace MoveMe.MobileApp.ViewModels
             set { SetProperty(ref _isPendingVisible, value); }
         }
 
+        public bool _isPendingMessageVisible = true;
+        public bool IsPendingMessageVisible
+        {
+            get { return _isPendingMessageVisible; }
+            set { SetProperty(ref _isPendingMessageVisible, value); }
+        }
 
-        public bool IsPendingMessageVisible = true;
-        public bool IsAcceptedVisible = false;
-        public bool IsAcceptedMessageVisible = true;
-        public bool IsFinishedVisible = false;
-        public bool IsFinishedMessageVisible = true;
+        public bool _isAcceptedVisible = false;
+        public bool IsAcceptedVisible
+        {
+            get { return _isAcceptedVisible; }
+            set { SetProperty(ref _isAcceptedVisible, value); }
+        }
+        public bool _isAcceptedMessageVisible = true;
+        public bool IsAcceptedMessageVisible
+        {
+            get { return _isAcceptedMessageVisible; }
+            set { SetProperty(ref _isAcceptedMessageVisible, value); }
+        }
+        public bool _isFinishedVisible = false;
+        public bool IsFinishedVisible
+        {
+            get { return _isFinishedVisible; }
+            set { SetProperty(ref _isFinishedVisible, value); }
+        }
+        public bool _isFinishedMessageVisible = true;
+        public bool IsFinishedMessageVisible
+        {
+            get { return _isFinishedMessageVisible; }
+            set { SetProperty(ref _isFinishedMessageVisible, value); }
+        }
         #endregion
 
 
         public async Task Init()
         {
+            PendingRequests.Clear();
+            AcceptedRequests.Clear();
+            FinishedRequests.Clear();
+
             var id = int.Parse(JWTService.DecodeJWT());
             var search = new Model.Requests.RequestSearchRequest
             {
@@ -64,23 +93,23 @@ namespace MoveMe.MobileApp.ViewModels
                     RequestId = request.RequestId
                 };
 
-                if (request.StatusId == (int)Status.Pending)
+                if (request.StatusId == (int)Models.Status.Pending)
                 {
-                    PendingRequests.Add(newRequest);
                     IsPendingVisible = true;
                     IsPendingMessageVisible = false;
+                    PendingRequests.Add(newRequest);
                 }
-                else if (request.StatusId == (int)Status.Accepted)
+                else if (request.StatusId == (int)Models.Status.Accepted)
                 {
-                    AcceptedRequests.Add(newRequest);
                     IsAcceptedVisible = true;
                     IsAcceptedMessageVisible = false;
+                    AcceptedRequests.Add(newRequest);
                 }
                 else
                 {
-                    FinishedRequests.Add(newRequest);
                     IsFinishedVisible = true;
                     IsFinishedMessageVisible = false;
+                    FinishedRequests.Add(newRequest);
                 }
             }
         }

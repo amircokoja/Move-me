@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:vm="clr-namespace:MoveMe.MobileApp.ViewModels"
+             mc:Ignorable="d"
+             x:Class="MoveMe.MobileApp.Views.AddressPage">
+    <ContentPage.BindingContext>
+        <vm:AddressViewModel />
+    </ContentPage.BindingContext>
+    <ContentPage.Content>
+        <StackLayout>
+            <Label Text="Country" />
+            <Picker ItemsSource="{Binding CountryList}" SelectedItem="{Binding SelectedCountry, Mode=TwoWay}" SelectedIndex="{Binding SelectedIndex}" ItemDisplayBinding="{Binding Name}"></Picker>
+
+            <Label Text="City" />
+            <Entry Text="{Binding City}"></Entry>
+            <Label IsVisible="{Binding CityErrorVisible}" Text="{Binding CityError}" TextColor="Red" FontSize="11"></Label>
+
+            <Label Text="Street" />
+            <Entry Text="{Binding Street}"></Entry>
+            <Label IsVisible="{Binding StreetErrorVisible}" Text="{Binding StreetError}" TextColor="Red" FontSize="11"></Label>
+
+            <Label Text="ZipCode" />
+            <Entry Text="{Binding ZipCode}"></Entry>
+            <Label IsVisible="{Binding ZipCodeErrorVisible}" Text="{Binding ZipCodeError}" TextColor="Red" FontSize="11"></Label>
+
+            <Label Text="Additional address" />
+            <Entry Text="{Binding Additional}"></Entry>
+
+            <Button Text="Save" Clicked="Button_Clicked"></Button>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

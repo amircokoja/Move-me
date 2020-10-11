@@ -8,6 +8,20 @@
 
     <Application.Resources>
         <ResourceDictionary>
+            <Style TargetType="Label">
+                <Setter Property="FontFamily" Value="WorkSans" />
+            </Style>
+            <Style TargetType="Button">
+                <Setter Property="FontFamily" Value="WorkSans" />
+            </Style>
+            <Style TargetType="Entry">
+                <Setter Property="FontFamily" Value="WorkSans" />
+            </Style>
+            <Style TargetType="DatePicker">
+                <Setter Property="FontFamily" Value="WorkSans" />
+            </Style>
+        </ResourceDictionary>
+        <ResourceDictionary>
             <!--Global Styles-->
             <Color x:Key="NavigationPrimary">#2196F3</Color>
             <Style TargetType="NavigationPage">

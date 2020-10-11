@@ -1,5 +1,7 @@
 ﻿using MoveMe.MobileApp.Models;
+using MoveMe.MobileApp.Services;
 using MoveMe.MobileApp.ViewModels;
+using MoveMe.Model;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -21,14 +23,25 @@ namespace MoveMe.MobileApp.Views
         {
             InitializeComponent();
 
-            menuItems = new List<HomeMenuItem>
+            menuItems = new List<HomeMenuItem>();
+
+            if (APIService.roleId == (int)RoleId.Client)
             {
-                new HomeMenuItem {Id = MenuItemType.Dashboard, Title="Dashboard" },
-                new HomeMenuItem {Id = MenuItemType.NewRequest, Title="New request" },
-                new HomeMenuItem {Id = MenuItemType.Browse, Title="Browse" },
-                new HomeMenuItem {Id = MenuItemType.About, Title="About" },
-                new HomeMenuItem {Id = MenuItemType.AllSuppliers, Title="All suppliers" }
-            };
+                menuItems.Add(new HomeMenuItem { Id = MenuItemType.Dashboard, Title = "Dashboard" });
+                menuItems.Add(new HomeMenuItem { Id = MenuItemType.Notifications, Title = "Notifications" });
+                menuItems.Add(new HomeMenuItem { Id = MenuItemType.NewRequest, Title = "New request" });
+                menuItems.Add(new HomeMenuItem { Id = MenuItemType.AllSuppliers, Title = "All suppliers" });
+            }
+            else
+            {
+                menuItems.Add(new HomeMenuItem { Id = MenuItemType.SupplierDashboard, Title = "Dashboard" });
+                menuItems.Add(new HomeMenuItem { Id = MenuItemType.Notifications, Title = "Notifications" });
+                menuItems.Add(new HomeMenuItem { Id = MenuItemType.MyOffers, Title = "My offers" });
+
+            }
+            menuItems.Add(new HomeMenuItem { Id = MenuItemType.Profile, Title = "Profile" });
+            menuItems.Add(new HomeMenuItem { Id = MenuItemType.LogOut, Title = "Log out" });
+          
 
             ListViewMenu.ItemsSource = menuItems;
 

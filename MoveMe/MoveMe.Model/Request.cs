@@ -11,6 +11,7 @@ namespace MoveMe.Model
         public int Rooms { get; set; }
         public int TotalWeightApprox { get; set; }
         public string AdditionalInformation { get; set; }
+        public int TransportDistanceApprox { get; set; }
         public int ClientId { get; set; }
         public int DeliveryAddress { get; set; }
         public int StatusId { get; set; }

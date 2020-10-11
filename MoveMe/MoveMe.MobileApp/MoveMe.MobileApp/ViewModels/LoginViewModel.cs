@@ -59,16 +59,21 @@ namespace MoveMe.MobileApp.ViewModels
             {
                 var loginResult = await _authService.Login(loginRequest);
                 APIService.token = loginResult.Token;
+                APIService.roleId = GetRoleId(loginResult.Role);
                 Application.Current.MainPage = new MainPage();
             }
             catch
-            {
-            }
+            {}
         }
 
         void NavigateToRegisterPage()
         {
             Application.Current.MainPage = new RegisterPage();
+        }
+
+        private int GetRoleId(string role)
+        {
+            return role == Role.Client ? (int)RoleId.Client : (int)RoleId.Supplier;
         }
     }
 }

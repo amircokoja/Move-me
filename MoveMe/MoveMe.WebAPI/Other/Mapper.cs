@@ -19,7 +19,8 @@ namespace MoveMe.WebAPI.Other
             CreateMap<RequestUpdateRequest, Database.Request>();
 
             CreateMap<Database.User, User>();
-            
+            CreateMap<UserUpdateRequest, Database.User>();
+
             CreateMap<Database.Status, Status>();
         }
     }

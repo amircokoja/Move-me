@@ -13,7 +13,6 @@
         public static string CalculatePrice = "Calculate price before submitting";
         public static string ErrorMinumumLength4 = "Minimum password length is 4 characters";
         
-
         public static string Error = "Error";
         public static string UnknownError = "Unknown error ocurred";
         public static string AccountCreated = "Account created";
@@ -22,6 +21,12 @@
 
         public static string RequestCreated = "Request created";
         public static string RequestCreatedMessage = "When the supplier accepts your request, you will be notified.";
+
+        public static string Saved = "Saved";
+        public static string SavedMessage = "Data saved successfully";
+
+        public static string PasswordUpdated = "Password updated";
+        public static string PasswordUpdatedMessage = "Your password has been changed successfully";
     }
 
     public enum Status
