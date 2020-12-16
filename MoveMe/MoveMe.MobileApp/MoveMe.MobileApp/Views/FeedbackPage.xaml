@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:vm="clr-namespace:MoveMe.MobileApp.ViewModels"
+             mc:Ignorable="d"
+             x:Class="MoveMe.MobileApp.Views.FeedbackPage">
+    <ContentPage.BindingContext>
+        <vm:FeedbackViewModel />
+    </ContentPage.BindingContext>
+    <ContentPage.Content>
+        <StackLayout Padding="20">
+            <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                <Frame CornerRadius="10" BackgroundColor="LightGreen" HorizontalOptions="FillAndExpand">
+                    <StackLayout>
+                        <Label TextColor="White" Text="Positive"></Label>
+                        <Label TextColor="White" Text="{Binding PositiveRatings}"></Label>
+                </StackLayout>
+                </Frame>
+                <Frame CornerRadius="10" BackgroundColor="LightBlue" HorizontalOptions="FillAndExpand">
+                    <StackLayout>
+                        <Label TextColor="White" Text="Neutral"></Label>
+                        <Label TextColor="White" Text="{Binding NeutralRatings}"></Label>
+                    </StackLayout>
+                </Frame>
+                <Frame CornerRadius="10" BackgroundColor="LightSalmon" HorizontalOptions="FillAndExpand">
+                    <StackLayout>
+                        <Label TextColor="White" Text="Negative"></Label>
+                        <Label TextColor="White" Text="{Binding NegativeRatings}"></Label>
+                    </StackLayout>
+                </Frame>
+            </StackLayout>
+
+            <Label Text="User have no feedback" IsVisible="{Binding ShowEmptyMessage}"></Label>
+
+            <StackLayout IsVisible="{Binding ShowList}">
+                <Label Text="All feedbacks" />
+                <ListView ItemsSource="{Binding RatingList}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <StackLayout Padding="10" Orientation="Vertical">
+                                    <Label Text="{Binding Text} " LineBreakMode="NoWrap" FontSize="14" FontAttributes="Bold" />
+                                    <Label Text="{Binding Description}" LineBreakMode="NoWrap" FontSize="13" />
+                                </StackLayout>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

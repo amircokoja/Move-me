@@ -48,18 +48,17 @@ namespace MoveMe.WebAPI.Controllers
             if (user != null && await _userManager.CheckPasswordAsync(user, request.Password))
             {
                 var roles = await _userManager.GetRolesAsync(user);
-
                 if (!roles.Any(x => request.Roles.Any(y => y == x)))
                 {
                     throw new UserException("Not authorized");
                 }
 
-                var identity = new ClaimsIdentity(IdentityConstants.ApplicationScheme);
-                identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, user.Id.ToString(), null));
-                identity.AddClaim(new Claim(ClaimTypes.Name, user.UserName));
+                //var identity = new ClaimsIdentity(IdentityConstants.ApplicationScheme);
+                //identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, user.Id.ToString(), null));
+                //identity.AddClaim(new Claim(ClaimTypes.Name, user.UserName));
 
-                await HttpContext.SignInAsync(IdentityConstants.ApplicationScheme,
-                    new ClaimsPrincipal(identity));
+                //await HttpContext.SignInAsync(IdentityConstants.ApplicationScheme,
+                //    new ClaimsPrincipal(identity));
 
                 var token = GenerateToken(user.Id, roles[0]);
 
@@ -182,12 +181,10 @@ namespace MoveMe.WebAPI.Controllers
 
             if (!string.IsNullOrWhiteSpace(request?.Name))
             {
-                foreach (var item in allUsers)
-                {
-                    var cName = item.Company.ToLower();
-                    var requestName = request.Name.ToLower();
-                }
-                allUsers = allUsers.Where(x => x.Company.ToLower().StartsWith(request.Name.ToLower()) || $"{x.FirstName} {x.LastName}".ToLower().StartsWith(request.Name.ToLower())).ToList();
+                allUsers = allUsers.Where(x => 
+                (!string.IsNullOrWhiteSpace(x.Company) && x.Company.ToLower().StartsWith(request.Name)) ||
+                (!string.IsNullOrWhiteSpace(x.FirstName) && !string.IsNullOrWhiteSpace(x.LastName) && (x.FirstName + " " + x.LastName).ToLower().StartsWith(request.Name))
+                ).ToList();
             }
             
             if (request?.ShowInactive == false)
@@ -247,6 +244,7 @@ namespace MoveMe.WebAPI.Controllers
             }
 
             _mapper.Map(request, user);
+            user.UserName = request.Email;
 
             var result = await _userManager.UpdateAsync(user);
 

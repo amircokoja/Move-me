@@ -11,5 +11,6 @@ namespace MoveMe.Model.Requests
         public int TransportDistanceApprox { get; set; }
         public string AdditionalInformation { get; set; }
         public int StatusId { get; set; }
+        public bool InActive { get; set; }
     }
 }

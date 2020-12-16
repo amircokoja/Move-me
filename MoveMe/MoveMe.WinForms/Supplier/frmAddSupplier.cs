@@ -49,21 +49,28 @@ namespace MoveMe.WinForms.Supplier
                 request.AdditionalAddress = txtAdditional.Text;
                 request.RoleId = 3;
                 request.PhoneNumber = txtPhoneNumber.Text;
-                var selectedCountry = cbCountry.SelectedItem;
 
-                if (int.TryParse(selectedCountry.ToString(), out int countryId))
+                var selectedCountry = cbCountry.SelectedValue;
+
+                if (int.TryParse(selectedCountry.ToString(), out int vrstaId))
                 {
-                    request.CountryId = countryId;
+                    request.CountryId = vrstaId;
                 }
 
                 request.Password = txtPassword.Text;
                 request.ConfirmPassword = txtConfirmPassword.Text;
 
-                await _authService.Register(request);
+                try
+                {
+                    await _authService.Register(request);
+                    MessageBox.Show("Supplier successfully registred", "Registration", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                MessageBox.Show("Supplier successfully registred", "Registration", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                Helper.ClearFormControls(this);
+                    foreach (Control control in this.Controls)
+                    {
+                        Helper.ClearFormControls(control);
+                    }
+                }
+                catch (Exception) {}
             }
         }
 
@@ -144,20 +151,6 @@ namespace MoveMe.WinForms.Supplier
                 errorProvider.SetError(txtZipCode, null);
             }
         }
-
-        private void txtAdditional_Validating(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            if (string.IsNullOrWhiteSpace(txtAdditional.Text))
-            {
-                errorProvider.SetError(txtAdditional, "This field is required");
-                e.Cancel = true;
-            }
-            else
-            {
-                errorProvider.SetError(txtAdditional, null);
-            }
-        }
-
         private void cbCountry_Validating(object sender, System.ComponentModel.CancelEventArgs e)
         {
             if (cbCountry.SelectedIndex == -1 || cbCountry.SelectedIndex == 0)
@@ -205,6 +198,32 @@ namespace MoveMe.WinForms.Supplier
         private void txtPhoneNumber_Validating(object sender, System.ComponentModel.CancelEventArgs e)
         {
             if (string.IsNullOrWhiteSpace(txtPhoneNumber.Text))
+            {
+                errorProvider.SetError(txtPhoneNumber, "This field is required");
+                e.Cancel = true;
+            }
+            else
+            {
+                errorProvider.SetError(txtPhoneNumber, null);
+            }
+        }
+
+        private void txtImage_Validating(object sender, CancelEventArgs e)
+        {
+            if (request.Image == null)
+            {
+                errorProvider.SetError(txtImage, "Select image");
+                e.Cancel = true;
+            }
+            else
+            {
+                errorProvider.SetError(txtImage, null);
+            }
+        }
+
+        private void txtPhoneNumber_Validating_1(object sender, CancelEventArgs e)
+        {
+            if (txtPhoneNumber.Text.Length < 5)
             {
                 errorProvider.SetError(txtPhoneNumber, "This field is required");
                 e.Cancel = true;

@@ -5,6 +5,7 @@ using Flurl.Http;
 using System.Collections.Generic;
 using MoveMe.Model;
 using System.Threading;
+using System.Windows.Forms;
 
 namespace MoveMe.WinForms.Services
 {
@@ -27,7 +28,18 @@ namespace MoveMe.WinForms.Services
         public async Task<User> Register(Model.Requests.RegisterRequest request)
         {
             var fullUrl = apiUrl + "/register";
-            return await fullUrl.PostJsonAsync(request).ReceiveJson<User>();
+            try
+            {
+                return await fullUrl.PostJsonAsync(request).ReceiveJson<User>();
+            }
+            catch (FlurlHttpException ex)
+            {
+                var error = await ex.GetResponseJsonAsync<ErrorModel>();
+                var text = error.ERROR[0];
+                MessageBox.Show(text, "Registration failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                throw ex;
+            }
         }
 
         public async Task<List<ComboBoxItem>> GetRoles()

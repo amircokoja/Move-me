@@ -1,6 +1,5 @@
 ﻿using MoveMe.MobileApp.Services;
 using MoveMe.Model;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -15,6 +14,14 @@ namespace MoveMe.MobileApp.ViewModels
         public ClientAllSuppliersViewModel()
         {
             InitCommand = new Command(async () => await Init());
+        }
+
+
+        bool _noSuppliers;
+        public bool NoSuppliers
+        {
+            get { return _noSuppliers; }
+            set { SetProperty(ref _noSuppliers, value); }
         }
 
         string _companyName = string.Empty;
@@ -33,15 +40,23 @@ namespace MoveMe.MobileApp.ViewModels
                 RoleId = (int)RoleId.Supplier
             };
 
-
             var usersList = await _authService.GetAll(search);
-            
+
             SupplierList.Clear();
             foreach (var user in usersList)
             {
                 SupplierList.Add(user);
             }
+
+            if (usersList.Count == 0)
+            {
+                NoSuppliers = true;
+            }
+            else
+            {
+                NoSuppliers = false;
+            }
         }
-        
+
     }
 }

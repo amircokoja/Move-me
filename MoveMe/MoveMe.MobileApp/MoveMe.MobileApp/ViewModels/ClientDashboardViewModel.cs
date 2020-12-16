@@ -1,7 +1,6 @@
 ﻿using MoveMe.MobileApp.Models;
 using MoveMe.MobileApp.Services;
 using MoveMe.Model;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
@@ -63,6 +62,25 @@ namespace MoveMe.MobileApp.ViewModels
             get { return _isFinishedMessageVisible; }
             set { SetProperty(ref _isFinishedMessageVisible, value); }
         }
+
+        public int _pendingHeight = 0;
+        public int PendingHeight
+        {
+            get { return _pendingHeight; }
+            set { SetProperty(ref _pendingHeight, value); }
+        }
+        public int _acceptedHeight = 0;
+        public int AcceptedHeight
+        {
+            get { return _acceptedHeight; }
+            set { SetProperty(ref _acceptedHeight, value); }
+        }
+        public int _finishedHeight = 0;
+        public int FinishedHeight
+        {
+            get { return _finishedHeight; }
+            set { SetProperty(ref _finishedHeight, value); }
+        }
         #endregion
 
 
@@ -75,7 +93,8 @@ namespace MoveMe.MobileApp.ViewModels
             var id = int.Parse(JWTService.DecodeJWT());
             var search = new Model.Requests.RequestSearchRequest
             {
-                UserId = id
+                UserId = id,
+                ShowInactive = false
             };
 
             var requestList = await _requestService.GetAll<List<Request>>(search);
@@ -87,7 +106,7 @@ namespace MoveMe.MobileApp.ViewModels
 
                 var newRequest = new ClientDashboardRequest
                 {
-                    Address = country.Name + ", " + address.ZipCode + ", " + address.City, 
+                    Address = country.Name + ", " + address.ZipCode + ", " + address.City,
                     Date = request.Date,
                     Price = request.Price,
                     RequestId = request.RequestId
@@ -112,6 +131,9 @@ namespace MoveMe.MobileApp.ViewModels
                     FinishedRequests.Add(newRequest);
                 }
             }
+            PendingHeight = PendingRequests.Count * 36;
+            AcceptedHeight = AcceptedRequests.Count * 36;
+            FinishedHeight = FinishedRequests.Count * 36;
         }
     }
 }

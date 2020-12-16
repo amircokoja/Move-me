@@ -9,14 +9,24 @@
         <vm:LoginViewModel />
     </ContentPage.BindingContext>
     <ContentPage.Content>
-        <StackLayout Padding="15" VerticalOptions="CenterAndExpand" HorizontalOptions="FillAndExpand">
-            <Label Text="Email" FontFamily="WorkSans" />
-            <Entry Text="{Binding Email}"></Entry>
-            <Label Text="Password" />
-            <Entry Text="{Binding Password}" IsPassword="True"></Entry>
-            <Button Text="Login" Command="{Binding LoginCommand}"></Button>
-            <Label Text="Don't have an account?"></Label>
-            <Button Text="Register now!" Command="{Binding RegisterNavigate}"></Button>
+        <StackLayout HorizontalOptions="FillAndExpand">
+            <StackLayout Padding="30, 150, 30, 30" BackgroundColor="#2967cc">
+                <Label TextColor="white" FontSize="28" Text="Welcome to MoveMe"></Label>
+                <Label TextColor="white" Text="Sign in to continue"></Label>
+            </StackLayout>
+            <StackLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" IsVisible="{Binding IsBusy}">
+                <ActivityIndicator IsRunning="{Binding IsBusy}" />
+            </StackLayout>
+            <StackLayout Padding="40" IsVisible="{Binding IsFree}">
+                <Label Text="Email" FontFamily="WorkSans" />
+                <Entry Text="{Binding Email}"></Entry>
+                <Label Text="Password" />
+                <Entry Text="{Binding Password}" IsPassword="True"></Entry>
+                <Button CornerRadius="10" BackgroundColor="#2967cc" TextColor="white" Text="Login" Command="{Binding LoginCommand}"></Button>
+                <Label Text="Don't have an account?"></Label>
+                <Button HeightRequest="30" Padding="5" CornerRadius="10" BackgroundColor="Transparent" TextColor="#2967cc" Text="Register now!" Command="{Binding RegisterNavigate}"></Button>
+                <Button HeightRequest="30" Padding="5" CornerRadius="10" BackgroundColor="Transparent" TextColor="#2967cc" Text="Become a supplier"></Button>
+            </StackLayout>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

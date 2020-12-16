@@ -17,7 +17,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoveMe.MobileApp.iOS", "Mov
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MoveMe.MobileApp", "MoveMe.MobileApp\MoveMe.MobileApp\MoveMe.MobileApp.csproj", "{C27746AA-3CB8-4030-8FB7-6739FE7216D2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoveMe.Model", "MoveMe.Model\MoveMe.Model.csproj", "{6B23C052-9743-4F55-A0F0-59976AD45839}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MoveMe.Model", "MoveMe.Model\MoveMe.Model.csproj", "{6B23C052-9743-4F55-A0F0-59976AD45839}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

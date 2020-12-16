@@ -18,6 +18,12 @@ namespace MoveMe.MobileApp.ViewModels
             get { return _userId; }
             set { SetProperty(ref _userId, value); }
         }
+        bool _isLoaded;
+        public bool IsLoaded
+        {
+            get { return _isLoaded; }
+            set { SetProperty(ref _isLoaded, value); }
+        }
 
         bool _isClient;
         public bool IsClient
@@ -126,6 +132,13 @@ namespace MoveMe.MobileApp.ViewModels
             get { return _phoneNumberErrorVisible; }
             set { SetProperty(ref _phoneNumberErrorVisible, value); }
         }
+
+        bool _showMessage;
+        public bool ShowMessage
+        {
+            get { return _showMessage; }
+            set { SetProperty(ref _showMessage, value); }
+        }
         #endregion
 
         private readonly AuthService _authService = new AuthService();
@@ -137,11 +150,13 @@ namespace MoveMe.MobileApp.ViewModels
 
         public async Task Init()
         {
+            IsLoaded = true;
             _userId = int.Parse(JWTService.DecodeJWT());
             var user = await _authService.GetById(_userId);
+            InitProperties(user);
             IsSupplier = JWTService.DecodeJWTRole() == Role.Supplier;
             IsClient = !IsSupplier;
-            InitProperties(user);
+            IsLoaded = true;
         }
 
         public async Task Submit()
@@ -169,6 +184,7 @@ namespace MoveMe.MobileApp.ViewModels
             try
             {
                 await _authService.Update(UserId, request);
+                ShowMessage = true;
             }
             catch
             {}

@@ -9,54 +9,62 @@
         <vm:ClientDashboardViewModel />
     </ContentPage.BindingContext>
     <ContentPage.Content>
-        <StackLayout Padding="15" VerticalOptions="CenterAndExpand" HorizontalOptions="FillAndExpand">
-            <Label Text="Pending requests" />
-            <Label Text="No pending requests" IsVisible="{Binding IsPendingMessageVisible}" />
-            <ListView ItemsSource="{Binding PendingRequests}" IsVisible="{Binding IsPendingVisible}" ItemSelected="ListView_ItemSelected">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <ViewCell>
-                            <StackLayout Padding="10" Orientation="Horizontal">
-                                <Label Text="{Binding Date}" LineBreakMode="NoWrap" FontSize="13" />
-                                <Label Text="{Binding Price}" LineBreakMode="NoWrap" FontSize="13" />
-                                <Label Text="{Binding Address}" LineBreakMode="NoWrap" FontSize="13" />
-                            </StackLayout>
-                        </ViewCell>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
+        <ScrollView>
+            <StackLayout Padding="15" HorizontalOptions="FillAndExpand">
+            <StackLayout VerticalOptions="Start">
+                <Label Text="Pending requests" FontSize="22" FontAttributes="Bold" />
+                <Label Text="No pending requests" IsVisible="{Binding IsPendingMessageVisible}" />
+                    <ListView HeightRequest="{Binding PendingHeight}" ItemsSource="{Binding PendingRequests}" IsVisible="{Binding IsPendingVisible}" ItemSelected="ListView_ItemSelected" HorizontalOptions="FillAndExpand" VerticalOptions="StartAndExpand">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <StackLayout Padding="10" Orientation="Horizontal" HeightRequest="36">
+                                    <Label Text="{Binding Price, StringFormat='{0} $'}" LineBreakMode="NoWrap" FontSize="13" FontAttributes="Bold" />
+                                    <Label Text="{Binding Date, StringFormat=' | {0:MMMM dd, yyyy} | '}" LineBreakMode="NoWrap" FontSize="13" />
+                                    <Label Text="{Binding Address}" LineBreakMode="NoWrap" FontSize="13" />
+                                </StackLayout>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackLayout>
 
-            <Label Text="Accepted requests" />
-            <Label Text="No accepted requests" IsVisible="{Binding IsAcceptedMessageVisible}" />
-            <ListView ItemsSource="{Binding AcceptedRequests}" IsVisible="{Binding IsAcceptedVisible}">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <ViewCell>
-                            <StackLayout Padding="10" Orientation="Horizontal">
-                                <Label Text="{Binding Date}" LineBreakMode="NoWrap" FontSize="13" />
-                                <Label Text="{Binding Price}" LineBreakMode="NoWrap" FontSize="13" />
-                                <Label Text="{Binding Address}" LineBreakMode="NoWrap" FontSize="13" />
-                            </StackLayout>
-                        </ViewCell>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
+                <StackLayout VerticalOptions="Start">
+                <Label Text="Accepted requests" FontSize="22" FontAttributes="Bold" />
+                <Label Text="No accepted requests" IsVisible="{Binding IsAcceptedMessageVisible}" />
+                    <ListView HeightRequest="{Binding AcceptedHeight}" ItemsSource="{Binding AcceptedRequests}" IsVisible="{Binding IsAcceptedVisible}" ItemSelected="ListView_ItemSelected" VerticalOptions="Start">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                    <StackLayout Padding="10" Orientation="Horizontal" HeightRequest="36">
+                                        <Label Text="{Binding Price, StringFormat='{0} $'}" LineBreakMode="NoWrap" FontSize="13" FontAttributes="Bold" />
+                                        <Label Text="{Binding Date, StringFormat=' | {0:MMMM dd, yyyy} | '}" LineBreakMode="NoWrap" FontSize="13" />
+                                        <Label Text="{Binding Address}" LineBreakMode="NoWrap" FontSize="13" />
+                                    </StackLayout>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackLayout>
 
-            <Label Text="Finished requests" />
-            <Label Text="No finished requests" IsVisible="{Binding IsFinishedMessageVisible}" />
-            <ListView ItemsSource="{Binding FinishedRequests}" IsVisible="{Binding IsFinishedVisible}">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <ViewCell>
-                            <StackLayout Padding="10" Orientation="Horizontal">
-                                <Label Text="{Binding Date}" LineBreakMode="NoWrap" FontSize="13" />
-                                <Label Text="{Binding Price}" LineBreakMode="NoWrap" FontSize="13" />
-                                <Label Text="{Binding Address}" LineBreakMode="NoWrap" FontSize="13" />
-                            </StackLayout>
-                        </ViewCell>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
+                <StackLayout VerticalOptions="Start">
+                <Label Text="Finished requests" FontSize="22" FontAttributes="Bold" />
+                <Label Text="No finished requests" IsVisible="{Binding IsFinishedMessageVisible}" />
+                    <ListView HeightRequest="{Binding FinishedHeight}" ItemsSource="{Binding FinishedRequests}" IsVisible="{Binding IsFinishedVisible}" ItemSelected="ListView_ItemSelected" VerticalOptions="Start">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                    <StackLayout Padding="10" Orientation="Horizontal" HeightRequest="36">
+                                        <Label Text="{Binding Price, StringFormat='{0} $'}" LineBreakMode="NoWrap" FontSize="13" FontAttributes="Bold" />
+                                        <Label Text="{Binding Date, StringFormat=' | {0:MMMM dd, yyyy} | '}" LineBreakMode="NoWrap" FontSize="13" />
+                                        <Label Text="{Binding Address}" LineBreakMode="NoWrap" FontSize="13" />
+                                    </StackLayout>
+                                </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackLayout>
         </StackLayout>
+        </ScrollView>
     </ContentPage.Content>
 </ContentPage>

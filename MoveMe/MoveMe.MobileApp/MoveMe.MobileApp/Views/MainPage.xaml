@@ -19,7 +19,7 @@
                 </OnPlatform>
             </NavigationPage.Icon>
             <x:Arguments>
-                <views:ClientDashboardPage />
+                <views:NotificationsPage />
             </x:Arguments>
         </NavigationPage>
     </MasterDetailPage.Detail>

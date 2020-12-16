@@ -9,50 +9,52 @@
         <vm:RegisterViewModel />
     </ContentPage.BindingContext>
     <ContentPage.Content>
-        <StackLayout Padding="15" VerticalOptions="CenterAndExpand" HorizontalOptions="FillAndExpand">
-            <Label Text="Email" />
-            <Entry Text="{Binding Email}"></Entry>
-            <Label Text="{Binding EmailError}" TextColor="Red" FontSize="11"></Label>
-          
-            <Label Text="FirstName" />
-            <Entry Text="{Binding FirstName}"></Entry>
-            <Label Text="{Binding FirstNameError}" TextColor="Red" FontSize="11"></Label>
+        <ScrollView>
+            <StackLayout Padding="15" VerticalOptions="CenterAndExpand" HorizontalOptions="FillAndExpand">
+                <Label Text="Email" />
+                <Entry Text="{Binding Email}"></Entry>
+                <Label Text="{Binding EmailError}" TextColor="Red" FontSize="11"></Label>
 
-            <Label Text="LastName" />
-            <Entry Text="{Binding LastName}"></Entry>
-            <Label Text="{Binding LastNameError}" TextColor="Red" FontSize="11"></Label>
+                <Label Text="FirstName" />
+                <Entry Text="{Binding FirstName}"></Entry>
+                <Label Text="{Binding FirstNameError}" TextColor="Red" FontSize="11"></Label>
 
-            <Label Text="PhoneNumber" />
-            <Entry Text="{Binding PhoneNumber}"></Entry>
-            <Label Text="{Binding PhoneNumberError}" TextColor="Red" FontSize="11"></Label>
+                <Label Text="LastName" />
+                <Entry Text="{Binding LastName}"></Entry>
+                <Label Text="{Binding LastNameError}" TextColor="Red" FontSize="11"></Label>
 
-            <Label Text="Country" />
-            <Picker ItemsSource="{Binding CountryList}" SelectedItem="{Binding SelectedCountry}" ItemDisplayBinding="{Binding Name}"></Picker>
-            <Label Text="{Binding CountryError}" TextColor="Red" FontSize="11"></Label>
+                <Label Text="PhoneNumber" />
+                <Entry Text="{Binding PhoneNumber}"></Entry>
+                <Label Text="{Binding PhoneNumberError}" TextColor="Red" FontSize="11"></Label>
 
-            <Label Text="City" />
-            <Entry Text="{Binding City}"></Entry>
-            <Label Text="{Binding CityError}" TextColor="Red" FontSize="11"></Label>
+                <Label Text="Country" />
+                <Picker ItemsSource="{Binding CountryList}" SelectedItem="{Binding SelectedCountry}" ItemDisplayBinding="{Binding Name}"></Picker>
+                <Label Text="{Binding CountryError}" TextColor="Red" FontSize="11"></Label>
 
-            <Label Text="Street" />
-            <Entry Text="{Binding Street}"></Entry>
-            <Label Text="{Binding StreetErrror}" TextColor="Red" FontSize="11"></Label>
-          
-            <Label Text="ZipCode" />
-            <Entry Text="{Binding ZipCode}"></Entry>
-            <Label Text="{Binding ZipCodeError}" TextColor="Red" FontSize="11"></Label>
-          
-            <Label Text="Additional address" />
-            <Entry Text="{Binding Additional}"></Entry>
+                <Label Text="City" />
+                <Entry Text="{Binding City}"></Entry>
+                <Label Text="{Binding CityError}" TextColor="Red" FontSize="11"></Label>
 
-            <Label Text="Password" />
-            <Entry Text="{Binding Password}" IsPassword="True"></Entry>
-            <Label Text="{Binding PasswordError}" TextColor="Red" FontSize="11"></Label>
-            
-            <Label Text="ConfirmPassword" />
-            <Entry Text="{Binding ConfirmPassword}" IsPassword="True"></Entry>
-            
-            <Button Text="Register" Command="{Binding RegisterCommand}"></Button>
-        </StackLayout>
+                <Label Text="Street" />
+                <Entry Text="{Binding Street}"></Entry>
+                <Label Text="{Binding StreetErrror}" TextColor="Red" FontSize="11"></Label>
+
+                <Label Text="ZipCode" />
+                <Entry Text="{Binding ZipCode}"></Entry>
+                <Label Text="{Binding ZipCodeError}" TextColor="Red" FontSize="11"></Label>
+
+                <Label Text="Additional address" />
+                <Entry Text="{Binding Additional}"></Entry>
+
+                <Label Text="Password" />
+                <Entry Text="{Binding Password}" IsPassword="True"></Entry>
+                <Label Text="{Binding PasswordError}" TextColor="Red" FontSize="11"></Label>
+
+                <Label Text="ConfirmPassword" />
+                <Entry Text="{Binding ConfirmPassword}" IsPassword="True"></Entry>
+
+                <Button Text="Register" Command="{Binding RegisterCommand}"></Button>
+            </StackLayout>
+        </ScrollView>
     </ContentPage.Content>
 </ContentPage>

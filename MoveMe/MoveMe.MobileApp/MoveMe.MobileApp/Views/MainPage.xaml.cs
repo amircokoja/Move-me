@@ -1,4 +1,6 @@
 ﻿using MoveMe.MobileApp.Models;
+using MoveMe.MobileApp.Services;
+using MoveMe.Model;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Threading.Tasks;
@@ -17,8 +19,7 @@ namespace MoveMe.MobileApp.Views
             InitializeComponent();
 
             MasterBehavior = MasterBehavior.Popover;
-
-            MenuPages.Add((int)MenuItemType.Dashboard, (NavigationPage)Detail);
+            MenuPages.Add((int)MenuItemType.Notifications, (NavigationPage)Detail);
         }
 
         public async Task NavigateFromMenu(int id)
@@ -28,16 +29,16 @@ namespace MoveMe.MobileApp.Views
                 switch (id)
                 {
                     case (int)MenuItemType.NewRequest:
-                        MenuPages.Add(id, new NavigationPage(new NewRequestPage()));
+                        MenuPages.Add(id, new NavigationPage(new NewRequestPage(null)));
+                        break;
+                    case (int)MenuItemType.SupplierDashboard:
+                        MenuPages.Add(id, new NavigationPage(new SupplierDashboardPage()));
                         break;
                     case (int)MenuItemType.Dashboard:
                         MenuPages.Add(id, new NavigationPage(new ClientDashboardPage()));
                         break;
                     case (int)MenuItemType.AllSuppliers:
                         MenuPages.Add(id, new NavigationPage(new ClientAllSuppliersPage()));
-                        break;
-                    case (int)MenuItemType.SupplierDashboard:
-                        MenuPages.Add(id, new NavigationPage(new SupplierDashboardPage()));
                         break;
                     case (int)MenuItemType.Notifications:
                         MenuPages.Add(id, new NavigationPage(new NotificationsPage()));
@@ -51,6 +52,9 @@ namespace MoveMe.MobileApp.Views
                     case (int)MenuItemType.LogOut:
                         MenuPages.Add(id, new NavigationPage(new LogOutPage()));
                         break;
+                    case (int)MenuItemType.AllRequests:
+                        MenuPages.Add(id, new NavigationPage(new SupplierAllRequestsPage()));
+                        break;
                 }
             }
 
@@ -59,7 +63,6 @@ namespace MoveMe.MobileApp.Views
             if (newPage != null && Detail != newPage)
             {
                 Detail = newPage;
-
                 if (Device.RuntimePlatform == Device.Android)
                     await Task.Delay(100);
 

@@ -9,7 +9,13 @@
         <vm:AddressViewModel />
     </ContentPage.BindingContext>
     <ContentPage.Content>
-        <StackLayout>
+        <StackLayout Padding="10">
+            <StackLayout IsVisible="{Binding ShowMessage}">
+                <Frame CornerRadius="10" Padding="20, 10, 20, 10" BackgroundColor="LightGreen" HorizontalOptions="CenterAndExpand">
+                    <Label TextColor="White" Text="Data successfully saved"></Label>
+                </Frame>
+            </StackLayout>
+
             <Label Text="Country" />
             <Picker ItemsSource="{Binding CountryList}" SelectedItem="{Binding SelectedCountry, Mode=TwoWay}" SelectedIndex="{Binding SelectedIndex}" ItemDisplayBinding="{Binding Name}"></Picker>
 
@@ -26,7 +32,7 @@
             <Label IsVisible="{Binding ZipCodeErrorVisible}" Text="{Binding ZipCodeError}" TextColor="Red" FontSize="11"></Label>
 
             <Label Text="Additional address" />
-            <Entry Text="{Binding Additional}"></Entry>
+            <Entry Text="{Binding AdditionalAddress}"></Entry>
 
             <Button Text="Save" Clicked="Button_Clicked"></Button>
         </StackLayout>

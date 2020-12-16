@@ -9,52 +9,54 @@
         <vm:NewRequestViewModel />
     </ContentPage.BindingContext>
     <ContentPage.Content>
-        <StackLayout Padding="15" VerticalOptions="CenterAndExpand" HorizontalOptions="FillAndExpand">
-            <Label Text="Number of rooms" />
-            <Entry Text="{Binding Rooms}"></Entry>
-            <Label IsVisible="{Binding RoomsErrorVisible}" Text="{Binding RoomsError}" TextColor="Red" FontSize="11"></Label>
+        <ScrollView>
+            <StackLayout Padding="15" VerticalOptions="CenterAndExpand" HorizontalOptions="FillAndExpand">
+                <Label Text="Number of rooms" />
+                <Entry PropertyChanged="Entry_PropertyChanged" Text="{Binding Rooms}"></Entry>
+                <Label IsVisible="{Binding RoomsErrorVisible}" Text="{Binding RoomsError}" TextColor="Red" FontSize="11"></Label>
 
-            <Label Text="Total weight approx" />
-            <Entry Text="{Binding TotalWeightApprox}"></Entry>
-            <Label IsVisible="{Binding TotalWeightApproxErrorVisible}" Text="{Binding TotalWeightApproxError}" TextColor="Red" FontSize="11"></Label>
+                <Label Text="Total weight approx" />
+                <Entry PropertyChanged="Entry_PropertyChanged" Text="{Binding TotalWeightApprox}"></Entry>
+                <Label IsVisible="{Binding TotalWeightApproxErrorVisible}" Text="{Binding TotalWeightApproxError}" TextColor="Red" FontSize="11"></Label>
 
-            <Label Text="Transport distance approx" />
-            <Entry Text="{Binding TransportDistanceApprox}"></Entry>
-            <Label IsVisible="{Binding TransportDistanceApproxErrorVisible}" Text="{Binding TransportDistanceApproxError}" TextColor="Red" FontSize="11"></Label>
+                <Label Text="Transport distance approx" />
+                <Entry PropertyChanged="Entry_PropertyChanged" Text="{Binding TransportDistanceApprox}"></Entry>
+                <Label IsVisible="{Binding TransportDistanceApproxErrorVisible}" Text="{Binding TransportDistanceApproxError}" TextColor="Red" FontSize="11"></Label>
 
-            <Label Text="Transport date" />
-            <DatePicker MinimumDate="{Binding MinDate}" Date="{Binding Date}"/>
-            <Label IsVisible="{Binding DateErrorVisible}" Text="{Binding DateError}" TextColor="Red" FontSize="11"></Label>
+                <Label Text="Transport date" />
+                <DatePicker Date="{Binding DateValue}"/>
+                <Label IsVisible="{Binding DateErrorVisible}" Text="{Binding DateError}" TextColor="Red" FontSize="11"></Label>
 
-            <Label Text="Country" />
-            <Picker ItemsSource="{Binding CountryList}" SelectedItem="{Binding SelectedCountry}" ItemDisplayBinding="{Binding Name}"></Picker>
-            <Label IsVisible="{Binding CountryErrorVisible}" Text="{Binding CountryError}" TextColor="Red" FontSize="11"></Label>
+                <Label Text="Country" />
+                <Picker PropertyChanged="Entry_PropertyChanged" ItemsSource="{Binding CountryList}" SelectedItem="{Binding SelectedCountry, Mode=TwoWay}" SelectedIndex="{Binding SelectedIndex}" ItemDisplayBinding="{Binding Name}"></Picker>
+                <Label IsVisible="{Binding CountryErrorVisible}" Text="{Binding CountryError}" TextColor="Red" FontSize="11"></Label>
 
-            <Label Text="City" />
-            <Entry Text="{Binding City}"></Entry>
-            <Label IsVisible="{Binding CityErrorVisible}" Text="{Binding CityError}" TextColor="Red" FontSize="11"></Label>
+                <Label Text="City" />
+                <Entry PropertyChanged="Entry_PropertyChanged" Text="{Binding City}"></Entry>
+                <Label IsVisible="{Binding CityErrorVisible}" Text="{Binding CityError}" TextColor="Red" FontSize="11"></Label>
 
-            <Label Text="Street" />
-            <Entry Text="{Binding Street}"></Entry>
-            <Label IsVisible="{Binding StreetErrorVisible}" Text="{Binding StreetError}" TextColor="Red" FontSize="11"></Label>
+                <Label Text="Street" />
+                <Entry PropertyChanged="Entry_PropertyChanged" Text="{Binding Street}"></Entry>
+                <Label IsVisible="{Binding StreetErrorVisible}" Text="{Binding StreetError}" TextColor="Red" FontSize="11"></Label>
 
-            <Label Text="ZipCode" />
-            <Entry Text="{Binding ZipCode}"></Entry>
-            <Label IsVisible="{Binding ZipCodeErrorVisible}" Text="{Binding ZipCodeError}" TextColor="Red" FontSize="11"></Label>
+                <Label Text="ZipCode" />
+                <Entry PropertyChanged="Entry_PropertyChanged" Text="{Binding ZipCode}"></Entry>
+                <Label IsVisible="{Binding ZipCodeErrorVisible}" Text="{Binding ZipCodeError}" TextColor="Red" FontSize="11"></Label>
 
-            <Label Text="Additional address" />
-            <Entry Text="{Binding Additional}"></Entry>
+                <Label Text="Additional address" />
+                <Entry Text="{Binding Additional}"></Entry>
 
-            <Label Text="Additional information" />
-            <Entry Text="{Binding AdditionalInformation}"></Entry>
+                <Label Text="Additional information" />
+                <Entry Text="{Binding AdditionalInformation}"></Entry>
 
-            <Button Text="Calculate price" Command="{Binding CalculatePriceCommand}"></Button>
+                <Button CornerRadius="10" BackgroundColor="#2967cc" TextColor="white" Text="Calculate price" Command="{Binding CalculatePriceCommand}"></Button>
 
-            <Label Text="Price" />
-            <Label Text="{Binding Price, StringFormat='{0:C}'}" />
-            <Label IsVisible="{Binding PriceErrorVisible}" Text="{Binding PriceError}" TextColor="Red" FontSize="11"></Label>
+                <Label Text="Price" />
+                <Label Text="{Binding Price, StringFormat='{0:C}'}" />
+                <Label IsVisible="{Binding PriceErrorVisible}" Text="{Binding PriceError}" TextColor="Red" FontSize="11"></Label>
 
-            <Button Text="Submit" Command="{Binding SubmitCommand}"></Button>
-        </StackLayout>
+                <Button CornerRadius="10" BackgroundColor="#2967cc" TextColor="white" Text="Submit" Command="{Binding SubmitCommand}"></Button>
+            </StackLayout>
+        </ScrollView>
     </ContentPage.Content>
 </ContentPage>

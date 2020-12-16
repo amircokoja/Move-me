@@ -27,15 +27,16 @@ namespace MoveMe.MobileApp.Views
 
             if (APIService.roleId == (int)RoleId.Client)
             {
-                menuItems.Add(new HomeMenuItem { Id = MenuItemType.Dashboard, Title = "Dashboard" });
                 menuItems.Add(new HomeMenuItem { Id = MenuItemType.Notifications, Title = "Notifications" });
+                menuItems.Add(new HomeMenuItem { Id = MenuItemType.Dashboard, Title = "Dashboard" });
                 menuItems.Add(new HomeMenuItem { Id = MenuItemType.NewRequest, Title = "New request" });
                 menuItems.Add(new HomeMenuItem { Id = MenuItemType.AllSuppliers, Title = "All suppliers" });
             }
             else
             {
-                menuItems.Add(new HomeMenuItem { Id = MenuItemType.SupplierDashboard, Title = "Dashboard" });
                 menuItems.Add(new HomeMenuItem { Id = MenuItemType.Notifications, Title = "Notifications" });
+                menuItems.Add(new HomeMenuItem { Id = MenuItemType.SupplierDashboard, Title = "Dashboard" });
+                menuItems.Add(new HomeMenuItem { Id = MenuItemType.AllRequests, Title = "All requests" });
                 menuItems.Add(new HomeMenuItem { Id = MenuItemType.MyOffers, Title = "My offers" });
 
             }

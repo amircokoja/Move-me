@@ -1,6 +1,10 @@
-﻿using MoveMe.MobileApp.Services;
+﻿using MoveMe.MobileApp.Models;
+using MoveMe.MobileApp.Services;
 using MoveMe.Model;
+using MoveMe.Model.Requests;
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -9,13 +13,30 @@ namespace MoveMe.MobileApp.ViewModels
 {
     public class ClientRequestDetailsViewModel : BaseViewModel
     {
-
         #region Properties
         int _id;
         public int Id
         {
             get { return _id; }
             set { SetProperty(ref _id, value); }
+        }
+        int _userId;
+        public int UserId
+        {
+            get { return _userId; }
+            set { SetProperty(ref _userId, value); }
+        }
+        int _clientId;
+        public int ClientId
+        {
+            get { return _clientId; }
+            set { SetProperty(ref _clientId, value); }
+        }
+        int _supplierId;
+        public int SupplierId
+        {
+            get { return _supplierId; }
+            set { SetProperty(ref _supplierId, value); }
         }
         DateTime _date;
         public DateTime Date
@@ -101,18 +122,236 @@ namespace MoveMe.MobileApp.ViewModels
             get { return _address; }
             set { SetProperty(ref _address, value); }
         }
-        #endregion
 
+        bool _isClient;
+        public bool IsClient
+        {
+            get { return _isClient; }
+            set { SetProperty(ref _isClient, value); }
+        }
+
+        bool _isSupplier;
+        public bool IsSupplier
+        {
+            get { return _isSupplier; }
+            set { SetProperty(ref _isSupplier, value); }
+        }
+        bool _sendOfferVisible;
+        public bool SendOfferVisible
+        {
+            get { return _sendOfferVisible; }
+            set { SetProperty(ref _sendOfferVisible, value); }
+        }
+        bool _offerSendMessageVisible;
+        public bool OfferSendMessageVisible
+        {
+            get { return _offerSendMessageVisible; }
+            set { SetProperty(ref _offerSendMessageVisible, value); }
+        }
+        bool _offerAcceptedVisible;
+        public bool OfferAcceptedVisible
+        {
+            get { return _offerAcceptedVisible; }
+            set { SetProperty(ref _offerAcceptedVisible, value); }
+        }
+        bool _haveAcceptedOffer;
+        public bool HaveAcceptedOffer
+        {
+            get { return _haveAcceptedOffer; }
+            set { SetProperty(ref _haveAcceptedOffer, value); }
+        }
+        bool _haveFinishedOffer;
+        public bool HaveFinishedOffer
+        {
+            get { return _haveFinishedOffer; }
+            set { SetProperty(ref _haveFinishedOffer, value); }
+        }
+        bool _feedbackSent;
+        public bool FeedbackSent
+        {
+            get { return _feedbackSent; }
+            set { SetProperty(ref _feedbackSent, value); }
+        }
+        bool _showList;
+        public bool ShowList
+        {
+            get { return _showList; }
+            set { SetProperty(ref _showList, value); }
+        }
+        public int _offersHegiht = 0;
+        public int OffersHeight
+        {
+            get { return _offersHegiht; }
+            set { SetProperty(ref _offersHegiht, value); }
+        }
+        public ObservableCollection<RequestDetailsOffers> OfferList { get; set; } = new ObservableCollection<RequestDetailsOffers>();
+
+        public ObservableCollection<Model.RatingType> RatingTypeList { get; set; } = new ObservableCollection<Model.RatingType>();
+        Model.RatingType _selectedRatingType = null;
+        public Model.RatingType SelectedRatingType
+        {
+            get { return _selectedRatingType; }
+            set { SetProperty(ref _selectedRatingType, value); }
+        }
+
+        string _description = string.Empty;
+        public string Description
+        {
+            get { return _description; }
+            set { SetProperty(ref _description, value); }
+        }
+
+        int _acceptedOfferId;
+        public int AcceptedOfferId
+        {
+            get { return _acceptedOfferId; }
+            set { SetProperty(ref _acceptedOfferId, value); }
+        }
+
+        string _ratingTypeError = string.Empty;
+        public string RatingTypeError
+        {
+            get { return _ratingTypeError; }
+            set { SetProperty(ref _ratingTypeError, value); }
+        }
+        bool _ratingTypeErrorVisible;
+        public bool RatingTypeErrorVisible
+        {
+            get { return _ratingTypeErrorVisible; }
+            set { SetProperty(ref _ratingTypeErrorVisible, value); }
+        }
+
+        string _descriptionError = string.Empty;
+        public string DescriptionError
+        {
+            get { return _descriptionError; }
+            set { SetProperty(ref _descriptionError, value); }
+        }
+        bool _descriptionErrorVisible;
+        public bool DescriptionErrorVisible
+        {
+            get { return _descriptionErrorVisible; }
+            set { SetProperty(ref _descriptionErrorVisible, value); }
+        }
+
+        bool _showEditButton;
+        public bool ShowEditButton
+        {
+            get { return _showEditButton; }
+            set { SetProperty(ref _showEditButton, value); }
+        }
+
+        bool _haveActiveOffers;
+        public bool HaveActiveOffers
+        {
+            get { return _haveActiveOffers; }
+            set { SetProperty(ref _haveActiveOffers, value); }
+        }
+
+        #endregion
         public ICommand InitCommand { get; set; }
+        public ICommand RequestFinishedCommand { get; set; }
+        public ICommand LeaveFeedbackCommand { get; set; }
+        
+        private readonly AuthService _authService = new AuthService();
         private readonly APIService _requestService = new APIService("request");
         private readonly APIService _addressService = new APIService("address");
         private readonly APIService _countryService = new APIService("country");
         private readonly APIService _statusService = new APIService("status");
-        private readonly int id;
+        private readonly APIService _offerService = new APIService("offer");
+        private readonly APIService _notificationService = new APIService("notification");
+        private readonly APIService _ratingTypeService = new APIService("ratingtype");
+        private readonly APIService _ratingService = new APIService("rating");
 
         public ClientRequestDetailsViewModel()
         {
             InitCommand = new Command(async () => await Init());
+            RequestFinishedCommand = new Command(async () => await RequestFinished());
+            LeaveFeedbackCommand = new Command(async () => await LeaveFeedback());
+        }
+
+        private bool isValid()
+        {
+            HideErrors();
+            var valid = true;
+
+            if (_selectedRatingType == null)
+            {
+                RatingTypeErrorVisible = true;
+                RatingTypeError = Constants.SelectFeedback;
+                valid = false;
+            }
+
+            if (_description.Length < 5)
+            {
+                DescriptionErrorVisible = true;
+                DescriptionError = Constants.EnterValidValue;
+                valid = false;
+            }
+
+            return valid;
+        }
+
+        void HideErrors()
+        {
+            RatingTypeErrorVisible = DescriptionErrorVisible = false;
+        }
+
+        public async Task LeaveFeedback()
+        {
+            if (!isValid())
+            {
+                return;
+            }
+
+            var request = new RatingUpsertRequest
+            {
+                Description = Description,
+                RatingTypeId = SelectedRatingType.RatingTypeId,
+                RequestId = Id,
+                SupplierId = SupplierId
+            };
+
+            var rating = await _ratingService.Insert<Rating>(request);
+
+            var notificationRequest = new NotificationInsertRequest
+            {
+                CreatedAt = DateTime.Now,
+                ItemId = rating.RatingId,
+                NotificationTypeId = (int)NotificationType.Feedback,
+                UserFromId = ClientId,
+                UserToId = SupplierId
+            };
+
+            await _notificationService.Insert<Model.Notification>(notificationRequest);
+
+            await Init();
+        }
+
+        public async Task RequestFinished()
+        {
+            var request = new OfferUpdateRequest
+            {
+                OfferStatusId = (int)Models.OfferStatus.Finished
+            };
+
+            await _offerService.Update<Offer>(AcceptedOfferId, request);
+
+
+            var notificationRequest = new NotificationInsertRequest
+            {
+                CreatedAt = DateTime.Now,
+                ItemId = Id,
+                NotificationTypeId = (int)NotificationType.OfferFinished,
+                UserFromId = ClientId,
+                UserToId = SupplierId
+            };
+
+            await _notificationService.Insert<Model.Notification>(notificationRequest);
+
+            await UpdateStatus((int)Models.Status.Finished);
+
+            await Init();
         }
 
         public async Task Init()
@@ -123,12 +362,302 @@ namespace MoveMe.MobileApp.ViewModels
             InitAddress(address);
             var country = await _countryService.GetById<Country>((int)address.CountryId);
             InitCountry(country);
-            var status = await _statusService.GetById<Status>(request.StatusId);
+            var status = await _statusService.GetById<Model.Status>(request.StatusId);
             InitStatus(status);
 
-            Address = $"${country.Name}, ${address.ZipCode}, ${address.City}";
+            Address = $"{country.Name}, {address.ZipCode}, {address.City}";
+            await InitFieldsVisibility();
+
+            if (IsClient)
+            {
+                var searchRequest = new OfferSearchRequest
+                {
+                    RequestId = Id,
+                    OfferStatusId = (int)Models.OfferStatus.Active
+                };
+                var offerList = await _offerService.GetAll<List<Offer>>(searchRequest);
+
+                if (offerList.Count == 0)
+                {
+                    HaveAcceptedOffer = await RequestHaveAcceptedOffer();
+                    HaveFinishedOffer = await RequestHaveFinishedOffer();
+                    HaveActiveOffers = await RequestHaveActiveOffer();
+                    var finishedOffer = await RequestHaveFinishedOfferWithoutRating();
+
+                    if (!HaveAcceptedOffer && !finishedOffer)
+                    {
+                        ShowEditButton = true;
+                    }
+
+                    if (HaveFinishedOffer)
+                    {
+                        var list = await _ratingTypeService.GetAll<List<Model.RatingType>>();
+
+                        RatingTypeList.Clear();
+                        foreach (var rt in list)
+                        {
+                            RatingTypeList.Add(rt);
+                        }
+                    }
+                }
+                else
+                {
+                    ShowList = true;
+                }
+
+                OfferList.Clear();
+                foreach (var offer in offerList)
+                {
+                    var supplierAddress = await _addressService.GetById<Address>(offer.UserId);
+                    var supplierCountry = await _countryService.GetById<Country>((int)supplierAddress.CountryId);
+                    var user = await _authService.GetById(offer.UserId);
+                    var newOffer = new RequestDetailsOffers
+                    {
+                        Company = user.Company,
+                        UserFromId = offer.UserId,
+                        Address = supplierCountry.Name + ", " + supplierAddress.City,
+                        OfferId = offer.OfferId
+                    };
+
+                    OfferList.Add(newOffer);
+                }
+                OffersHeight = OfferList.Count * 45;
+            }
+            else
+            {
+                var searchRequest = new OfferSearchRequest
+                {
+                    RequestId = Id,
+                    OfferStatusId = (int)Models.OfferStatus.Accepted
+                };
+                var offerList = await _offerService.GetAll<List<Offer>>(searchRequest);
+
+                if (offerList.Count > 0)
+                {
+                    OfferAcceptedVisible = true;
+                    OfferSendMessageVisible = false;
+                }
+            }
         }
 
+        private async Task<bool> RequestHaveAcceptedOffer()
+        {
+            var searchRequest = new OfferSearchRequest
+            {
+                RequestId = Id,
+                OfferStatusId = (int)Models.OfferStatus.Accepted
+            };
+            var offerList = await _offerService.GetAll<List<Offer>>(searchRequest);
+
+            if (offerList.Count > 0)
+            {
+                AcceptedOfferId = offerList[0].OfferId;
+                SupplierId = offerList[0].UserId;
+                return true;
+            } else
+            {
+                return false;
+            }
+        }
+
+        private async Task<bool> RequestHaveFinishedOffer()
+        {
+            var searchRequest = new OfferSearchRequest
+            {
+                RequestId = Id,
+                OfferStatusId = (int)Models.OfferStatus.Finished
+            };
+            var offerList = await _offerService.GetAll<List<Offer>>(searchRequest);
+
+            if (offerList.Count > 0)
+            {
+                SupplierId = offerList[0].UserId;
+
+                var request = new RatingSearchRequest
+                {
+                    RequestId = Id
+                };
+
+                var ratingList = await _ratingService.GetAll<List<Rating>>(request);
+
+                if (ratingList.Count > 0)
+                {
+                    return false;
+                }
+                return true;
+            }
+
+            return false;
+        }
+
+        private async Task<bool> RequestHaveFinishedOfferWithoutRating()
+        {
+            var searchRequest = new OfferSearchRequest
+            {
+                RequestId = Id,
+                OfferStatusId = (int)Models.OfferStatus.Finished
+            };
+            var offerList = await _offerService.GetAll<List<Offer>>(searchRequest);
+
+            if (offerList.Count > 0)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        private async Task<bool> RequestHaveActiveOffer()
+        {
+            var searchRequest = new OfferSearchRequest
+            {
+                RequestId = Id,
+                OfferStatusId = (int)Models.OfferStatus.Active
+            };
+            var offerList = await _offerService.GetAll<List<Offer>>(searchRequest);
+
+            if (offerList.Count > 0)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        public async Task SendOffer()
+        {
+            var request = new OfferInsertRequest
+            {
+                CreatedAt = DateTime.Now,
+                OfferStatusId = (int)Models.OfferStatus.Active,
+                RequestId = Id,
+                UserId = UserId
+            };
+
+            await _offerService.Insert<Offer>(request);
+        }
+
+        public async Task SendNotification()
+        {
+            var request = new NotificationInsertRequest
+            {
+                CreatedAt = DateTime.Now,
+                NotificationTypeId = (int)NotificationType.NewRequest,
+                UserFromId = UserId,
+                UserToId = ClientId,
+                ItemId = Id
+            };
+
+            await _notificationService.Insert<Model.Notification>(request);
+        }
+
+        public async Task SendNotifcationAccept(int SupplierId)
+        {
+            var request = new NotificationInsertRequest
+            {
+                CreatedAt = DateTime.Now,
+                ItemId = Id,
+                NotificationTypeId = (int)NotificationType.OfferAccepted,
+                UserFromId = UserId,
+                UserToId = SupplierId
+            };
+
+            await _notificationService.Insert<Model.Notification>(request);
+        }
+
+        public async Task SendNotifcationReject(int SupplierId)
+        {
+            var request = new NotificationInsertRequest
+            {
+                CreatedAt = DateTime.Now,
+                ItemId = Id,
+                NotificationTypeId = (int)NotificationType.OfferRejected,
+                UserFromId = UserId,
+                UserToId = SupplierId
+            };
+
+            await _notificationService.Insert<Model.Notification>(request);
+        }
+
+
+        public async Task AcceptOffer(int offerId, int supplierId)
+        {
+            var request = new OfferUpdateRequest();
+            foreach (var offer in OfferList)
+            {
+                if (offer.OfferId == offerId)
+                {
+                    request.OfferStatusId = (int)Models.OfferStatus.Accepted;
+                    await _offerService.Update<Offer>(offer.OfferId, request);
+                    await SendNotifcationAccept(offer.UserFromId);
+                }
+                else
+                {
+                    request.OfferStatusId = (int)Models.OfferStatus.Rejected;
+                    await _offerService.Update<Offer>(offer.OfferId, request);
+                    await SendNotifcationReject(offer.UserFromId);
+                }
+            }
+
+           await UpdateStatus((int)Models.Status.Accepted);
+        }
+
+        private async Task UpdateStatus(int StatusId)
+        {
+            var requestRequest = new RequestUpdateRequest
+            {
+                AdditionalInformation = AdditionalInformation,
+                Date = Date,
+                Price = Price,
+                Rooms = Rooms,
+                TotalWeightApprox = TotalWeightApprox,
+                TransportDistanceApprox = TransportDistanceApprox,
+                StatusId = StatusId
+            };
+
+            await _requestService.Update<Request>(Id, requestRequest);
+        }
+
+        public async Task RejectOffer(int offerId)
+        {
+            var request = new OfferUpdateRequest
+            {
+                OfferStatusId = (int)Models.OfferStatus.Rejected
+            };
+
+            await _offerService.Update<Offer>(offerId, request);
+        }
+
+        private async Task InitFieldsVisibility()
+        {
+
+            IsSupplier = JWTService.DecodeJWTRole() == Role.Supplier;
+            IsClient = !IsSupplier;
+            _userId = int.Parse(JWTService.DecodeJWT());
+            
+            var offerRequest = new OfferSearchRequest
+            {
+                UserId = _userId,
+                RequestId = Id,
+                OfferStatusId = (int)Models.OfferStatus.Active
+            };
+
+            var activeOffers = await _offerService.GetAll<List<Offer>>(offerRequest);
+            offerRequest.OfferStatusId = (int)Models.OfferStatus.Accepted;
+            var acceptedOffers = await _offerService.GetAll<List<Offer>>(offerRequest);
+            offerRequest.OfferStatusId = (int)Models.OfferStatus.Finished;
+            var finishedOffers = await _offerService.GetAll<List<Offer>>(offerRequest);
+
+            if (activeOffers.Count == 0 && acceptedOffers.Count == 0 && finishedOffers.Count == 0)
+            {
+                SendOfferVisible = true;
+            } 
+            else
+            {
+                SendOfferVisible = false;
+                OfferSendMessageVisible = true;
+            }
+        }
         private void InitRequest(Request request)
         {
             Date = request.Date;
@@ -137,6 +666,7 @@ namespace MoveMe.MobileApp.ViewModels
             TotalWeightApprox = request.TotalWeightApprox;
             AdditionalInformation = request.AdditionalInformation;
             StatusId = request.StatusId;
+            ClientId = request.ClientId;
         }
 
         private void InitAddress(Address address)
@@ -153,9 +683,50 @@ namespace MoveMe.MobileApp.ViewModels
             Country = country.Name;
         }
 
-        private void InitStatus(Status status)
+        private void InitStatus(Model.Status status)
         {
             Status = status.Name;
+        }
+
+        public async Task DeleteRequest()
+        {
+            var notifcationRequest = new NotificationSearchRequest
+            {
+                ItemId = Id
+            };
+
+            var notifications = await _notificationService.GetAll<List<MoveMe.Model.Notification>>(notifcationRequest);
+
+            foreach (var item in notifications)
+            {
+                await _notificationService.Delete(item.NotificationId);
+            }
+
+            var offerRequest = new OfferSearchRequest
+            {
+                RequestId = Id
+            };
+
+            var offers = await _offerService.GetAll<List<MoveMe.Model.Offer>>(offerRequest);
+
+            foreach (var item in offers)
+            {
+                await _offerService.Delete(item.OfferId);
+            }
+
+            var request = new RequestUpdateRequest
+            {
+                AdditionalInformation = AdditionalInformation,
+                Date = Date,
+                Price = Price,
+                Rooms = Rooms,
+                StatusId = StatusId,
+                TotalWeightApprox = TotalWeightApprox,
+                TransportDistanceApprox = TransportDistanceApprox,
+                InActive = true
+            };
+
+            await _requestService.Update<Request>(Id, request);
         }
     }
 }

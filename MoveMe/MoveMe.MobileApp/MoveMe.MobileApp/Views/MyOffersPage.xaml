@@ -2,14 +2,41 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:vm="clr-namespace:MoveMe.MobileApp.ViewModels"
              mc:Ignorable="d"
              x:Class="MoveMe.MobileApp.Views.MyOffersPage">
+    <ContentPage.BindingContext>
+        <vm:MyOffersViewModel />
+    </ContentPage.BindingContext>
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+        <StackLayout Padding="15" HorizontalOptions="FillAndExpand">
+            <StackLayout VerticalOptions="Start">
+                <Label Text="No pending requests" />
+                <ListView ItemsSource="{Binding OfferList}" HorizontalOptions="FillAndExpand" VerticalOptions="StartAndExpand" ItemSelected="ListView_ItemSelected">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <StackLayout Padding="10" Orientation="Horizontal">
+                                    <Label Text="{Binding Price, StringFormat='{0} $'}" LineBreakMode="NoWrap" FontSize="13" FontAttributes="Bold" />
+                                    <Label Text="{Binding Address}" LineBreakMode="NoWrap" FontSize="13" />
+                                    <Frame BackgroundColor="LightBlue" IsVisible="{Binding IsActive}" CornerRadius="5">
+                                        <Label TextColor="White" Text="{Binding OfferStatus}" LineBreakMode="NoWrap" FontSize="13" />
+                                    </Frame>
+                                    <Frame BackgroundColor="LightCoral" IsVisible="{Binding IsRejected}" CornerRadius="5">
+                                        <Label TextColor="White" Text="{Binding OfferStatus}" LineBreakMode="NoWrap" FontSize="13" />
+                                    </Frame>
+                                    <Frame BackgroundColor="LightCyan" IsVisible="{Binding IsAccepted}" CornerRadius="5">
+                                        <Label TextColor="White" Text="{Binding OfferStatus}" LineBreakMode="NoWrap" FontSize="13" />
+                                    </Frame>
+                                    <Frame BackgroundColor="LightSkyBlue" IsVisible="{Binding IsFinished}" CornerRadius="5">
+                                        <Label TextColor="White" Text="{Binding OfferStatus}" LineBreakMode="NoWrap" FontSize="13" />
+                                    </Frame>
+                                </StackLayout>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackLayout>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

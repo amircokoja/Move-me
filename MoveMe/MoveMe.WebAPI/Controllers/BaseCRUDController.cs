@@ -23,7 +23,7 @@ namespace MoveMe.WebAPI.Controllers
             return _crudService.Update(id, request);
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public void Delete(int id)
         {
             _crudService.Delete(id);

@@ -34,9 +34,17 @@ namespace MoveMe.MobileApp.ViewModels
             set { SetProperty(ref _password, value); }
         }
 
+        bool _isFree = true;
+        public bool IsFree
+        {
+            get { return _isFree; }
+            set { SetProperty(ref _isFree, value); }
+        }
+
         async Task Login()
         {
             IsBusy = true;
+            IsFree = false;
 
             if (!Regex.IsMatch(_email, Constants.EmailRegex, RegexOptions.IgnoreCase))
             {
@@ -55,15 +63,21 @@ namespace MoveMe.MobileApp.ViewModels
                 }
             };
 
+
             try
             {
                 var loginResult = await _authService.Login(loginRequest);
+                IsFree = true;
+                IsBusy = false;
                 APIService.token = loginResult.Token;
                 APIService.roleId = GetRoleId(loginResult.Role);
                 Application.Current.MainPage = new MainPage();
             }
             catch
-            {}
+            {
+                IsFree = true;
+                IsBusy = false;
+            }
         }
 
         void NavigateToRegisterPage()

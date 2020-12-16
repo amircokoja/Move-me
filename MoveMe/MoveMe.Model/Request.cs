@@ -15,5 +15,6 @@ namespace MoveMe.Model
         public int ClientId { get; set; }
         public int DeliveryAddress { get; set; }
         public int StatusId { get; set; }
+        public bool Inactive { get; set; }
     }
 }

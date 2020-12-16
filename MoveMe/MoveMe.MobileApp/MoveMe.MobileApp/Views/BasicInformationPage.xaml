@@ -10,29 +10,36 @@
     </ContentPage.BindingContext>
     <ContentPage.Content>
         <StackLayout Padding="10">
-            <Label HorizontalTextAlignment="Center" Text="Basic information" LineBreakMode="NoWrap" FontAttributes="Bold" FontSize="18" />
+            <StackLayout IsVisible="{Binding ShowMessage}">
+                <Frame CornerRadius="10" Padding="20, 10, 20, 10" BackgroundColor="LightGreen" HorizontalOptions="CenterAndExpand">
+                    <Label TextColor="White" Text="Data successfully saved"></Label>
+                </Frame>
+            </StackLayout>
+            <StackLayout>
+                <Label HorizontalTextAlignment="Center" Text="Basic information" LineBreakMode="NoWrap" FontAttributes="Bold" FontSize="18" />
 
-            <Label Text="Email" LineBreakMode="NoWrap" FontSize="16" />
-            <Entry Text="{Binding Email}"></Entry>
-            <Label IsVisible="{Binding EmailErrorVisible}" Text="{Binding EmailError}" TextColor="Red" FontSize="11"></Label>
+                <Label Text="Email" LineBreakMode="NoWrap" FontSize="16" />
+                <Entry Text="{Binding Email}"></Entry>
+                <Label IsVisible="{Binding EmailErrorVisible}" Text="{Binding EmailError}" TextColor="Red" FontSize="11"></Label>
 
-            <Label IsVisible="{Binding IsClient}" Text="First name" LineBreakMode="NoWrap" FontSize="16" />
-            <Entry IsVisible="{Binding IsClient}" Text="{Binding FirstName}"></Entry>
-            <Label IsVisible="{Binding FirstNameErrorVisible}" Text="{Binding FirstNameError}" TextColor="Red" FontSize="11"></Label>
+                <Label IsVisible="{Binding IsClient}" Text="First name" LineBreakMode="NoWrap" FontSize="16" />
+                <Entry IsVisible="{Binding IsClient}" Text="{Binding FirstName}"></Entry>
+                <Label IsVisible="{Binding FirstNameErrorVisible}" Text="{Binding FirstNameError}" TextColor="Red" FontSize="11"></Label>
 
-            <Label IsVisible="{Binding IsClient}" Text="Last name" LineBreakMode="NoWrap" FontSize="16" />
-            <Entry IsVisible="{Binding IsClient}" Text="{Binding LastName}"></Entry>
-            <Label IsVisible="{Binding LastNameErrorVisible}" Text="{Binding LastNameError}" TextColor="Red" FontSize="11"></Label>
+                <Label IsVisible="{Binding IsClient}" Text="Last name" LineBreakMode="NoWrap" FontSize="16" />
+                <Entry IsVisible="{Binding IsClient}" Text="{Binding LastName}"></Entry>
+                <Label IsVisible="{Binding LastNameErrorVisible}" Text="{Binding LastNameError}" TextColor="Red" FontSize="11"></Label>
 
-            <Label IsVisible="{Binding IsSupplier}" Text="Company name" LineBreakMode="NoWrap" FontSize="16" />
-            <Entry IsVisible="{Binding IsSupplier}" Text="{Binding Company}"></Entry>
-            <Label IsVisible="{Binding CompanyErrorVisible}" Text="{Binding CompanyError}" TextColor="Red" FontSize="11"></Label>
+                <Label IsVisible="{Binding IsSupplier}" Text="Company name" LineBreakMode="NoWrap" FontSize="16" />
+                <Entry IsVisible="{Binding IsSupplier}" Text="{Binding Company}"></Entry>
+                <Label IsVisible="{Binding CompanyErrorVisible}" Text="{Binding CompanyError}" TextColor="Red" FontSize="11"></Label>
 
-            <Label Text="Phone number" LineBreakMode="NoWrap" FontSize="16" />
-            <Entry Text="{Binding PhoneNumber}"></Entry>
-            <Label IsVisible="{Binding PhoneNumberErrorVisible}" Text="{Binding PhoneNumberError}" TextColor="Red" FontSize="11"></Label>
+                <Label Text="Phone number" LineBreakMode="NoWrap" FontSize="16" />
+                <Entry Text="{Binding PhoneNumber}"></Entry>
+                <Label IsVisible="{Binding PhoneNumberErrorVisible}" Text="{Binding PhoneNumberError}" TextColor="Red" FontSize="11"></Label>
 
-            <Button Text="Save" Clicked="Button_Clicked"></Button>
+                <Button Text="Save" Clicked="Button_Clicked"></Button>
+            </StackLayout>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

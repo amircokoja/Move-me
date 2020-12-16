@@ -2,8 +2,8 @@
 {
     public enum MenuItemType
     {
-        Dashboard,
         SupplierDashboard,
+        Dashboard,
         MyOffers,
         NewRequest,
         Browse,
@@ -11,7 +11,8 @@
         AllSuppliers,
         Profile,
         LogOut,
-        Notifications
+        Notifications,
+        AllRequests
     }
     public class HomeMenuItem
     {

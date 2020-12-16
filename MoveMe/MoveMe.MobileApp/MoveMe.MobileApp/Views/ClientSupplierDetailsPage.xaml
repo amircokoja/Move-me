@@ -14,33 +14,43 @@
         </ResourceDictionary>
     </ContentPage.Resources>
     <ContentPage.Content>
-        <StackLayout Padding="10">
-            <StackLayout Orientation="Horizontal">
-                <StackLayout>
-                    <Image Source="{Binding Image, Converter={StaticResource imgConv}}"></Image>
+        <StackLayout>
+            <StackLayout Orientation="Vertical" BackgroundColor="#2967cc" Padding="20">
+                <StackLayout HorizontalOptions="CenterAndExpand" IsVisible="{Binding IsClient}">
+                    <Frame CornerRadius="200" HeightRequest="200" WidthRequest="200">
+                        <Image Source="{Binding Image, Converter={StaticResource imgConv}}"></Image>
+                    </Frame>
                 </StackLayout>
-                <StackLayout Orientation="Vertical">
-                    <Label Text="{Binding Company}" 
+                <StackLayout HorizontalOptions="Center" Orientation="Vertical">
+                    <Label IsVisible="{Binding IsClient}" TextColor="White" Text="{Binding Company}" 
                                            LineBreakMode="NoWrap" 
                                            FontSize="16" />
-                    <Label Text="{Binding Email}" 
+                    <Label IsVisible="{Binding IsSupplier}" TextColor="White" Text="{Binding FullName}" 
+                                           LineBreakMode="NoWrap" 
+                                           FontSize="16" />
+                    <Label TextColor="White" Text="{Binding Email}" 
                                            LineBreakMode="NoWrap"
                                            FontSize="13" />
-                    <Label Text="{Binding PhoneNumber}" 
+                    <Label TextColor="White" Text="{Binding PhoneNumber}" 
                                            LineBreakMode="NoWrap"
                                            FontSize="13" />
                 </StackLayout>
             </StackLayout>
-            <Label Text="Country" FontSize="15"></Label>
-            <Label Text="{Binding Country}" LineBreakMode="NoWrap" FontSize="13" />
-            <Label Text="Zip code" FontSize="15"></Label>
-            <Label Text="{Binding ZipCode}" LineBreakMode="NoWrap" FontSize="13" />
-            <Label Text="City" FontSize="15"></Label>
-            <Label Text="{Binding City}" LineBreakMode="NoWrap" FontSize="13" />
-            <Label Text="Street" FontSize="15"></Label>
-            <Label Text="{Binding Street}" LineBreakMode="NoWrap" FontSize="13" />
-            <Label Text="Additional address" FontSize="15"></Label>
-            <Label Text="{Binding AdditionalAddress}" LineBreakMode="NoWrap" FontSize="13" />
+            <StackLayout Padding="20">
+                <Label Text="Country" FontSize="14" FontAttributes="Bold"></Label>
+                <Label Text="{Binding Country}" LineBreakMode="NoWrap" FontSize="13" />
+                <Label Text="Zip code" FontSize="14" FontAttributes="Bold"></Label>
+                <Label Text="{Binding ZipCode}" LineBreakMode="NoWrap" FontSize="13" />
+                <Label Text="City" FontSize="14" FontAttributes="Bold"></Label>
+                <Label Text="{Binding City}" LineBreakMode="NoWrap" FontSize="13" />
+                <Label Text="Street" FontSize="14" FontAttributes="Bold"></Label>
+                <Label Text="{Binding Street}" LineBreakMode="NoWrap" FontSize="13" />
+                <Label Text="Additional address" FontSize="14" FontAttributes="Bold"></Label>
+                <Label Text="{Binding AdditionalAddress}" LineBreakMode="NoWrap" FontSize="13" />
+                <StackLayout>
+                    <Button IsVisible="{Binding IsClient}" HeightRequest="30" Padding="5" CornerRadius="10" BackgroundColor="Transparent" TextColor="#2967cc" Text="User feedback's" Clicked="Button_Clicked"></Button>
+                </StackLayout>
+            </StackLayout>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

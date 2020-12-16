@@ -17,6 +17,7 @@ namespace MoveMe.WebAPI.Database
             modelBuilder.Entity<OfferStatus>().HasData(new OfferStatus { OfferStatusId = 1, Name = "Active" });
             modelBuilder.Entity<OfferStatus>().HasData(new OfferStatus { OfferStatusId = 2, Name = "Accepted" });
             modelBuilder.Entity<OfferStatus>().HasData(new OfferStatus { OfferStatusId = 3, Name = "Rejected" });
+            modelBuilder.Entity<OfferStatus>().HasData(new OfferStatus { OfferStatusId = 4, Name = "Finished" });
 
             modelBuilder.Entity<Status>().HasData(new Status { StatusId = 1, Name = "Pending" });
             modelBuilder.Entity<Status>().HasData(new Status { StatusId = 2, Name = "Accepted" });
@@ -36,6 +37,12 @@ namespace MoveMe.WebAPI.Database
             Email = "admin@admin.com", NormalizedEmail = "admin@admin.com".ToUpper(), EmailConfirmed = true, PasswordHash = hasher.HashPassword(null, "qweasd"), SecurityStamp = string.Empty });
 
             modelBuilder.Entity<IdentityUserRole<int>>().HasData(new IdentityUserRole<int> { RoleId = 1, UserId = 1 });
+        
+            modelBuilder.Entity<NotificationType>().HasData(new NotificationType { NotificationTypeId = 1, Type = "New request" });
+            modelBuilder.Entity<NotificationType>().HasData(new NotificationType { NotificationTypeId = 2, Type = "Offer accepted" });
+            modelBuilder.Entity<NotificationType>().HasData(new NotificationType { NotificationTypeId = 3, Type = "Offer rejected" });
+            modelBuilder.Entity<NotificationType>().HasData(new NotificationType { NotificationTypeId = 4, Type = "Offer finished" });
+            modelBuilder.Entity<NotificationType>().HasData(new NotificationType { NotificationTypeId = 5, Type = "Feedback" });
         }
     }
 }

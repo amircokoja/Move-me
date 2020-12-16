@@ -27,5 +27,10 @@ namespace MoveMe.MobileApp.Views
             base.OnAppearing();
             await model.Init();
         }
+
+        private async void Button_Clicked(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new FeedbackPage(model.Id));
+        }
     }
 }

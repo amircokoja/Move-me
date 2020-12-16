@@ -23,7 +23,8 @@ namespace MoveMe.MobileApp.Services
 
             try
             {
-                return await fullUrl.PostJsonAsync(request).ReceiveJson<Login>();
+                var result = await fullUrl.PostJsonAsync(request).ReceiveJson<Login>();
+                return result;
             }
             catch (FlurlHttpException ex)
             {
@@ -104,7 +105,6 @@ namespace MoveMe.MobileApp.Services
             try
             {
                 var result = await fullUrl.PutJsonAsync(request).ReceiveJson<User>();
-                await Application.Current.MainPage.DisplayAlert(Constants.Saved, Constants.SavedMessage, Constants.OK);
                 return result;
             }
             catch (FlurlHttpException ex)
@@ -121,7 +121,6 @@ namespace MoveMe.MobileApp.Services
             try
             {
                 var result = await fullUrl.PostJsonAsync(request).ReceiveJson<User>();
-                await Application.Current.MainPage.DisplayAlert(Constants.PasswordUpdated, Constants.PasswordUpdatedMessage, Constants.OK);
                 return result;
             }
             catch (FlurlHttpException ex)

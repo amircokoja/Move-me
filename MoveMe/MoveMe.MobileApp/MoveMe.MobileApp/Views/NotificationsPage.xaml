@@ -2,14 +2,47 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:vm="clr-namespace:MoveMe.MobileApp.ViewModels"
              mc:Ignorable="d"
              x:Class="MoveMe.MobileApp.Views.NotificationsPage">
+    <ContentPage.BindingContext>
+        <vm:NotificationsViewModel />
+    </ContentPage.BindingContext>
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+            <StackLayout HorizontalOptions="Center" VerticalOptions="Center" Padding="20" IsVisible="{Binding NoNotifications}">
+                <Image IsVisible="{Binding NoNotifications}" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" WidthRequest="200" Source="https://i.ibb.co/d0Lt0cQ/NoData.png"></Image>
+                <Label HorizontalOptions="Center" VerticalOptions="Center" Text="No new notifications"  FontSize="18"></Label>
+                <Label HorizontalOptions="Center" VerticalOptions="Center" Text="We'll notify you when something arrives." FontSize="14"></Label>
+            </StackLayout>
+            <StackLayout Padding="20" IsVisible="{Binding ShowNotifications}">
+                <Label VerticalOptions="Center" Text="Notifications" FontSize="18"></Label>
+                <ListView ItemsSource="{Binding NotificationList}" ItemSelected="ListView_ItemSelected" Margin="0, 0, 0, 20">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <Frame CornerRadius="15" Padding="1">
+                                    <StackLayout Padding="20" Orientation="Horizontal" BackgroundColor="WhiteSmoke">
+                                        <StackLayout Orientation="Vertical">
+                                            <Label Text="{Binding Text}" 
+                                           LineBreakMode="NoWrap" 
+                                           Style="{DynamicResource ListItemTextStyle}" 
+                                           FontSize="16" />
+                                            <Label Text="{Binding Date}" 
+                                           LineBreakMode="NoWrap"
+                                           Style="{DynamicResource ListItemDetailTextStyle}"
+                                           FontSize="13" />
+                                        </StackLayout>
+                                        <StackLayout HorizontalOptions="EndAndExpand">
+                                            <Button CornerRadius="5" Padding="5" BackgroundColor="Red" TextColor="White" Text="x" Clicked="Button_Clicked"></Button>
+                                        </StackLayout>
+                                    </StackLayout>
+                                </Frame>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackLayout>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

@@ -11,10 +11,19 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Resources\Images\**" />
+    <EmbeddedResource Remove="Resources\Images\**" />
+    <None Remove="Resources\Images\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Resources\logo.png" />
+    <None Remove="Resources\no-data.png" />
     <None Remove="Resources\WorkSans.ttf" />
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Resources\logo.png" />
     <EmbeddedResource Include="Resources\WorkSans.ttf" />
   </ItemGroup>
 
@@ -54,6 +63,9 @@
     <EmbeddedResource Update="Views\ClientSupplierDetailsPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Update="Views\FeedbackPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Views\LoginPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
@@ -73,6 +85,9 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\RegisterPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\SupplierAllRequestsPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\SupplierDashboardPage.xaml">

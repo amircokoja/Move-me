@@ -44,6 +44,13 @@ namespace MoveMe.MobileApp.ViewModels
             get { return _errorVisible; }
             set { SetProperty(ref _errorVisible, value); }
         }
+
+        bool _showMessage;
+        public bool ShowMessage
+        {
+            get { return _showMessage; }
+            set { SetProperty(ref _showMessage, value); }
+        }
         #endregion
 
         private readonly AuthService _authService = new AuthService();
@@ -70,6 +77,7 @@ namespace MoveMe.MobileApp.ViewModels
             try
             {
                 await _authService.ChangePassword(UserId, request);
+                ShowMessage = true;
                 ClearFields();
             }
             catch

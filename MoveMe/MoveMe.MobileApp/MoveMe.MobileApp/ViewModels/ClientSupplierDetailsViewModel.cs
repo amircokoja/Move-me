@@ -15,6 +15,19 @@ namespace MoveMe.MobileApp.ViewModels
             get { return _id; }
             set { SetProperty(ref _id, value); }
         }
+        bool _isClient;
+        public bool IsClient
+        {
+            get { return _isClient; }
+            set { SetProperty(ref _isClient, value); }
+        }
+
+        bool _isSupplier;
+        public bool IsSupplier
+        {
+            get { return _isSupplier; }
+            set { SetProperty(ref _isSupplier, value); }
+        }
 
         string _company = string.Empty;
         public string Company
@@ -22,7 +35,12 @@ namespace MoveMe.MobileApp.ViewModels
             get { return _company; }
             set { SetProperty(ref _company, value); }
         }
-
+        string _fullName = string.Empty;
+        public string FullName
+        {
+            get { return _fullName; }
+            set { SetProperty(ref _fullName, value); }
+        }
         string _email = string.Empty;
         public string Email
         {
@@ -92,6 +110,9 @@ namespace MoveMe.MobileApp.ViewModels
 
         public async Task Init()
         {
+            IsSupplier = JWTService.DecodeJWTRole() == Role.Supplier;
+            IsClient = !IsSupplier;
+
             var result = await this._authService.GetById(Id);
             InitProperties(result);
             var address = await _addressService.GetById<Address>((int)result.AddressId);
@@ -102,6 +123,7 @@ namespace MoveMe.MobileApp.ViewModels
 
         private void InitProperties(User user)
         {
+            FullName = user.FirstName + " " + user.LastName;
             Company = user.Company;
             Image = user.Image;
             PhoneNumber = user.PhoneNumber;

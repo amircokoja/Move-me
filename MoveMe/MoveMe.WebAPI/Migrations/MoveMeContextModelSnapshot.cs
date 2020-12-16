@@ -51,21 +51,21 @@ namespace MoveMe.WebAPI.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "3358e1ba-9c03-44e2-8316-c71bd0a6d39d",
+                            ConcurrencyStamp = "1e1671d2-7ca2-4eb0-ad44-916e3a284cf4",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "f9f81b76-8890-40b2-b1da-e043fa9b302b",
+                            ConcurrencyStamp = "0ceba7ee-4744-43e7-bdbb-2781a8655e91",
                             Name = "Client",
                             NormalizedName = "CLIENT"
                         },
                         new
                         {
                             Id = 3,
-                            ConcurrencyStamp = "c6613dd7-06c3-4ee3-b83f-de705f4f44ec",
+                            ConcurrencyStamp = "1ee53a22-91b2-40b5-bc80-edb96df1ac70",
                             Name = "Supplier",
                             NormalizedName = "SUPPLIER"
                         });
@@ -268,6 +268,9 @@ namespace MoveMe.WebAPI.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("ItemId")
+                        .HasColumnType("int");
+
                     b.Property<int>("NotificationTypeId")
                         .HasColumnType("int");
 
@@ -301,6 +304,33 @@ namespace MoveMe.WebAPI.Migrations
                     b.HasKey("NotificationTypeId");
 
                     b.ToTable("NotificationType");
+
+                    b.HasData(
+                        new
+                        {
+                            NotificationTypeId = 1,
+                            Type = "New request"
+                        },
+                        new
+                        {
+                            NotificationTypeId = 2,
+                            Type = "Offer accepted"
+                        },
+                        new
+                        {
+                            NotificationTypeId = 3,
+                            Type = "Offer rejected"
+                        },
+                        new
+                        {
+                            NotificationTypeId = 4,
+                            Type = "Offer finished"
+                        },
+                        new
+                        {
+                            NotificationTypeId = 5,
+                            Type = "Feedback"
+                        });
                 });
 
             modelBuilder.Entity("MoveMe.WebAPI.Database.Offer", b =>
@@ -362,6 +392,11 @@ namespace MoveMe.WebAPI.Migrations
                         {
                             OfferStatusId = 3,
                             Name = "Rejected"
+                        },
+                        new
+                        {
+                            OfferStatusId = 4,
+                            Name = "Finished"
                         });
                 });
 
@@ -371,9 +406,6 @@ namespace MoveMe.WebAPI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("Created")
-                        .HasColumnType("datetime2");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -388,11 +420,16 @@ namespace MoveMe.WebAPI.Migrations
                     b.Property<int?>("RequestId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("SupplierId")
+                        .HasColumnType("int");
+
                     b.HasKey("RatingId");
 
                     b.HasIndex("RatingTypeId");
 
                     b.HasIndex("RequestId");
+
+                    b.HasIndex("SupplierId");
 
                     b.ToTable("Rating");
                 });
@@ -453,6 +490,9 @@ namespace MoveMe.WebAPI.Migrations
 
                     b.Property<int?>("DeliveryAddress")
                         .HasColumnType("int");
+
+                    b.Property<bool>("Inactive")
+                        .HasColumnType("bit");
 
                     b.Property<double?>("Price")
                         .HasColumnType("float");
@@ -617,7 +657,7 @@ namespace MoveMe.WebAPI.Migrations
                             AccessFailedCount = 0,
                             Active = true,
                             AddressId = 1,
-                            ConcurrencyStamp = "e6d1bf44-a0fa-4f9c-80f3-178809151c96",
+                            ConcurrencyStamp = "e8d4553a-c7fd-4e99-8c23-581485902ad7",
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "admin@admin.com",
                             EmailConfirmed = true,
@@ -626,7 +666,7 @@ namespace MoveMe.WebAPI.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@ADMIN.COM",
                             NormalizedUserName = "ADMIN@ADMIN.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEHP27U/CO+maXtFDHqa5Pk3c6e/EsBpXeGnlH+T+yFl5hReuWA/wGEzStr1tScO47Q==",
+                            PasswordHash = "AQAAAAEAACcQAAAAENSFLCyy2XMT4LP0daor4Gct4cReFvncxxOSADZLInj34Q1yvVLeND4juLDPPqooug==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -747,6 +787,10 @@ namespace MoveMe.WebAPI.Migrations
                         .WithMany("Rating")
                         .HasForeignKey("RequestId")
                         .HasConstraintName("FK__Rating__RequestI__36B12243");
+
+                    b.HasOne("MoveMe.WebAPI.Database.User", "Supplier")
+                        .WithMany()
+                        .HasForeignKey("SupplierId");
                 });
 
             modelBuilder.Entity("MoveMe.WebAPI.Database.Request", b =>

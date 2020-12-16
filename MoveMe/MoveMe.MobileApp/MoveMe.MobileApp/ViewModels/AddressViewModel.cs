@@ -90,6 +90,15 @@ namespace MoveMe.MobileApp.ViewModels
             get { return _streetErrorVisible; }
             set { SetProperty(ref _streetErrorVisible, value); }
         }
+
+        bool _showMessage;
+        public bool ShowMessage
+        {
+            get { return _showMessage; }
+            set { SetProperty(ref _showMessage, value); }
+        }
+
+        public int AddressId { get; set; }
         #endregion
 
         private readonly AuthService _authService = new AuthService();
@@ -104,6 +113,7 @@ namespace MoveMe.MobileApp.ViewModels
         {
             _userId = int.Parse(JWTService.DecodeJWT());
             var user = await _authService.GetById(_userId);
+            AddressId = (int)user.AddressId;
             var address = await _addressService.GetById<Address>((int)user.AddressId);
             InitProperties(address);
 
@@ -138,7 +148,8 @@ namespace MoveMe.MobileApp.ViewModels
 
             try
             {
-                await _addressService.Update<Address>(UserId, request);
+                await _addressService.Update<Address>(AddressId, request);
+                ShowMessage = true;
             }
             catch
             {}

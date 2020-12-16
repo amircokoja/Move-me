@@ -88,7 +88,6 @@ namespace MoveMe.MobileApp.Services
             try
             {
                 var result = await fullUrl.WithOAuthBearerToken(token).PutJsonAsync(request).ReceiveJson<T>();
-                await Application.Current.MainPage.DisplayAlert(Constants.Saved, Constants.SavedMessage, Constants.OK);
                 return result;
             }
             catch (FlurlHttpException ex)
@@ -97,6 +96,12 @@ namespace MoveMe.MobileApp.Services
                 await Application.Current.MainPage.DisplayAlert(Constants.Error, error, Constants.OK);
                 return default(T);
             }
+        }
+
+        public async Task Delete(int id)
+        {
+            var fullUrl = url + "/" + id;
+            await fullUrl.WithOAuthBearerToken(token).DeleteAsync();
         }
     }
 }

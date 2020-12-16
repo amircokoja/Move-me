@@ -77,9 +77,9 @@
             this.groupBox1.Controls.Add(this.txtCompany);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Location = new System.Drawing.Point(16, 15);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(4);
             this.groupBox1.Size = new System.Drawing.Size(851, 175);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
@@ -88,16 +88,17 @@
             // pbImage
             // 
             this.pbImage.Location = new System.Drawing.Point(691, 23);
-            this.pbImage.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.pbImage.Margin = new System.Windows.Forms.Padding(4);
             this.pbImage.Name = "pbImage";
             this.pbImage.Size = new System.Drawing.Size(147, 132);
+            this.pbImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pbImage.TabIndex = 7;
             this.pbImage.TabStop = false;
             // 
             // btnAdd
             // 
             this.btnAdd.Location = new System.Drawing.Point(389, 139);
-            this.btnAdd.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnAdd.Margin = new System.Windows.Forms.Padding(4);
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(100, 28);
             this.btnAdd.TabIndex = 6;
@@ -108,10 +109,12 @@
             // txtImage
             // 
             this.txtImage.Location = new System.Drawing.Point(12, 140);
-            this.txtImage.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtImage.Margin = new System.Windows.Forms.Padding(4);
             this.txtImage.Name = "txtImage";
+            this.txtImage.ReadOnly = true;
             this.txtImage.Size = new System.Drawing.Size(351, 22);
             this.txtImage.TabIndex = 5;
+            this.txtImage.Validating += new System.ComponentModel.CancelEventHandler(this.txtImage_Validating);
             // 
             // label3
             // 
@@ -126,7 +129,7 @@
             // txtEmail
             // 
             this.txtEmail.Location = new System.Drawing.Point(12, 92);
-            this.txtEmail.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtEmail.Margin = new System.Windows.Forms.Padding(4);
             this.txtEmail.Name = "txtEmail";
             this.txtEmail.Size = new System.Drawing.Size(351, 22);
             this.txtEmail.TabIndex = 3;
@@ -145,7 +148,7 @@
             // txtCompany
             // 
             this.txtCompany.Location = new System.Drawing.Point(12, 44);
-            this.txtCompany.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtCompany.Margin = new System.Windows.Forms.Padding(4);
             this.txtCompany.Name = "txtCompany";
             this.txtCompany.Size = new System.Drawing.Size(351, 22);
             this.txtCompany.TabIndex = 1;
@@ -176,9 +179,9 @@
             this.groupBox2.Controls.Add(this.txtCity);
             this.groupBox2.Controls.Add(this.label4);
             this.groupBox2.Location = new System.Drawing.Point(17, 198);
-            this.groupBox2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox2.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox2.Padding = new System.Windows.Forms.Padding(4);
             this.groupBox2.Size = new System.Drawing.Size(849, 177);
             this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
@@ -188,7 +191,7 @@
             // 
             this.cbCountry.FormattingEnabled = true;
             this.cbCountry.Location = new System.Drawing.Point(484, 143);
-            this.cbCountry.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cbCountry.Margin = new System.Windows.Forms.Padding(4);
             this.cbCountry.Name = "cbCountry";
             this.cbCountry.Size = new System.Drawing.Size(351, 24);
             this.cbCountry.TabIndex = 19;
@@ -207,10 +210,11 @@
             // txtPhoneNumber
             // 
             this.txtPhoneNumber.Location = new System.Drawing.Point(484, 94);
-            this.txtPhoneNumber.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtPhoneNumber.Margin = new System.Windows.Forms.Padding(4);
             this.txtPhoneNumber.Name = "txtPhoneNumber";
             this.txtPhoneNumber.Size = new System.Drawing.Size(351, 22);
             this.txtPhoneNumber.TabIndex = 17;
+            this.txtPhoneNumber.Validating += new System.ComponentModel.CancelEventHandler(this.txtPhoneNumber_Validating_1);
             // 
             // label8
             // 
@@ -225,7 +229,7 @@
             // txtZipCode
             // 
             this.txtZipCode.Location = new System.Drawing.Point(484, 44);
-            this.txtZipCode.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtZipCode.Margin = new System.Windows.Forms.Padding(4);
             this.txtZipCode.Name = "txtZipCode";
             this.txtZipCode.Size = new System.Drawing.Size(351, 22);
             this.txtZipCode.TabIndex = 15;
@@ -244,11 +248,10 @@
             // txtAdditional
             // 
             this.txtAdditional.Location = new System.Drawing.Point(11, 145);
-            this.txtAdditional.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtAdditional.Margin = new System.Windows.Forms.Padding(4);
             this.txtAdditional.Name = "txtAdditional";
             this.txtAdditional.Size = new System.Drawing.Size(351, 22);
             this.txtAdditional.TabIndex = 13;
-            this.txtAdditional.Validating += new System.ComponentModel.CancelEventHandler(this.txtAdditional_Validating);
             // 
             // label6
             // 
@@ -263,7 +266,7 @@
             // txtStreet
             // 
             this.txtStreet.Location = new System.Drawing.Point(11, 94);
-            this.txtStreet.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtStreet.Margin = new System.Windows.Forms.Padding(4);
             this.txtStreet.Name = "txtStreet";
             this.txtStreet.Size = new System.Drawing.Size(351, 22);
             this.txtStreet.TabIndex = 11;
@@ -282,7 +285,7 @@
             // txtCity
             // 
             this.txtCity.Location = new System.Drawing.Point(11, 44);
-            this.txtCity.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtCity.Margin = new System.Windows.Forms.Padding(4);
             this.txtCity.Name = "txtCity";
             this.txtCity.Size = new System.Drawing.Size(351, 22);
             this.txtCity.TabIndex = 9;
@@ -305,9 +308,9 @@
             this.groupBox3.Controls.Add(this.txtPassword);
             this.groupBox3.Controls.Add(this.Password);
             this.groupBox3.Location = new System.Drawing.Point(17, 375);
-            this.groupBox3.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox3.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox3.Padding = new System.Windows.Forms.Padding(4);
             this.groupBox3.Size = new System.Drawing.Size(849, 79);
             this.groupBox3.TabIndex = 2;
             this.groupBox3.TabStop = false;
@@ -316,7 +319,7 @@
             // txtConfirmPassword
             // 
             this.txtConfirmPassword.Location = new System.Drawing.Point(484, 44);
-            this.txtConfirmPassword.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtConfirmPassword.Margin = new System.Windows.Forms.Padding(4);
             this.txtConfirmPassword.Name = "txtConfirmPassword";
             this.txtConfirmPassword.PasswordChar = '*';
             this.txtConfirmPassword.Size = new System.Drawing.Size(351, 22);
@@ -336,7 +339,7 @@
             // txtPassword
             // 
             this.txtPassword.Location = new System.Drawing.Point(11, 44);
-            this.txtPassword.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtPassword.Margin = new System.Windows.Forms.Padding(4);
             this.txtPassword.Name = "txtPassword";
             this.txtPassword.PasswordChar = '*';
             this.txtPassword.Size = new System.Drawing.Size(351, 22);
@@ -356,7 +359,7 @@
             // btnSave
             // 
             this.btnSave.Location = new System.Drawing.Point(765, 470);
-            this.btnSave.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnSave.Margin = new System.Windows.Forms.Padding(4);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(100, 28);
             this.btnSave.TabIndex = 3;
@@ -376,12 +379,13 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(883, 510);
+            this.AutoValidate = System.Windows.Forms.AutoValidate.EnableAllowFocusChange;
+            this.ClientSize = new System.Drawing.Size(904, 549);
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "frmAddSupplier";
             this.Text = "frmAddSupplier";
             this.Load += new System.EventHandler(this.frmAddSupplier_Load);
