@@ -1,12 +1,9 @@
-﻿using MoveMe.Model.Requests;
+﻿using MoveMe.Model;
+using MoveMe.Model.Requests;
 using MoveMe.WinForms.Services;
+using MoveMe.WinForms.Supplier;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -15,8 +12,10 @@ namespace MoveMe.WinForms.UserDetails
     public partial class frmUserDetails : Form
     {
         AuthService _authService = new AuthService();
-
-
+        APIService _addressService = new APIService("address");
+        APIService _countryService = new APIService("country");
+        private RoleModel _selectedRole;
+        private User _selectedUser;
         public frmUserDetails()
         {
             InitializeComponent();
@@ -25,14 +24,14 @@ namespace MoveMe.WinForms.UserDetails
         private async void frmUserDetails_Load(object sender, EventArgs e)
         {
             await LoadRoleComboBox();
-
+            gbDetails.Visible = false;
             await CreateRequest();
         }
 
         private async Task LoadRoleComboBox()
         {
             var result = await _authService.GetRoles();
-            result.Insert(0, new Model.ComboBoxItem());
+            result.Insert(0, new ComboBoxItem());
             cbRole.DisplayMember = "Text";
             cbRole.ValueMember = "Value";
             cbRole.DataSource = result;
@@ -84,7 +83,7 @@ namespace MoveMe.WinForms.UserDetails
                 if (!string.IsNullOrWhiteSpace(item?.Company))
                 {
                     data.Name = item.Company;
-                } 
+                }
                 else
                 {
                     data.Name = item.FirstName + " " + item.LastName;
@@ -94,6 +93,97 @@ namespace MoveMe.WinForms.UserDetails
             }
             dgvUsers.AutoGenerateColumns = false;
             dgvUsers.DataSource = dgvData;
+        }
+
+        private async void dgvUsers_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            var selected = dgvUsers.SelectedRows[0].DataBoundItem as UserDataGridView;
+            _selectedUser = await _authService.GetById(selected.Id);
+            var address = await _addressService.GetById<Address>((int)_selectedUser.AddressId);
+            var country = await _countryService.GetById<Country>((int)address.CountryId);
+
+            _selectedRole = await _authService.GetRole(_selectedUser.Id);
+
+            textAdditionalAddress.Text = address.AdditionalAddress;
+            textCity.Text = address.City;
+            textStreet.Text = address.Street;
+            textZipCode.Text = address.ZipCode;
+            textCountry.Text = country.Name;
+            textEmail.Text = _selectedUser.Email;
+            textRole.Text = _selectedRole.Role;
+            textPhoneNumber.Text = _selectedUser.PhoneNumber;
+            if (textRole.Text == "Supplier")
+            {
+                pbUser.Visible = true;
+                textName.Text = _selectedUser.Company;
+                pbUser.Image = Helper.ByteToImage(_selectedUser.Image);
+            }
+            else
+            {
+                textName.Text = _selectedUser.FirstName + " " + _selectedUser.LastName;
+                pbUser.Visible = false;
+            }
+
+            if (_selectedUser.Active)
+            {
+                btnDelete.Text = "Deactivate";
+            }
+            else
+            {
+                btnDelete.Text = "Activate";
+            }
+
+            gbDetails.Visible = true;
+        }
+
+        private void btnEdit_Click(object sender, EventArgs e)
+        {
+            if (_selectedRole != null)
+            {
+                if (_selectedRole.Role == Role.Supplier)
+                {
+                    var form = new frmAddSupplier(_selectedUser);
+                    form.MdiParent = this.ParentForm;
+                    form.Show();
+                }
+                else
+                {
+                    MessageBox.Show("You cannot edit client profile", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Please select user before editing", "Select user", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
+        private void btnChangePassword_Click(object sender, EventArgs e)
+        {
+            var dialog = new frmChangePassword(_selectedUser.Id);
+            dialog.ShowDialog();
+        }
+
+        private async void btnDelete_Click(object sender, EventArgs e)
+        {
+            var result = await _authService.Deactivate(_selectedUser.Id);
+            string text;
+            if(result.Active)
+            {
+                text = "User successfully activated";
+                btnDelete.Text = "Deactivate";
+            }
+            else
+            {
+                text = "User successfully deactivated";
+                btnDelete.Text = "Activate";
+            }
+            MessageBox.Show(text, "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void btnRating_Click(object sender, EventArgs e)
+        {
+            var dialog = new frmSuppliersFeedbacks(_selectedUser.Id);
+            dialog.ShowDialog();
         }
     }
 }

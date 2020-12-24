@@ -111,6 +111,8 @@ namespace MoveMe.WebAPI
 
             services.AddMvc(x => x.Filters.Add<ErrorFilter>()).SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
 
+            services.AddScoped<IAuthService, AuthService>();
+
             services.AddScoped<IService<Model.Status, object>, BaseService<Model.Status, object, Status>>();
             services.AddScoped<IService<Model.RatingType, object>, BaseService<Model.RatingType, object, RatingType>>();
             services.AddScoped<IService<Model.OfferStatus, object>, BaseService<Model.OfferStatus, object, OfferStatus>>();

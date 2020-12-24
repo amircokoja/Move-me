@@ -45,6 +45,31 @@
                     <Button Padding="5" CornerRadius="10" BackgroundColor="Transparent" TextColor="#2967cc" Text="Send offer" Clicked="Button_Clicked" IsVisible="{Binding SendOfferVisible}"></Button>
                     <Label Text="You have sent offer for this request." IsVisible="{Binding OfferSendMessageVisible}"></Label>
                     <Label Text="Your offer for this request is accepted." IsVisible="{Binding OfferAcceptedVisible}"></Label>
+
+
+                    <Label Text="Recommended requests that you might like"></Label>
+                    <ListView ItemsSource="{Binding RecommendedRequests}">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <StackLayout Padding="10" Orientation="Horizontal" HeightRequest="45" HorizontalOptions="FillAndExpand">
+                                        <StackLayout Orientation="Vertical" HorizontalOptions="Start">
+                                            <Label Text="{Binding Price}" 
+                                           LineBreakMode="NoWrap" 
+                                           FontSize="16" />
+                                            <Label Text="{Binding Room}" 
+                                           LineBreakMode="NoWrap"
+                                           FontSize="13" />
+                                        </StackLayout>
+                                        <StackLayout Orientation="Horizontal" HorizontalOptions="EndAndExpand">
+                                            <Button CornerRadius="10" BackgroundColor="Green" TextColor="White" Text="Accept" Clicked="Button_Clicked_1"></Button>
+                                            <Button CornerRadius="10" BackgroundColor="Red" TextColor="White" Text="Decline" Clicked="Button_Clicked_2"></Button>
+                                        </StackLayout>
+                                    </StackLayout>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
                 </StackLayout>
 
                 <StackLayout IsVisible="{Binding IsClient}" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Padding="20">

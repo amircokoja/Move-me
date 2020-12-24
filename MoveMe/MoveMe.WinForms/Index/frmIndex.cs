@@ -96,7 +96,7 @@ namespace MoveMe.WinForms.Index
 
         private void addSupplierToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var form = new frmAddSupplier();
+            var form = new frmAddSupplier(null);
 
             form.MdiParent = this;
             form.WindowState = FormWindowState.Maximized;

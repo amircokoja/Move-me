@@ -14,7 +14,7 @@ namespace MoveMe.WinForms
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new frmLogin());
+            Application.Run(new Login.frmLogin());
         }
     }
 }

@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmAddSupplier));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.pbImage = new System.Windows.Forms.PictureBox();
             this.btnAdd = new System.Windows.Forms.Button();
@@ -51,18 +52,18 @@
             this.label5 = new System.Windows.Forms.Label();
             this.txtCity = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.gbPassword = new System.Windows.Forms.GroupBox();
             this.txtConfirmPassword = new System.Windows.Forms.TextBox();
-            this.label11 = new System.Windows.Forms.Label();
+            this.lblConfirmPassword = new System.Windows.Forms.Label();
             this.txtPassword = new System.Windows.Forms.TextBox();
-            this.Password = new System.Windows.Forms.Label();
+            this.lblPassword = new System.Windows.Forms.Label();
             this.btnSave = new System.Windows.Forms.Button();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbImage)).BeginInit();
             this.groupBox2.SuspendLayout();
-            this.groupBox3.SuspendLayout();
+            this.gbPassword.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
             this.SuspendLayout();
             // 
@@ -301,20 +302,20 @@
             this.label4.TabIndex = 8;
             this.label4.Text = "City";
             // 
-            // groupBox3
+            // gbPassword
             // 
-            this.groupBox3.Controls.Add(this.txtConfirmPassword);
-            this.groupBox3.Controls.Add(this.label11);
-            this.groupBox3.Controls.Add(this.txtPassword);
-            this.groupBox3.Controls.Add(this.Password);
-            this.groupBox3.Location = new System.Drawing.Point(17, 375);
-            this.groupBox3.Margin = new System.Windows.Forms.Padding(4);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBox3.Size = new System.Drawing.Size(849, 79);
-            this.groupBox3.TabIndex = 2;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Password";
+            this.gbPassword.Controls.Add(this.txtConfirmPassword);
+            this.gbPassword.Controls.Add(this.lblConfirmPassword);
+            this.gbPassword.Controls.Add(this.txtPassword);
+            this.gbPassword.Controls.Add(this.lblPassword);
+            this.gbPassword.Location = new System.Drawing.Point(17, 375);
+            this.gbPassword.Margin = new System.Windows.Forms.Padding(4);
+            this.gbPassword.Name = "gbPassword";
+            this.gbPassword.Padding = new System.Windows.Forms.Padding(4);
+            this.gbPassword.Size = new System.Drawing.Size(849, 79);
+            this.gbPassword.TabIndex = 2;
+            this.gbPassword.TabStop = false;
+            this.gbPassword.Text = "Password";
             // 
             // txtConfirmPassword
             // 
@@ -326,15 +327,15 @@
             this.txtConfirmPassword.TabIndex = 21;
             this.txtConfirmPassword.Validating += new System.ComponentModel.CancelEventHandler(this.txtConfirmPassword_Validating);
             // 
-            // label11
+            // lblConfirmPassword
             // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(484, 25);
-            this.label11.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(120, 17);
-            this.label11.TabIndex = 22;
-            this.label11.Text = "Confirm password";
+            this.lblConfirmPassword.AutoSize = true;
+            this.lblConfirmPassword.Location = new System.Drawing.Point(484, 25);
+            this.lblConfirmPassword.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblConfirmPassword.Name = "lblConfirmPassword";
+            this.lblConfirmPassword.Size = new System.Drawing.Size(120, 17);
+            this.lblConfirmPassword.TabIndex = 22;
+            this.lblConfirmPassword.Text = "Confirm password";
             // 
             // txtPassword
             // 
@@ -346,15 +347,15 @@
             this.txtPassword.TabIndex = 20;
             this.txtPassword.Validating += new System.ComponentModel.CancelEventHandler(this.txtPassword_Validating);
             // 
-            // Password
+            // lblPassword
             // 
-            this.Password.AutoSize = true;
-            this.Password.Location = new System.Drawing.Point(11, 25);
-            this.Password.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.Password.Name = "Password";
-            this.Password.Size = new System.Drawing.Size(69, 17);
-            this.Password.TabIndex = 20;
-            this.Password.Text = "Password";
+            this.lblPassword.AutoSize = true;
+            this.lblPassword.Location = new System.Drawing.Point(11, 25);
+            this.lblPassword.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblPassword.Name = "lblPassword";
+            this.lblPassword.Size = new System.Drawing.Size(69, 17);
+            this.lblPassword.TabIndex = 20;
+            this.lblPassword.Text = "Password";
             // 
             // btnSave
             // 
@@ -382,20 +383,21 @@
             this.AutoValidate = System.Windows.Forms.AutoValidate.EnableAllowFocusChange;
             this.ClientSize = new System.Drawing.Size(904, 549);
             this.Controls.Add(this.btnSave);
-            this.Controls.Add(this.groupBox3);
+            this.Controls.Add(this.gbPassword);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "frmAddSupplier";
-            this.Text = "frmAddSupplier";
+            this.Text = "Supplier form";
             this.Load += new System.EventHandler(this.frmAddSupplier_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbImage)).EndInit();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
-            this.groupBox3.ResumeLayout(false);
-            this.groupBox3.PerformLayout();
+            this.gbPassword.ResumeLayout(false);
+            this.gbPassword.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).EndInit();
             this.ResumeLayout(false);
 
@@ -425,11 +427,11 @@
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.TextBox txtZipCode;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.GroupBox gbPassword;
         private System.Windows.Forms.TextBox txtConfirmPassword;
-        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label lblConfirmPassword;
         private System.Windows.Forms.TextBox txtPassword;
-        private System.Windows.Forms.Label Password;
+        private System.Windows.Forms.Label lblPassword;
         private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.OpenFileDialog openFileDialog;
         private System.Windows.Forms.ErrorProvider errorProvider;

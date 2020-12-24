@@ -1,10 +1,8 @@
 ﻿using MoveMe.WinForms.Properties;
 using System.Threading.Tasks;
-using Flurl;
 using Flurl.Http;
 using System.Collections.Generic;
 using MoveMe.Model;
-using System.Threading;
 using System.Windows.Forms;
 
 namespace MoveMe.WinForms.Services
@@ -22,7 +20,39 @@ namespace MoveMe.WinForms.Services
         {
             var fullUrl = apiUrl + "/login";
 
-            return await fullUrl.PostJsonAsync(request).ReceiveJson<dynamic>();
+            try
+            {
+                return await fullUrl.PostJsonAsync(request).ReceiveJson<dynamic>();
+            }
+            catch (FlurlHttpException ex)
+            {
+                var error = await ex.GetResponseJsonAsync<ErrorModel>();
+                string text;
+                if (error == null)
+                {
+                    text = "Unknown error occured";
+                } 
+                else
+                {
+                    text = error.ERROR[0];
+                }
+                throw new System.Exception(text);
+            }
+        }
+
+        public async Task<User> ChangePassword(int id, Model.Requests.PasswordChangeRequest request)
+        {
+            var fullUrl = apiUrl + "/changepassword/" + id;
+            try
+            {
+                return await fullUrl.PostJsonAsync(request).ReceiveJson<User>();
+            }
+            catch (FlurlHttpException ex)
+            {
+                var error = await ex.GetResponseJsonAsync<ErrorModel>();
+                var text = error.ERROR[0];
+                throw new System.Exception(text);
+            }
         }
 
         public async Task<User> Register(Model.Requests.RegisterRequest request)
@@ -42,6 +72,39 @@ namespace MoveMe.WinForms.Services
             }
         }
 
+        public async Task<User> Update(int UserId, Model.Requests.UserUpdateRequest request)
+        {
+            var fullUrl = apiUrl + "/" + UserId;
+            try
+            {
+                return await fullUrl.PutJsonAsync(request).ReceiveJson<User>();
+            }
+            catch (FlurlHttpException ex)
+            {
+                var error = await ex.GetResponseJsonAsync<ErrorModel>();
+                throw ex;
+            }
+        }
+        public async Task<User> GetById(int UserId)
+        {
+            var fullUrl = apiUrl + "/" + UserId;
+            var result = await fullUrl.GetJsonAsync<User>();
+            return result;
+        }
+
+        public async Task<DashboardCounters> GetCounters()
+        {
+            var fullUrl = apiUrl + "/get-counters";
+            var result = await fullUrl.GetJsonAsync<DashboardCounters>();
+            return result;
+        }
+
+        public async Task<User> Deactivate(int UserId)
+        {
+            var fullUrl = apiUrl + "/deactivate/" + UserId;
+            var result = await fullUrl.GetJsonAsync<User>();
+            return result;
+        }
         public async Task<List<ComboBoxItem>> GetRoles()
         {
             var fullUrl = apiUrl + "/get-roles?includeAdmin=false";
@@ -60,6 +123,13 @@ namespace MoveMe.WinForms.Services
 
             var result = await fullUrl.GetJsonAsync<List<User>>();
             return result;
+        }
+
+        public async Task<RoleModel> GetRole(int UserId)
+        {
+            var fullUrl = apiUrl + "/get-role/" + UserId;
+
+            return await fullUrl.GetJsonAsync<RoleModel>();
         }
     }
 }

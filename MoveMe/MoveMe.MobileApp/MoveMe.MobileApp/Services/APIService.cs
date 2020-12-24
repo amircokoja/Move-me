@@ -81,6 +81,12 @@ namespace MoveMe.MobileApp.Services
             return await fullUrl.WithOAuthBearerToken(token).GetJsonAsync<T>();
         }
 
+        public async Task<T> RecommendRequest<T>(int RequestId)
+        {
+            var fullUrl = url + "/recommend/" + RequestId;
+            return await fullUrl.WithOAuthBearerToken(token).GetJsonAsync<T>();
+        }
+
         public async Task<T> Update<T>(int id, object request)
         {
             var fullUrl = url + "/" + id;

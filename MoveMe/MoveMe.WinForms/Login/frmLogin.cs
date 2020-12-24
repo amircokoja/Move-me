@@ -19,6 +19,7 @@ namespace MoveMe.WinForms.Login
 
         private async void btnLogin_Click(object sender, System.EventArgs e)
         {
+            btnLogin.Enabled = false;
             var loginRequest = new LoginRequest
             {
                 Email = txtEmail.Text,
@@ -34,13 +35,14 @@ namespace MoveMe.WinForms.Login
                 var loginResult = await _authService.Login(loginRequest);
                 APIService.token = loginResult.token;
 
-                this.Hide();
+                Hide();
                 frmIndex indexForm = new frmIndex();
-                indexForm.Show();
+                indexForm.ShowDialog();
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Authentication", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                btnLogin.Enabled = true;
             }
         }
     }

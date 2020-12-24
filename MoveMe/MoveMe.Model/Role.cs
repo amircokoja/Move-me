@@ -13,4 +13,8 @@
         Client,
         Supplier
     }
+    public class RoleModel
+    {
+        public string Role { get; set; }
+    }
 }

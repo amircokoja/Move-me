@@ -185,7 +185,7 @@ namespace MoveMe.MobileApp.ViewModels
             set { SetProperty(ref _offersHegiht, value); }
         }
         public ObservableCollection<RequestDetailsOffers> OfferList { get; set; } = new ObservableCollection<RequestDetailsOffers>();
-
+        public ObservableCollection<Request> RecommendedRequests { get; set; } = new ObservableCollection<Request>();
         public ObservableCollection<Model.RatingType> RatingTypeList { get; set; } = new ObservableCollection<Model.RatingType>();
         Model.RatingType _selectedRatingType = null;
         public Model.RatingType SelectedRatingType
@@ -408,7 +408,8 @@ namespace MoveMe.MobileApp.ViewModels
                 OfferList.Clear();
                 foreach (var offer in offerList)
                 {
-                    var supplierAddress = await _addressService.GetById<Address>(offer.UserId);
+                    var supplier = await _authService.GetById(offer.UserId);
+                    var supplierAddress = await _addressService.GetById<Address>((int)supplier.AddressId);
                     var supplierCountry = await _countryService.GetById<Country>((int)supplierAddress.CountryId);
                     var user = await _authService.GetById(offer.UserId);
                     var newOffer = new RequestDetailsOffers
@@ -437,6 +438,14 @@ namespace MoveMe.MobileApp.ViewModels
                     OfferAcceptedVisible = true;
                     OfferSendMessageVisible = false;
                 }
+            }
+
+            var recommendedRequests = await _requestService.RecommendRequest<List<Request>>(Id);
+
+            RecommendedRequests.Clear();
+            foreach (var recRequest in recommendedRequests)
+            {
+                RecommendedRequests.Add(recRequest);
             }
         }
 
