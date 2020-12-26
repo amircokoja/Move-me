@@ -9,13 +9,13 @@ using Xamarin.Forms;
 
 namespace MoveMe.MobileApp.ViewModels
 {
-    public class ClientDashboardViewModel : BaseViewModel
+    public class DashboardViewModel : BaseViewModel
     {
         public ICommand InitCommand { get; set; }
         private readonly APIService _requestService = new APIService("request");
         private readonly APIService _addressService = new APIService("address");
         private readonly APIService _countryService = new APIService("country");
-        public ClientDashboardViewModel()
+        public DashboardViewModel()
         {
             InitCommand = new Command(async () => await Init());
         }

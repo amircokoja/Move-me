@@ -5,13 +5,14 @@ using MoveMe.Model.Requests;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 
 namespace MoveMe.MobileApp.ViewModels
 {
-    public class ClientRequestDetailsViewModel : BaseViewModel
+    public class RequestDetailsViewModel : BaseViewModel
     {
         #region Properties
         int _id;
@@ -116,6 +117,12 @@ namespace MoveMe.MobileApp.ViewModels
             get { return _status; }
             set { SetProperty(ref _status, value); }
         }
+        string _statusColor = Color.LightSalmon.ToHex();
+        public string StatusColor
+        {
+            get { return _statusColor; }
+            set { SetProperty(ref _statusColor, value); }
+        }
         string _address = string.Empty;
         public string Address
         {
@@ -148,6 +155,21 @@ namespace MoveMe.MobileApp.ViewModels
             get { return _offerSendMessageVisible; }
             set { SetProperty(ref _offerSendMessageVisible, value); }
         }
+
+        bool _offerRejected;
+        public bool OfferRejected
+        {
+            get { return _offerRejected; }
+            set { SetProperty(ref _offerRejected, value); }
+        }
+
+        bool _offerFinished;
+        public bool OfferFinished
+        {
+            get { return _offerFinished; }
+            set { SetProperty(ref _offerFinished, value); }
+        }
+
         bool _offerAcceptedVisible;
         public bool OfferAcceptedVisible
         {
@@ -184,8 +206,15 @@ namespace MoveMe.MobileApp.ViewModels
             get { return _offersHegiht; }
             set { SetProperty(ref _offersHegiht, value); }
         }
+
+        bool _showRecommendList;
+        public bool RecommendShowList
+        {
+            get { return _showRecommendList; }
+            set { SetProperty(ref _showRecommendList, value); }
+        }
         public ObservableCollection<RequestDetailsOffers> OfferList { get; set; } = new ObservableCollection<RequestDetailsOffers>();
-        public ObservableCollection<Request> RecommendedRequests { get; set; } = new ObservableCollection<Request>();
+        public ObservableCollection<RequestModel> RecommendedRequests { get; set; } = new ObservableCollection<RequestModel>();
         public ObservableCollection<Model.RatingType> RatingTypeList { get; set; } = new ObservableCollection<Model.RatingType>();
         Model.RatingType _selectedRatingType = null;
         public Model.RatingType SelectedRatingType
@@ -247,6 +276,18 @@ namespace MoveMe.MobileApp.ViewModels
             get { return _haveActiveOffers; }
             set { SetProperty(ref _haveActiveOffers, value); }
         }
+        bool _activeRequest = true;
+        public bool ActiveRequest
+        {
+            get { return _activeRequest; }
+            set { SetProperty(ref _activeRequest, value); }
+        }
+        bool _inActiveRequest;
+        public bool InActiveRequest
+        {
+            get { return _inActiveRequest; }
+            set { SetProperty(ref _inActiveRequest, value); }
+        }
 
         #endregion
         public ICommand InitCommand { get; set; }
@@ -263,7 +304,7 @@ namespace MoveMe.MobileApp.ViewModels
         private readonly APIService _ratingTypeService = new APIService("ratingtype");
         private readonly APIService _ratingService = new APIService("rating");
 
-        public ClientRequestDetailsViewModel()
+        public RequestDetailsViewModel()
         {
             InitCommand = new Command(async () => await Init());
             RequestFinishedCommand = new Command(async () => await RequestFinished());
@@ -357,6 +398,13 @@ namespace MoveMe.MobileApp.ViewModels
         public async Task Init()
         {
             var request = await _requestService.GetById<Request>(Id);
+            
+            if (request.Inactive == true)
+            {
+                InActiveRequest = true;
+                ActiveRequest = false;
+                return;
+            }
             InitRequest(request);
             var address = await _addressService.GetById<Address>(request.DeliveryAddress);
             InitAddress(address);
@@ -366,7 +414,8 @@ namespace MoveMe.MobileApp.ViewModels
             InitStatus(status);
 
             Address = $"{country.Name}, {address.ZipCode}, {address.City}";
-            await InitFieldsVisibility();
+            IsSupplier = JWTService.DecodeJWTRole() == Role.Supplier;
+            IsClient = !IsSupplier;
 
             if (IsClient)
             {
@@ -426,18 +475,7 @@ namespace MoveMe.MobileApp.ViewModels
             }
             else
             {
-                var searchRequest = new OfferSearchRequest
-                {
-                    RequestId = Id,
-                    OfferStatusId = (int)Models.OfferStatus.Accepted
-                };
-                var offerList = await _offerService.GetAll<List<Offer>>(searchRequest);
-
-                if (offerList.Count > 0)
-                {
-                    OfferAcceptedVisible = true;
-                    OfferSendMessageVisible = false;
-                }
+                await InitFieldsVisibility();
             }
 
             var recommendedRequests = await _requestService.RecommendRequest<List<Request>>(Id);
@@ -445,7 +483,30 @@ namespace MoveMe.MobileApp.ViewModels
             RecommendedRequests.Clear();
             foreach (var recRequest in recommendedRequests)
             {
-                RecommendedRequests.Add(recRequest);
+                var toAddress = await _addressService.GetById<Address>(recRequest.DeliveryAddress);
+                var toCountry = await _countryService.GetById<Country>((int)toAddress.CountryId);
+                var fromUser = await _authService.GetById(recRequest.ClientId);
+                var fromAddress = await _addressService.GetById<Address>((int)fromUser.AddressId);
+                var fromCountry = await _countryService.GetById<Country>((int)fromAddress.CountryId);
+                var requestModel = new RequestModel
+                {
+                    FromCountry = fromCountry.Name,
+                    Price = recRequest.Price,
+                    RequestId = recRequest.RequestId,
+                    ToCountry = toCountry.Name,
+                    FullName = $"{fromUser.FirstName} {fromUser.LastName}"
+                };
+
+                RecommendedRequests.Add(requestModel);
+            }
+
+            if (RecommendedRequests.Count > 0)
+            {
+                RecommendShowList = true;
+            }
+            else
+            {
+                RecommendShowList = false;
             }
         }
 
@@ -639,33 +700,66 @@ namespace MoveMe.MobileApp.ViewModels
 
         private async Task InitFieldsVisibility()
         {
-
-            IsSupplier = JWTService.DecodeJWTRole() == Role.Supplier;
-            IsClient = !IsSupplier;
             _userId = int.Parse(JWTService.DecodeJWT());
             
             var offerRequest = new OfferSearchRequest
             {
-                UserId = _userId,
                 RequestId = Id,
-                OfferStatusId = (int)Models.OfferStatus.Active
+                OfferStatusId = (int)Models.OfferStatus.Accepted
             };
 
+            var allAcceptedOffers = await _offerService.GetAll<List<Offer>>(offerRequest);
+            offerRequest.UserId = _userId;
+
+            var acceptedOffers = allAcceptedOffers.Where(a => a.UserId == _userId).ToList();
+
+            offerRequest.OfferStatusId = (int)Models.OfferStatus.Active;
             var activeOffers = await _offerService.GetAll<List<Offer>>(offerRequest);
-            offerRequest.OfferStatusId = (int)Models.OfferStatus.Accepted;
-            var acceptedOffers = await _offerService.GetAll<List<Offer>>(offerRequest);
+        
             offerRequest.OfferStatusId = (int)Models.OfferStatus.Finished;
             var finishedOffers = await _offerService.GetAll<List<Offer>>(offerRequest);
+            offerRequest.OfferStatusId = (int)Models.OfferStatus.Rejected;
+            var rejectedOffers = await _offerService.GetAll<List<Offer>>(offerRequest);
 
-            if (activeOffers.Count == 0 && acceptedOffers.Count == 0 && finishedOffers.Count == 0)
+
+            if (activeOffers.Count == 0 && acceptedOffers.Count == 0 && finishedOffers.Count == 0 && allAcceptedOffers.Count == 0)
             {
                 SendOfferVisible = true;
-            } 
+            }
             else
             {
                 SendOfferVisible = false;
-                OfferSendMessageVisible = true;
             }
+
+            if (finishedOffers.Count > 0)
+            {
+                OfferSendMessageVisible = false;
+                OfferRejected = false;
+                OfferFinished = true;
+                OfferAcceptedVisible = false;
+            }
+            else if (activeOffers.Count > 0)
+            {
+                OfferSendMessageVisible = true;
+                OfferRejected = false;
+                OfferFinished = false;
+                OfferAcceptedVisible = false;
+            }
+            else if (acceptedOffers.Count > 0)
+            {
+                OfferSendMessageVisible = false;
+                OfferRejected = false;
+                OfferFinished = false;
+                OfferAcceptedVisible = true;
+            }
+            else if (rejectedOffers.Count > 0)
+            {
+                OfferSendMessageVisible = false;
+                OfferRejected = true;
+                OfferFinished = false;
+                OfferAcceptedVisible = false;
+            }
+            
         }
         private void InitRequest(Request request)
         {
@@ -676,6 +770,7 @@ namespace MoveMe.MobileApp.ViewModels
             AdditionalInformation = request.AdditionalInformation;
             StatusId = request.StatusId;
             ClientId = request.ClientId;
+            UserId = int.Parse(JWTService.DecodeJWT());
         }
 
         private void InitAddress(Address address)
@@ -695,22 +790,23 @@ namespace MoveMe.MobileApp.ViewModels
         private void InitStatus(Model.Status status)
         {
             Status = status.Name;
+
+            if (status.StatusId == (int)EStatus.Pending)
+            {
+                StatusColor = Color.LightSalmon.ToHex();
+            }
+            else if (status.StatusId == (int)EStatus.Accepted)
+            {
+                StatusColor = Color.LimeGreen.ToHex();
+            }
+            else
+            {
+                StatusColor = Color.DodgerBlue.ToHex();
+            }
         }
 
         public async Task DeleteRequest()
         {
-            var notifcationRequest = new NotificationSearchRequest
-            {
-                ItemId = Id
-            };
-
-            var notifications = await _notificationService.GetAll<List<MoveMe.Model.Notification>>(notifcationRequest);
-
-            foreach (var item in notifications)
-            {
-                await _notificationService.Delete(item.NotificationId);
-            }
-
             var offerRequest = new OfferSearchRequest
             {
                 RequestId = Id

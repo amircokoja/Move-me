@@ -14,7 +14,7 @@
             <Picker ItemsSource="{Binding StatusList, Mode=TwoWay}" SelectedItem="{Binding SelectedStatus}" SelectedIndex="{Binding SelectedIndex}" ItemDisplayBinding="{Binding Name}"></Picker>
 
             <Label Text="Country" />
-            <Picker ItemsSource="{Binding CountryList, Mode=TwoWay}" SelectedItem="{Binding SelectedCountry}" ItemDisplayBinding="{Binding Name}"></Picker>
+            <Picker ItemsSource="{Binding CountryList, Mode=TwoWay}" SelectedItem="{Binding SelectedCountry}" ItemDisplayBinding="{Binding Name}" ></Picker>
 
             <Label Text="Minimum price" />
             <Entry Text="{Binding MinimumPrice, Mode=TwoWay}"></Entry>
@@ -33,29 +33,34 @@
             </StackLayout>
 
             <StackLayout IsVisible="{Binding ShowList}">
-                <ListView ItemsSource="{Binding RequestList}" ItemSelected="ListView_ItemSelected">
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <ViewCell>
-                                <StackLayout Padding="10" Orientation="Horizontal">
-                                    <StackLayout Orientation="Vertical">
-                                        <Label Text="Full name"></Label>
-                                        <Label Text="{Binding FullName}" LineBreakMode="NoWrap" FontSize="12" />
+                    <ListView ItemsSource="{Binding RequestList}" ItemSelected="ListView_ItemSelected">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                <Frame CornerRadius="10" BackgroundColor="#2967cc" Margin="0, 0, 0, 20">
+                                    <StackLayout Padding="10" Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                                        <StackLayout Orientation="Horizontal">
+                                            <StackLayout Orientation="Vertical" Margin="0, 0, 20, 0">
+                                                <Label TextColor="White" Text="Full name" FontAttributes="Bold"></Label>
+                                                <Label TextColor="White" Text="{Binding FullName}" LineBreakMode="NoWrap" FontSize="12" />
 
-                                        <Label Text="From country"></Label>
-                                        <Label Text="{Binding FromCountry}" LineBreakMode="NoWrap" FontSize="12" />
+                                                <Label TextColor="White" Text="From country" FontAttributes="Bold"></Label>
+                                                <Label TextColor="White" Text="{Binding FromCountry}" LineBreakMode="NoWrap" FontSize="12" />
+                                            </StackLayout>
+                                            <StackLayout Orientation="Vertical">
+                                                <Label TextColor="White" Text="To country" FontAttributes="Bold"></Label>
+                                                <Label TextColor="White" Text="{Binding ToCountry}" LineBreakMode="NoWrap" FontSize="12" />
 
-                                        <Label Text="To country"></Label>
-                                        <Label Text="{Binding ToCountry}" LineBreakMode="NoWrap" FontSize="12" />
-
-                                        <Label Text="Price"></Label>
-                                        <Label Text="{Binding Price}" LineBreakMode="NoWrap" FontSize="12" />
+                                                <Label TextColor="White" Text="Price" FontAttributes="Bold"></Label>
+                                                <Label TextColor="White" Text="{Binding Price, StringFormat='{}{0:C}'}" LineBreakMode="NoWrap" FontSize="12" />
+                                            </StackLayout>
+                                        </StackLayout>
                                     </StackLayout>
-                                </StackLayout>
+                                </Frame>
                             </ViewCell>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
             </StackLayout>
         </StackLayout>
     </ContentPage.Content>

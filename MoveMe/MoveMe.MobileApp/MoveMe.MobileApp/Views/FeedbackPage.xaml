@@ -31,7 +31,7 @@
                 </Frame>
             </StackLayout>
 
-            <Label Text="User have no feedback" IsVisible="{Binding ShowEmptyMessage}"></Label>
+            <Label Text="There is no feedback here." IsVisible="{Binding ShowEmptyMessage}"></Label>
 
             <StackLayout IsVisible="{Binding ShowList}">
                 <Label Text="All feedbacks" />

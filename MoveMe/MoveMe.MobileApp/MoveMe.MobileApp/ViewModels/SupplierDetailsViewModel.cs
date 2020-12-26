@@ -6,7 +6,7 @@ using Xamarin.Forms;
 
 namespace MoveMe.MobileApp.ViewModels
 {
-    public class ClientSupplierDetailsViewModel : BaseViewModel
+    public class SupplierDetailsViewModel : BaseViewModel
     {
         #region Properties
         int _id;
@@ -103,7 +103,7 @@ namespace MoveMe.MobileApp.ViewModels
         private readonly APIService _addressService = new APIService("address");
         private readonly APIService _countryService = new APIService("country");
 
-        public ClientSupplierDetailsViewModel()
+        public SupplierDetailsViewModel()
         {
             InitCommand = new Command(async () => await Init());
         }

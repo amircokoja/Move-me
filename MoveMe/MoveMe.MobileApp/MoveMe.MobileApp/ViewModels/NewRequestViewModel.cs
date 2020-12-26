@@ -17,12 +17,10 @@ namespace MoveMe.MobileApp.ViewModels
         private readonly APIService _requestService = new APIService("request");
         private readonly APIService _addressService = new APIService("address");
         public ICommand InitCommand { get; set; }
-        public ICommand CalculatePriceCommand { get; set; }
         public ICommand SubmitCommand { get; set; }
         public NewRequestViewModel()
         {
             InitCommand = new Command(async () => await Init());
-            CalculatePriceCommand = new Command(() => CalculatePrice());
             SubmitCommand = new Command(async () => await Submit());
         }
 
@@ -283,17 +281,6 @@ namespace MoveMe.MobileApp.ViewModels
             }
         }
 
-        public void CalculatePrice()
-        {
-            if (!isValid())
-            {
-                Price = 0;
-                return;
-            }
-
-            Price = Math.Round((0.7 * TransportDistanceApprox) * (0.8 * Rooms), 2);
-        }
-
         public async Task Submit()
         {
             if (_price <= 0)
@@ -302,7 +289,6 @@ namespace MoveMe.MobileApp.ViewModels
                 PriceError = Constants.CalculatePrice;
                 return;
             }
-
             try
             {
                 var addressRequest = new AddressUpsertRequest
@@ -329,8 +315,8 @@ namespace MoveMe.MobileApp.ViewModels
                         StatusId = (int)Models.Status.Pending,
                         TransportDistanceApprox = _transportDistanceApprox
                     };
-
                     var result = await _requestService.Update<Request>((int)RequestId, req);
+                    await Application.Current.MainPage.DisplayAlert(Constants.RequestUpdated, Constants.RequestUpdatedMessage, Constants.OK);
                 }
                 else
                 {
@@ -350,78 +336,13 @@ namespace MoveMe.MobileApp.ViewModels
                         TransportDistanceApprox = _transportDistanceApprox
                     };
                     var result = await _requestService.Insert<Request>(request);
+                    await Application.Current.MainPage.DisplayAlert(Constants.RequestCreated, Constants.RequestCreatedMessage, Constants.OK);
                 }
-                await Application.Current.MainPage.DisplayAlert(Constants.RequestCreated, Constants.RequestCreatedMessage, Constants.OK);
                 ClearForm();
             }
             catch
             {}
         }
-
-        private bool isValid()
-        {
-            HideErrors();
-            var valid = true;
-
-            if (_rooms <= 0)
-            {
-                RoomsErrorVisible = true;
-                RoomsError = Constants.EnterValidValue;
-                valid = false;
-            }
-
-            if (DateValue < MinDate)
-            {
-                DateErrorVisible = true;
-                DateError = Constants.EnterValidValue;
-                valid = false;
-            }
-
-            if (_totalWeightApprox <= 0)
-            {
-                TotalWeightApproxErrorVisible = true;
-                TotalWeightApproxError = Constants.EnterValidValue;
-                valid = false;
-            }
-
-            if (_transportDistanceApprox <= 0)
-            {
-                TransportDistanceApproxErrorVisible = true;
-                TransportDistanceApproxError = Constants.EnterValidValue;
-                valid = false;
-            }
-
-            if (_city.Length < 3)
-            {
-                CityErrorVisible = true;
-                CityError = Constants.EnterValidCity;
-                valid = false;
-            }
-
-            if (_street.Length < 3)
-            {
-                StreetErrorVisible = true;
-                StreetError = Constants.EnterValidStreet;
-                valid = false;
-            }
-
-            if (_zipCode.Length < 4)
-            {
-                ZipCodeErrorVisible = true;
-                ZipCodeError = Constants.EnterValidZipCode;
-                valid = false;
-            }
-
-            if (_selectedCountry == null)
-            {
-                CountryErrorVisible = true;
-                CountryError = Constants.SelectCountry;
-                valid = false;
-            }
-
-            return valid;
-        }
-
         void HideErrors()
         {
             DateErrorVisible = RoomsErrorVisible = TotalWeightApproxErrorVisible = TransportDistanceApproxErrorVisible = PriceErrorVisible = StreetErrorVisible = CityErrorVisible = ZipCodeErrorVisible = CountryErrorVisible = false;
@@ -482,6 +403,8 @@ namespace MoveMe.MobileApp.ViewModels
             else
             {
                 Price = Math.Round((0.7 * TransportDistanceApprox) * (0.8 * Rooms), 2);
+                PriceErrorVisible = false;
+                HideErrors();
             }
         }
     }

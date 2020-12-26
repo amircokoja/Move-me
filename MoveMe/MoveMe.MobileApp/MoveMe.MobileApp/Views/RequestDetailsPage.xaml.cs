@@ -6,13 +6,13 @@ using Xamarin.Forms.Xaml;
 namespace MoveMe.MobileApp.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class ClientRequestDetailsPage : ContentPage
+    public partial class RequestDetailsPage : ContentPage
     {
-        ClientRequestDetailsViewModel model = null;
-        public ClientRequestDetailsPage(int id)
+        RequestDetailsViewModel model = null;
+        public RequestDetailsPage(int id)
         {
             InitializeComponent();
-            BindingContext = model = new ClientRequestDetailsViewModel();
+            BindingContext = model = new RequestDetailsViewModel();
             model.Id = id;
         }
 
@@ -39,16 +39,20 @@ namespace MoveMe.MobileApp.Views
         {
             var offer = e.SelectedItem as RequestDetailsOffers;
 
-            await Navigation.PushAsync(new ClientSupplierDetailsPage(offer.UserFromId));
+            await Navigation.PushAsync(new SupplierDetailsPage(offer.UserFromId));
         }
 
         private async void Button_Clicked_1(object sender, System.EventArgs e)
         {
-            var button = sender as Button;
-            var offer =  button.BindingContext as RequestDetailsOffers;
-            await model.AcceptOffer(offer.OfferId, offer.UserFromId);
-            await DisplayAlert("Offer accepted", "Offer is accepted", "OK");
-            await model.Init();
+            bool answer = await DisplayAlert("Accept offer?", "All others offers will be rejected, if any!", "Yes", "No");
+            if (answer)
+            {
+                var button = sender as Button;
+                var offer = button.BindingContext as RequestDetailsOffers;
+                await model.AcceptOffer(offer.OfferId, offer.UserFromId);
+                await DisplayAlert("Offer accepted", "Offer is accepted", "OK");
+                await model.Init();
+            }
         }
 
         private async void Button_Clicked_2(object sender, System.EventArgs e)
@@ -75,7 +79,14 @@ namespace MoveMe.MobileApp.Views
 
         private async void Button_Clicked_5(object sender, System.EventArgs e)
         {
-            await Navigation.PushAsync(new ClientSupplierDetailsPage(model.ClientId));
+            await Navigation.PushAsync(new SupplierDetailsPage(model.ClientId));
+        }
+
+        private async void ListView_ItemSelected_1(object sender, SelectedItemChangedEventArgs e)
+        {
+            var request = e.SelectedItem as RequestModel;
+
+            await Navigation.PushAsync(new RequestDetailsPage(request.RequestId));
         }
     }
 }

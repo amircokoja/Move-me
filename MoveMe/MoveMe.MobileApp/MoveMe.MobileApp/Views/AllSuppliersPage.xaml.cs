@@ -6,13 +6,13 @@ using Xamarin.Forms.Xaml;
 namespace MoveMe.MobileApp.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class ClientAllSuppliersPage : ContentPage
+    public partial class AllSuppliersPage : ContentPage
     {
-        ClientAllSuppliersViewModel model = null;
-        public ClientAllSuppliersPage()
+        AllSuppliersViewModel model = null;
+        public AllSuppliersPage()
         {
             InitializeComponent();
-            BindingContext = model = new ClientAllSuppliersViewModel();
+            BindingContext = model = new AllSuppliersViewModel();
         }
 
         protected async override void OnAppearing()
@@ -33,7 +33,7 @@ namespace MoveMe.MobileApp.Views
         {
             var user = e.SelectedItem as User;
 
-            await Navigation.PushAsync(new ClientSupplierDetailsPage(user.Id));
+            await Navigation.PushAsync(new SupplierDetailsPage(user.Id));
         }
     }
 }

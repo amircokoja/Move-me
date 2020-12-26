@@ -35,10 +35,10 @@ namespace MoveMe.MobileApp.Views
                         MenuPages.Add(id, new NavigationPage(new SupplierDashboardPage()));
                         break;
                     case (int)MenuItemType.Dashboard:
-                        MenuPages.Add(id, new NavigationPage(new ClientDashboardPage()));
+                        MenuPages.Add(id, new NavigationPage(new DashboardPage()));
                         break;
                     case (int)MenuItemType.AllSuppliers:
-                        MenuPages.Add(id, new NavigationPage(new ClientAllSuppliersPage()));
+                        MenuPages.Add(id, new NavigationPage(new AllSuppliersPage()));
                         break;
                     case (int)MenuItemType.Notifications:
                         MenuPages.Add(id, new NavigationPage(new NotificationsPage()));

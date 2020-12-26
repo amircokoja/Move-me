@@ -1,8 +1,6 @@
-﻿using System;
-
-namespace MoveMe.MobileApp.Models
+﻿namespace MoveMe.MobileApp.Models
 {
-    public class SupplierAllRequests
+    public class RequestModel
     {
         public int RequestId { get; set; }
         public string FullName { get; set; }

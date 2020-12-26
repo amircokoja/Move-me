@@ -25,7 +25,7 @@ namespace MoveMe.MobileApp.Views
         {
             var user = e.SelectedItem as ClientDashboardRequest;
 
-            await Navigation.PushAsync(new ClientRequestDetailsPage(user.RequestId));
+            await Navigation.PushAsync(new RequestDetailsPage(user.RequestId));
         }
     }
 }

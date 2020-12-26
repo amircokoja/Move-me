@@ -10,25 +10,28 @@
     </ContentPage.BindingContext>
     <ContentPage.Content>
         <StackLayout Padding="15" HorizontalOptions="FillAndExpand">
+            <StackLayout HorizontalOptions="Center">
+                <Button CornerRadius="10" BackgroundColor="#2967cc" TextColor="White" Text="My feedbacks" Clicked="Button_Clicked"></Button>
+            </StackLayout>
             <StackLayout VerticalOptions="Start">
-                <Label Text="No pending requests" />
+                <Label Text="You did not send any offers" />
                 <ListView ItemsSource="{Binding OfferList}" HorizontalOptions="FillAndExpand" VerticalOptions="StartAndExpand" ItemSelected="ListView_ItemSelected">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>
                                 <StackLayout Padding="10" Orientation="Horizontal">
                                     <Label Text="{Binding Price, StringFormat='{0} $'}" LineBreakMode="NoWrap" FontSize="13" FontAttributes="Bold" />
-                                    <Label Text="{Binding Address}" LineBreakMode="NoWrap" FontSize="13" />
-                                    <Frame BackgroundColor="LightBlue" IsVisible="{Binding IsActive}" CornerRadius="5">
+                                    <Label Text="{Binding Address}" LineBreakMode="NoWrap" FontSize="13" Margin="20, 0, 20, 0" />
+                                    <Frame BackgroundColor="LightBlue" IsVisible="{Binding IsActive}" CornerRadius="5" Padding="5">
                                         <Label TextColor="White" Text="{Binding OfferStatus}" LineBreakMode="NoWrap" FontSize="13" />
                                     </Frame>
-                                    <Frame BackgroundColor="LightCoral" IsVisible="{Binding IsRejected}" CornerRadius="5">
+                                    <Frame BackgroundColor="LightCoral" IsVisible="{Binding IsRejected}" CornerRadius="5" Padding="5">
                                         <Label TextColor="White" Text="{Binding OfferStatus}" LineBreakMode="NoWrap" FontSize="13" />
                                     </Frame>
-                                    <Frame BackgroundColor="LightCyan" IsVisible="{Binding IsAccepted}" CornerRadius="5">
+                                    <Frame BackgroundColor="LightSalmon" IsVisible="{Binding IsAccepted}" CornerRadius="5" Padding="5">
                                         <Label TextColor="White" Text="{Binding OfferStatus}" LineBreakMode="NoWrap" FontSize="13" />
                                     </Frame>
-                                    <Frame BackgroundColor="LightSkyBlue" IsVisible="{Binding IsFinished}" CornerRadius="5">
+                                    <Frame BackgroundColor="LightSkyBlue" IsVisible="{Binding IsFinished}" CornerRadius="5" Padding="5">
                                         <Label TextColor="White" Text="{Binding OfferStatus}" LineBreakMode="NoWrap" FontSize="13" />
                                     </Frame>
                                 </StackLayout>

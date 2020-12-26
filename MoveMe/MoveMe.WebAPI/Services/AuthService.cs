@@ -163,6 +163,11 @@ namespace MoveMe.WebAPI.Services
 
             if (user != null && await _userManager.CheckPasswordAsync(user, request.Password))
             {
+                if (user.Active == false)
+                {
+                    throw new UserException("This account is blocked by admin.");
+                }
+
                 var roles = await _userManager.GetRolesAsync(user);
                 if (!roles.Any(x => request.Roles.Any(y => y == x)))
                 {

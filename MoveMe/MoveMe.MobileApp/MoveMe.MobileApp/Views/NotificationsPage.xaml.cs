@@ -37,7 +37,7 @@ namespace MoveMe.MobileApp.Views
                 case (int)NotificationType.OfferAccepted:
                 case (int)NotificationType.OfferRejected:
                 case (int)NotificationType.OfferFinished:
-                    await Navigation.PushAsync(new ClientRequestDetailsPage(notification.ItemId));
+                    await Navigation.PushAsync(new RequestDetailsPage(notification.ItemId));
                     break;
                 case (int)NotificationType.Feedback:
                     await Navigation.PushAsync(new FeedbackPage(notification.UserToId));

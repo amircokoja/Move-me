@@ -25,7 +25,7 @@
                 <Button CornerRadius="10" BackgroundColor="#2967cc" TextColor="white" Text="Login" Command="{Binding LoginCommand}"></Button>
                 <Label Text="Don't have an account?"></Label>
                 <Button HeightRequest="30" Padding="5" CornerRadius="10" BackgroundColor="Transparent" TextColor="#2967cc" Text="Register now!" Command="{Binding RegisterNavigate}"></Button>
-                <Button HeightRequest="30" Padding="5" CornerRadius="10" BackgroundColor="Transparent" TextColor="#2967cc" Text="Become a supplier"></Button>
+                <Button HeightRequest="30" Padding="5" CornerRadius="10" BackgroundColor="Transparent" TextColor="#2967cc" Text="Become a supplier" Clicked="Button_Clicked"></Button>
             </StackLayout>
         </StackLayout>
     </ContentPage.Content>

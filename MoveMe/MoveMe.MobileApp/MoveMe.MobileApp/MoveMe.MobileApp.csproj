@@ -42,6 +42,21 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Views\AllSuppliersPage.xaml.cs">
+      <DependentUpon>AllSuppliersPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\SupplierDetailsPage.xaml.cs">
+      <DependentUpon>SupplierDetailsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\RequestDetailsPage.xaml.cs">
+      <DependentUpon>RequestDetailsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\DashboardPage.xaml.cs">
+      <DependentUpon>DashboardPage.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
     <EmbeddedResource Update="Views\AddressPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
@@ -51,16 +66,16 @@
     <EmbeddedResource Update="Views\ChangePasswordPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\ClientAllSuppliersPage.xaml">
+    <EmbeddedResource Update="Views\AllSuppliersPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\ClientDashboardPage.xaml">
+    <EmbeddedResource Update="Views\DashboardPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\ClientRequestDetailsPage.xaml">
+    <EmbeddedResource Update="Views\RequestDetailsPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\ClientSupplierDetailsPage.xaml">
+    <EmbeddedResource Update="Views\SupplierDetailsPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\FeedbackPage.xaml">
@@ -91,6 +106,9 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\SupplierDashboardPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\SupplierRegistration.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>

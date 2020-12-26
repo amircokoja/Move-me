@@ -153,9 +153,9 @@ namespace MoveMe.MobileApp.ViewModels
             IsLoaded = true;
             _userId = int.Parse(JWTService.DecodeJWT());
             var user = await _authService.GetById(_userId);
-            InitProperties(user);
             IsSupplier = JWTService.DecodeJWTRole() == Role.Supplier;
             IsClient = !IsSupplier;
+            InitProperties(user);
             IsLoaded = true;
         }
 
@@ -231,7 +231,7 @@ namespace MoveMe.MobileApp.ViewModels
                 if (_company.Length < 2)
                 {
                     CompanyErrorVisible = true;
-                    LastNameError = Constants.EnterValidValue;
+                    CompanyError = Constants.EnterValidValue;
                     valid = false;
                 }
             }
@@ -248,7 +248,7 @@ namespace MoveMe.MobileApp.ViewModels
 
         void HideErrors()
         {
-            EmailErrorVisible = FirstNameErrorVisible = LastNameErrorVisible = PhoneNumberErrorVisible = false;
+            EmailErrorVisible = FirstNameErrorVisible = LastNameErrorVisible = PhoneNumberErrorVisible = CompanyErrorVisible = false;
         }
     }
 }

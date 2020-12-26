@@ -1,0 +1,139 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="MoveMe.MobileApp.Views.RequestDetailsPage">
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout>
+                <StackLayout HorizontalOptions="Center" VerticalOptions="Center" Padding="20" IsVisible="{Binding InActiveRequest}">
+                    <Image HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" WidthRequest="200" Source="https://i.ibb.co/d0Lt0cQ/NoData.png"></Image>
+                    <Label HorizontalOptions="Center" VerticalOptions="Center" Text="Not found"  FontSize="18"></Label>
+                    <Label HorizontalOptions="Center" VerticalOptions="Center" Text="Request could be deleted." FontSize="14"></Label>
+                </StackLayout>
+                <StackLayout IsVisible="{Binding ActiveRequest}">
+                    <StackLayout BackgroundColor="White" Padding="20">
+                        <Label Text="Address" FontSize="18" FontAttributes="Bold"></Label>
+                        <Label Text="{Binding Address}" LineBreakMode="NoWrap" FontSize="16" />
+                        <Label Text="Price" FontSize="18" FontAttributes="Bold"></Label>
+                        <Label Text="{Binding Price, StringFormat='{}{0:C}'}" LineBreakMode="NoWrap" FontSize="16" />
+                        <Frame Padding="10, 3, 10, 3" BackgroundColor="{Binding StatusColor}" HorizontalOptions="Start">
+                            <Label TextColor="White" Text="{Binding Status}" LineBreakMode="NoWrap" FontSize="16" />
+                        </Frame>
+                        <StackLayout Orientation="Horizontal" IsVisible="{Binding IsClient}" HorizontalOptions="CenterAndExpand">
+                            <Button CornerRadius="10" BackgroundColor="Green" TextColor="White" IsVisible="{Binding ShowEditButton}" Clicked="Button_Clicked_3" Text="Edit"></Button>
+                            <Button CornerRadius="10" BackgroundColor="Red" TextColor="White" Clicked="Button_Clicked_4" Text="Delete"></Button>
+                        </StackLayout>
+                    </StackLayout>
+                    <Frame BackgroundColor="#2967cc" CornerRadius="20">
+                        <StackLayout>
+                            <Label Text="Request details" TextColor="White" LineBreakMode="NoWrap" FontSize="16"></Label>
+                            <Label Text="Date" TextColor="White" LineBreakMode="NoWrap" FontSize="16"></Label>
+                            <Label Text="{Binding Date}" TextColor="White" LineBreakMode="NoWrap" FontSize="16" />
+
+                            <Label Text="Number of rooms" TextColor="White" LineBreakMode="NoWrap" FontSize="16"></Label>
+                            <Label Text="{Binding Rooms}" TextColor="White" LineBreakMode="NoWrap" FontSize="16" />
+
+                            <Label Text="Total weight approx" TextColor="White" LineBreakMode="NoWrap" FontSize="16"></Label>
+                            <Label Text="{Binding TotalWeightApprox}" TextColor="White" LineBreakMode="NoWrap" FontSize="16" />
+
+                            <Label Text="Transport distance approx" TextColor="White" LineBreakMode="NoWrap" FontSize="16"></Label>
+                            <Label Text="{Binding TransportDistanceApprox}" TextColor="White" LineBreakMode="NoWrap" FontSize="16" />
+
+                            <Label Text="Additional information" LineBreakMode="NoWrap" TextColor="White" FontSize="16"></Label>
+                            <Label Text="{Binding Additional}" LineBreakMode="NoWrap" TextColor="White" FontSize="16" />
+                        </StackLayout>
+                    </Frame>
+                    <StackLayout IsVisible="{Binding IsSupplier}" Orientation="Vertical" HorizontalOptions="CenterAndExpand" Padding="10">
+                        <Button Padding="5" CornerRadius="10" BackgroundColor="Transparent" TextColor="#2967cc" Text="See owner's profile" Clicked="Button_Clicked_5"></Button>
+                        <Button Padding="5" CornerRadius="10" BackgroundColor="Transparent" TextColor="#2967cc" Text="Send offer" Clicked="Button_Clicked" IsVisible="{Binding SendOfferVisible}"></Button>
+                        <StackLayout HorizontalOptions="CenterAndExpand">
+                            <Label Text="You have sent offer for this request." IsVisible="{Binding OfferSendMessageVisible}"></Label>
+                            <Label Text="Your offer for this request is accepted." IsVisible="{Binding OfferAcceptedVisible}"></Label>
+                            <Label Text="Your offer for this request is rejected." IsVisible="{Binding OfferRejected}"></Label>
+                            <Label Text="You have successfully finished this request." IsVisible="{Binding OfferFinished}"></Label>
+                        </StackLayout>
+
+
+                        <StackLayout IsVisible="{Binding RecommendShowList}" HorizontalOptions="FillAndExpand" Margin="0, 20, 0, 0">
+                            <Label FontSize="20" FontAttributes="Bold" Text="Recommended requests that you might like"></Label>
+                            <ListView ItemsSource="{Binding RecommendedRequests}" ItemSelected="ListView_ItemSelected_1">
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <ViewCell>
+                                            <Frame CornerRadius="10" BackgroundColor="#2967cc" Margin="0, 0, 0, 20">
+                                                <StackLayout Padding="10" Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                                                    <StackLayout Orientation="Horizontal">
+                                                        <StackLayout Orientation="Vertical" Margin="0, 0, 20, 0">
+                                                            <Label TextColor="White" Text="Full name" FontAttributes="Bold"></Label>
+                                                            <Label TextColor="White" Text="{Binding FullName}" LineBreakMode="NoWrap" FontSize="12" />
+
+                                                            <Label TextColor="White" Text="From country" FontAttributes="Bold"></Label>
+                                                            <Label TextColor="White" Text="{Binding FromCountry}" LineBreakMode="NoWrap" FontSize="12" />
+                                                        </StackLayout>
+                                                        <StackLayout Orientation="Vertical">
+                                                            <Label TextColor="White" Text="To country" FontAttributes="Bold"></Label>
+                                                            <Label TextColor="White" Text="{Binding ToCountry}" LineBreakMode="NoWrap" FontSize="12" />
+
+                                                            <Label TextColor="White" Text="Price" FontAttributes="Bold"></Label>
+                                                            <Label TextColor="White" Text="{Binding Price, StringFormat='{}{0:C}'}" LineBreakMode="NoWrap" FontSize="12" />
+                                                        </StackLayout>
+                                                    </StackLayout>
+                                                </StackLayout>
+                                            </Frame>
+                                        </ViewCell>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                        </StackLayout>
+                    </StackLayout>
+
+                    <StackLayout IsVisible="{Binding IsClient}" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Padding="20">
+                        <StackLayout HorizontalOptions="Center">
+                            <Button CornerRadius="10" BackgroundColor="#2967cc" TextColor="White" Text="Request finished" IsVisible="{Binding HaveAcceptedOffer}" Command="{Binding RequestFinishedCommand}" ></Button>
+                        </StackLayout>
+                        <ListView IsVisible="{Binding ShowList}" HeightRequest="{Binding OffersHeight}" ItemsSource="{Binding OfferList}" ItemSelected="ListView_ItemSelected">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <ViewCell>
+                                        <StackLayout Padding="10" Orientation="Horizontal" HeightRequest="45" HorizontalOptions="FillAndExpand">
+                                            <StackLayout Orientation="Vertical" HorizontalOptions="Start">
+                                                <Label Text="{Binding Company}" 
+                                           LineBreakMode="NoWrap" 
+                                           Style="{DynamicResource ListItemTextStyle}" 
+                                           FontSize="16" />
+                                                <Label Text="{Binding Address}" 
+                                           LineBreakMode="NoWrap"
+                                           Style="{DynamicResource ListItemDetailTextStyle}"
+                                           FontSize="13" />
+                                            </StackLayout>
+                                            <StackLayout Orientation="Horizontal" HorizontalOptions="EndAndExpand">
+                                                <Button CornerRadius="10" BackgroundColor="Green" TextColor="White" Text="Accept" Clicked="Button_Clicked_1"></Button>
+                                                <Button CornerRadius="10" BackgroundColor="Red" TextColor="White" Text="Decline" Clicked="Button_Clicked_2"></Button>
+                                            </StackLayout>
+                                        </StackLayout>
+                                    </ViewCell>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+
+                        <StackLayout IsVisible="{Binding HaveFinishedOffer}">
+                            <Label Text="Leave a feedback for user"></Label>
+                            <Label Text="Feedback type" />
+                            <Picker ItemsSource="{Binding RatingTypeList}" SelectedItem="{Binding SelectedRatingType}" ItemDisplayBinding="{Binding Type}"></Picker>
+                            <Label IsVisible="{Binding RatingTypeErrorVisible}" Text="{Binding RatingTypeError}" TextColor="Red" FontSize="11"></Label>
+
+                            <Label Text="Description" />
+                            <Entry Text="{Binding Description}"></Entry>
+                            <Label IsVisible="{Binding DescriptionErrorVisible}" Text="{Binding DescriptionError}" TextColor="Red" FontSize="11"></Label>
+
+                            <Button CornerRadius="10" BackgroundColor="#2967cc" TextColor="White" Text="Submit" Command="{Binding LeaveFeedbackCommand}"></Button>
+                        </StackLayout>
+                    </StackLayout>
+                </StackLayout>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

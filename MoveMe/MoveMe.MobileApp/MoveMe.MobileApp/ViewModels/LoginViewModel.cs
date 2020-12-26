@@ -49,6 +49,8 @@ namespace MoveMe.MobileApp.ViewModels
             if (!Regex.IsMatch(_email, Constants.EmailRegex, RegexOptions.IgnoreCase))
             {
                 await Application.Current.MainPage.DisplayAlert(Constants.Error, Constants.EnterValidEmail, Constants.OK);
+                IsFree = true;
+                IsBusy = false;
                 return;
             }
 

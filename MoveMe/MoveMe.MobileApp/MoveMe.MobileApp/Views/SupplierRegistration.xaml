@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="MoveMe.MobileApp.Views.SupplierRegistration">
+    <ContentPage.Content>
+        <StackLayout Padding="10, 50, 10, 10">
+            <Label Text="How to become a supplier?" FontSize="25" FontAttributes="Bold" HorizontalTextAlignment="Center"></Label>
+            <Label Text="To become supplier, you need to send email to admin@moveme.com. In that mail send us following"></Label>
+            <StackLayout Padding="10">
+                <Label Text="Comapny name"></Label>
+                <Label Text="Email"></Label>
+                <Label Text="Country"></Label>
+                <Label Text="City"></Label>
+                <Label Text="Street"></Label>
+                <Label Text="Zip code"></Label>
+                <Label Text="Logo of company (image)"></Label>
+                <Label Text="Phone number"></Label>
+                <Label Text="Additional address (optional)"></Label>
+            </StackLayout>
+            <Label Text="Also, you need to send us some verification document to let as know that this is not an attempt of creating a fake profile. 
+                   When our team checks your request, if everything is regular, we will send you an e-mail in which you will receive login data."></Label>
+
+            <StackLayout HorizontalOptions="Center">
+                <Button Clicked="Button_Clicked" CornerRadius="10" BackgroundColor="#2967cc" TextColor="White" Text="Back to login"></Button>
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

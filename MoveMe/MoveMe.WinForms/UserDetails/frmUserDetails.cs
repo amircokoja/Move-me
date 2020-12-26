@@ -151,10 +151,6 @@ namespace MoveMe.WinForms.UserDetails
                     MessageBox.Show("You cannot edit client profile", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
-            else
-            {
-                MessageBox.Show("Please select user before editing", "Select user", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
         }
 
         private void btnChangePassword_Click(object sender, EventArgs e)
@@ -182,8 +178,18 @@ namespace MoveMe.WinForms.UserDetails
 
         private void btnRating_Click(object sender, EventArgs e)
         {
-            var dialog = new frmSuppliersFeedbacks(_selectedUser.Id);
-            dialog.ShowDialog();
+            if (_selectedRole != null)
+            {
+                if (_selectedRole.Role == Role.Supplier)
+                {
+                    var dialog = new frmSuppliersFeedbacks(_selectedUser.Id);
+                    dialog.ShowDialog();
+                }
+                else
+                {
+                    MessageBox.Show("Only supplier profiles have ratings", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
         }
     }
 }

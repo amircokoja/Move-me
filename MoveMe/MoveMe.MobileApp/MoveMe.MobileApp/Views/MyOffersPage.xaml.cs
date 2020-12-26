@@ -27,7 +27,13 @@ namespace MoveMe.MobileApp.Views
         {
             var offer = e.SelectedItem as MyOffers;
 
-            await Navigation.PushAsync(new ClientRequestDetailsPage(offer.RequestId));
+            await Navigation.PushAsync(new RequestDetailsPage(offer.RequestId));
+        }
+
+        private async void Button_Clicked(object sender, System.EventArgs e)
+        {
+            var id = int.Parse(Services.JWTService.DecodeJWT());
+            await Navigation.PushAsync(new FeedbackPage(id));
         }
     }
 }

@@ -29,9 +29,8 @@ namespace MoveMe.MobileApp.Services
             catch (FlurlHttpException ex)
             {
                 var message = await GetErrorMessage(ex);
-
                 await Application.Current.MainPage.DisplayAlert(Constants.Error, message, Constants.OK);
-                throw;
+                throw new System.Exception(message);
             }
         }
 

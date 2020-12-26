@@ -1,24 +1,19 @@
 ﻿using MoveMe.MobileApp.ViewModels;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace MoveMe.MobileApp.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class ClientSupplierDetailsPage : ContentPage
+    public partial class SupplierDetailsPage : ContentPage
     {
 
-        ClientSupplierDetailsViewModel model = null;
-        public ClientSupplierDetailsPage(int id)
+        SupplierDetailsViewModel model = null;
+        public SupplierDetailsPage(int id)
         {
             InitializeComponent();
-            BindingContext = model = new ClientSupplierDetailsViewModel();
+            BindingContext = model = new SupplierDetailsViewModel();
             model.Id = id;
         }
 

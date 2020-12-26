@@ -7,11 +7,11 @@ using Xamarin.Forms;
 
 namespace MoveMe.MobileApp.ViewModels
 {
-    public class ClientAllSuppliersViewModel : BaseViewModel
+    public class AllSuppliersViewModel : BaseViewModel
     {
         public ICommand InitCommand { get; set; }
         private readonly AuthService _authService = new AuthService();
-        public ClientAllSuppliersViewModel()
+        public AllSuppliersViewModel()
         {
             InitCommand = new Command(async () => await Init());
         }

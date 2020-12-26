@@ -38,13 +38,6 @@ namespace MoveMe.MobileApp.ViewModels
             set { SetProperty(ref _selectedStatus, value); }
 
         }
-        int _selectedIndex;
-        public int SelectedIndex
-        {
-            get { return _selectedIndex; }
-            set { SetProperty(ref _selectedIndex, value); }
-        }
-
 
         bool _hideList;
         public bool HideList
@@ -65,7 +58,7 @@ namespace MoveMe.MobileApp.ViewModels
         private readonly APIService _statusService = new APIService("status");
         private readonly APIService _countryService = new APIService("country");
         private readonly APIService _addressService = new APIService("address");
-        public ObservableCollection<SupplierAllRequests> RequestList { get; set; } = new ObservableCollection<SupplierAllRequests>();
+        public ObservableCollection<RequestModel> RequestList { get; set; } = new ObservableCollection<RequestModel>();
         public ObservableCollection<Model.Status> StatusList { get; set; } = new ObservableCollection<Model.Status>();
         public ObservableCollection<Country> CountryList { get; set; } = new ObservableCollection<Country>();
 
@@ -78,28 +71,36 @@ namespace MoveMe.MobileApp.ViewModels
         {
             if (CountryList.Count == 0)
             {
-                var countryList = await _countryService.GetAll<List<Country>>();
+                var anyCountry = new Country
+                {
+                    CountryId = -1,
+                    Name = "Any"
+                };
 
+                CountryList.Add(anyCountry);
+                var countryList = await _countryService.GetAll<List<Country>>();
                 foreach (var country in countryList)
                 {
                     CountryList.Add(country);
                 }
+              
+                SelectedCountry = anyCountry;
             }
             if (StatusList.Count == 0)
             {
-                var statusList = await _statusService.GetAll<List<Model.Status>>();
+                var anyStatus = new Model.Status
+                {
+                    StatusId = -1,
+                    Name = "Any"
+                };
 
+                StatusList.Add(anyStatus);
+                var statusList = await _statusService.GetAll<List<Model.Status>>();
                 foreach (var status in statusList)
                 {
-                    int index = 1;
                     StatusList.Add(status);
-                    if (status.StatusId == (int)Models.Status.Pending)
-                    {
-                        SelectedStatus = status;
-                        SelectedIndex = index; 
-                    }
-                    index++;
                 }
+                SelectedStatus = anyStatus;
             }
 
             var searchRequest = new RequestSearchRequest
@@ -109,12 +110,12 @@ namespace MoveMe.MobileApp.ViewModels
                 ShowInactive = false
             };
 
-            if (SelectedCountry != null)
+            if (SelectedCountry != null && SelectedCountry.CountryId != -1)
             {
                 searchRequest.CountryId = SelectedCountry.CountryId;
             } 
 
-            if (SelectedStatus != null)
+            if (SelectedStatus != null && SelectedStatus.StatusId != -1)
             {
                 searchRequest.StatusId = SelectedStatus.StatusId;
             }
@@ -130,7 +131,7 @@ namespace MoveMe.MobileApp.ViewModels
                 var requestAddress = await _addressService.GetById<Address>(request.DeliveryAddress);
                 var requestCountry = await _countryService.GetById<Country>((int)requestAddress.CountryId);
 
-                var newRequest = new SupplierAllRequests
+                var newRequest = new RequestModel
                 {
                     FromCountry = userCountry.Name,
                     FullName = user.FirstName + " " + user.LastName,

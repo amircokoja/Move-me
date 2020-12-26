@@ -4,9 +4,9 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:vm="clr-namespace:MoveMe.MobileApp.ViewModels" xmlns:converters="clr-namespace:MoveMe.MobileApp.Converters"
              mc:Ignorable="d"
-             x:Class="MoveMe.MobileApp.Views.ClientAllSuppliersPage">
+             x:Class="MoveMe.MobileApp.Views.AllSuppliersPage">
     <ContentPage.BindingContext>
-        <vm:ClientAllSuppliersViewModel />
+        <vm:AllSuppliersViewModel />
     </ContentPage.BindingContext>
     <ContentPage.Resources>
         <ResourceDictionary>

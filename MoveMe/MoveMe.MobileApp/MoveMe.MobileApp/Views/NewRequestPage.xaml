@@ -15,13 +15,13 @@
                 <Entry PropertyChanged="Entry_PropertyChanged" Text="{Binding Rooms}"></Entry>
                 <Label IsVisible="{Binding RoomsErrorVisible}" Text="{Binding RoomsError}" TextColor="Red" FontSize="11"></Label>
 
-                <Label Text="Total weight approx" />
-                <Entry PropertyChanged="Entry_PropertyChanged" Text="{Binding TotalWeightApprox}"></Entry>
+                <Label Text="Total weight approx (kg)" />
+                <Entry PropertyChanged="Entry_PropertyChanged" Text="{Binding TotalWeightApprox, Mode=TwoWay}"></Entry>
                 <Label IsVisible="{Binding TotalWeightApproxErrorVisible}" Text="{Binding TotalWeightApproxError}" TextColor="Red" FontSize="11"></Label>
 
-                <Label Text="Transport distance approx" />
-                <Entry PropertyChanged="Entry_PropertyChanged" Text="{Binding TransportDistanceApprox}"></Entry>
-                <Label IsVisible="{Binding TransportDistanceApproxErrorVisible}" Text="{Binding TransportDistanceApproxError}" TextColor="Red" FontSize="11"></Label>
+                <Label Text="Transport distance approx (km)" />
+                <Entry PropertyChanged="Entry_PropertyChanged" Text="{Binding TransportDistanceApprox, Mode=TwoWay}"></Entry>
+                <Label IsVisible="{Binding TransportDistanceApproxErrorVisible}"  Text="{Binding TransportDistanceApproxError}" TextColor="Red" FontSize="11"></Label>
 
                 <Label Text="Transport date" />
                 <DatePicker Date="{Binding DateValue}"/>
@@ -49,7 +49,7 @@
                 <Label Text="Additional information" />
                 <Entry Text="{Binding AdditionalInformation}"></Entry>
 
-                <Button CornerRadius="10" BackgroundColor="#2967cc" TextColor="white" Text="Calculate price" Command="{Binding CalculatePriceCommand}"></Button>
+          
 
                 <Label Text="Price" />
                 <Label Text="{Binding Price, StringFormat='{0:C}'}" />

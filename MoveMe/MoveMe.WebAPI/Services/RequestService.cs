@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.ML;
 using Microsoft.ML.Trainers;
 using MoveMe.Model.Requests;
@@ -60,6 +59,13 @@ namespace MoveMe.WebAPI.Services
 
         public List<Model.Request> Recommend(int id)
         {
+            /*
+             The recommendation system works in such a way that if User 1 sends an offer for a some request, 
+            it is checked whether another user has sent an offer for that request. 
+            If so, then other requests for which user 2 has sent offers are also recommended to user 1.
+            This recommendation system only works for requests that are not accepted or finished (requests for
+            which you can send offer).
+             */
             if (mlContext == null)
             {
                 mlContext = new MLContext();
@@ -69,20 +75,27 @@ namespace MoveMe.WebAPI.Services
 
                 foreach (var request in allRequests)
                 {
-                    // get all offers for specific request
-                    var allRequestOffers = _context.Offer.Where(a => a.RequestId == request.RequestId).ToList();
+                    var allRequestOffers = _context.Offer.Where(a => a.RequestId == request.RequestId && (a.OfferStatusId == (int)Model.EOfferStatus.Active || a.OfferStatusId == (int)Model.EOfferStatus.Rejected)).ToList();
                     foreach (var offer in allRequestOffers)
                     {
-                        // get related offers (offers that the same user made for other requests)
-                        var relatedOffers = _context.Offer.Where(a => a.UserId == offer.UserId && a.OfferId != offer.OfferId);
-
+                        var relatedOffers = _context.Offer.Where(a => a.UserId == offer.UserId && a.OfferId != offer.OfferId).ToList();
                         foreach (var relatedOffer in relatedOffers)
                         {
-                            data.Add(new ProductEntry
+                            var offerRequest = _context.Request.Find(relatedOffer.RequestId);
+
+                            if (offerRequest.StatusId == (int)Model.EStatus.Pending && offerRequest.Inactive == false)
                             {
-                                ProductID = (uint)offer.RequestId,
-                                CoPurchaseProductID = (uint)relatedOffer.RequestId
-                            });
+                                var relatedRequest = _context.Request.Find(offer.RequestId);
+
+                                if (relatedRequest.StatusId == (int)Model.EStatus.Pending && relatedRequest.Inactive == false)
+                                {
+                                    data.Add(new ProductEntry
+                                    {
+                                        ProductID = (uint)offer.RequestId,
+                                        CoPurchaseProductID = (uint)relatedOffer.RequestId
+                                    });
+                                }
+                            }
                         }
                     }
                 }
@@ -131,7 +144,7 @@ namespace MoveMe.WebAPI.Services
 
                 predictionResult.Add(new Tuple<Request, float>(request, prediction.Score));
             }
-            var finalResult = predictionResult.OrderByDescending(a => a.Item2).Select(a => a.Item1).Take(3).ToList();
+            var finalResult = predictionResult.OrderByDescending(a => a.Item2).Where(a => a.Item1.StatusId == (int)Model.EStatus.Pending && a.Item1.Inactive == false).Select(a => a.Item1).Take(3).ToList();
 
             return _mapper.Map<List<Model.Request>>(finalResult);
         }

@@ -8,13 +8,13 @@ using Xamarin.Forms.Xaml;
 namespace MoveMe.MobileApp.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class ClientDashboardPage : ContentPage
+    public partial class DashboardPage : ContentPage
     {
-        ClientDashboardViewModel model = null;
-        public ClientDashboardPage()
+        DashboardViewModel model = null;
+        public DashboardPage()
         {
             InitializeComponent();
-            BindingContext = model = new ClientDashboardViewModel();
+            BindingContext = model = new DashboardViewModel();
         }
 
         protected async override void OnAppearing()
@@ -34,7 +34,7 @@ namespace MoveMe.MobileApp.Views
         {
             var user = e.SelectedItem as ClientDashboardRequest;
 
-            await Navigation.PushAsync(new ClientRequestDetailsPage(user.RequestId));
+            await Navigation.PushAsync(new RequestDetailsPage(user.RequestId));
         }
     }
 }

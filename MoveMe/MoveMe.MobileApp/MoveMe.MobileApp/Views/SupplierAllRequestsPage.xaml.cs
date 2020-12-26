@@ -23,9 +23,9 @@ namespace MoveMe.MobileApp.Views
 
         private async void ListView_ItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
-            var request = e.SelectedItem as SupplierAllRequests;
+            var request = e.SelectedItem as RequestModel;
 
-            await Navigation.PushAsync(new ClientRequestDetailsPage(request.RequestId));
+            await Navigation.PushAsync(new RequestDetailsPage(request.RequestId));
         }
     }
 }
