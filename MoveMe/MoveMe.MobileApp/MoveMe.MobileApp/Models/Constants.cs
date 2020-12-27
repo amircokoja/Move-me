@@ -5,6 +5,7 @@
         public static string EmailRegex = @"\A(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\Z";
 
         public static string EnterValidEmail = "Enter valid email";
+        public static string EnterValidCredentials = "Enter valid credentials";
         public static string EnterValidValue = "Enter valid value";
         public static string EnterValidCity = "Enter valid city name";
         public static string EnterValidStreet = "Enter valid street name";
@@ -13,7 +14,11 @@
         public static string SelectCountry = "Select country";
         public static string CalculatePrice = "Enter required data to submit form";
         public static string ErrorMinumumLength4 = "Minimum password length is 4 characters";
+        public static string ErrorMinumumLength5 = "Minimum password length is 5 characters";
+        public static string TooLong = "Too long";
+        public static string MaximumRooms = "Maximum number of rooms is 20";
         
+
         public static string Error = "Error";
         public static string UnknownError = "Unknown error ocurred";
         public static string AccountCreated = "Account created";

@@ -84,6 +84,18 @@ namespace MoveMe.MobileApp.ViewModels
             get { return _streetError; }
             set { SetProperty(ref _streetError, value); }
         }
+        string _additionalError = string.Empty;
+        public string AdditionalError
+        {
+            get { return _additionalError; }
+            set { SetProperty(ref _additionalError, value); }
+        }
+        bool _additionalErrorVisible;
+        public bool AdditionalErrorVisible
+        {
+            get { return _additionalErrorVisible; }
+            set { SetProperty(ref _additionalErrorVisible, value); }
+        }
         bool _streetErrorVisible;
         public bool StreetErrorVisible
         {
@@ -168,25 +180,32 @@ namespace MoveMe.MobileApp.ViewModels
             var valid = true;
             HideErrors();
 
-            if (Street.Length < 3)
+            if (Street.Length < 3 || Street.Length > 50)
             {
                 valid = false;
                 StreetErrorVisible = true;
                 StreetError = Constants.EnterValidStreet;
             }
 
-            if (City.Length < 3)
+            if (City.Length < 3 || City.Length > 40)
             {
                 valid = false;
                 CityErrorVisible = true;
                 CityError = Constants.EnterValidCity;
             }
 
-            if (ZipCode.Length < 4)
+            if (ZipCode.Length < 4 || ZipCode.Length > 10)
             {
                 valid = false;
                 ZipCodeErrorVisible = true;
                 ZipCodeError = Constants.EnterValidZipCode;
+            }
+
+            if (AdditionalAddress.Length > 60)
+            {
+                AdditionalError = Constants.TooLong;
+                AdditionalErrorVisible = true;
+                valid = false;
             }
 
             return valid;
@@ -194,7 +213,7 @@ namespace MoveMe.MobileApp.ViewModels
 
         private void HideErrors()
         {
-            ZipCodeErrorVisible = CityErrorVisible = StreetErrorVisible = false;
+            AdditionalErrorVisible = ZipCodeErrorVisible = CityErrorVisible = StreetErrorVisible = false;
         }
     }
 }

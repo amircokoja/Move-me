@@ -41,23 +41,44 @@ namespace MoveMe.WinForms.Supplier
 
         private async void btnSave_Click(object sender, EventArgs e)
         {
-            var request = new PasswordChangeRequest
+            if (this.ValidateChildren())
             {
-                ConfirmPassword = txtConfirmPassword.Text,
-                CurrentPassword = string.Empty,
-                NewPassword = txtNewPassword.Text,
-                IsAdmin = true
-            };
+                var request = new PasswordChangeRequest
+                {
+                    ConfirmPassword = txtConfirmPassword.Text,
+                    CurrentPassword = "asd",
+                    NewPassword = txtNewPassword.Text,
+                    IsAdmin = true
+                };
 
-            try
-            {
-                await _authService.ChangePassword(UserId, request);
-                MessageBox.Show("Password successfully changed", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                this.Close();
+                try
+                {
+                    await _authService.ChangePassword(UserId, request);
+                    MessageBox.Show("Password successfully changed", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    this.Close();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
-            catch (Exception ex)
+        }
+
+        private void txtConfirmPassword_Validating(object sender, CancelEventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(txtConfirmPassword.Text))
             {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                errorProvider1.SetError(txtConfirmPassword, "This field is required");
+                e.Cancel = true;
+            }
+            else if (txtConfirmPassword.Text.Length < 5)
+            {
+                errorProvider1.SetError(txtConfirmPassword, "You must provide at least 5 characters for password.");
+                e.Cancel = true;
+            }
+            else
+            {
+                errorProvider1.SetError(txtConfirmPassword, null);
             }
         }
     }

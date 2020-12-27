@@ -97,43 +97,53 @@ namespace MoveMe.WinForms.UserDetails
 
         private async void dgvUsers_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            var selected = dgvUsers.SelectedRows[0].DataBoundItem as UserDataGridView;
-            _selectedUser = await _authService.GetById(selected.Id);
-            var address = await _addressService.GetById<Address>((int)_selectedUser.AddressId);
-            var country = await _countryService.GetById<Country>((int)address.CountryId);
-
-            _selectedRole = await _authService.GetRole(_selectedUser.Id);
-
-            textAdditionalAddress.Text = address.AdditionalAddress;
-            textCity.Text = address.City;
-            textStreet.Text = address.Street;
-            textZipCode.Text = address.ZipCode;
-            textCountry.Text = country.Name;
-            textEmail.Text = _selectedUser.Email;
-            textRole.Text = _selectedRole.Role;
-            textPhoneNumber.Text = _selectedUser.PhoneNumber;
-            if (textRole.Text == "Supplier")
+           if (dgvUsers.SelectedRows.Count > 0)
             {
-                pbUser.Visible = true;
-                textName.Text = _selectedUser.Company;
-                pbUser.Image = Helper.ByteToImage(_selectedUser.Image);
-            }
-            else
-            {
-                textName.Text = _selectedUser.FirstName + " " + _selectedUser.LastName;
-                pbUser.Visible = false;
-            }
+                var selected = dgvUsers.SelectedRows[0].DataBoundItem as UserDataGridView;
+                _selectedUser = await _authService.GetById(selected.Id);
+                var address = await _addressService.GetById<Address>((int)_selectedUser.AddressId);
+                var country = await _countryService.GetById<Country>((int)address.CountryId);
 
-            if (_selectedUser.Active)
-            {
-                btnDelete.Text = "Deactivate";
-            }
-            else
-            {
-                btnDelete.Text = "Activate";
-            }
+                _selectedRole = await _authService.GetRole(_selectedUser.Id);
 
-            gbDetails.Visible = true;
+                if (address.AdditionalAddress == null || address.AdditionalAddress == "")
+                {
+                    textAdditionalAddress.Text = "No additional address";
+                }
+                else
+                {
+                    textAdditionalAddress.Text = address.AdditionalAddress;
+                }
+                textCity.Text = address.City;
+                textStreet.Text = address.Street;
+                textZipCode.Text = address.ZipCode;
+                textCountry.Text = country.Name;
+                textEmail.Text = _selectedUser.Email;
+                textRole.Text = _selectedRole.Role;
+                textPhoneNumber.Text = _selectedUser.PhoneNumber;
+                if (textRole.Text == "Supplier")
+                {
+                    pbUser.Visible = true;
+                    textName.Text = _selectedUser.Company;
+                    pbUser.Image = Helper.ByteToImage(_selectedUser.Image);
+                }
+                else
+                {
+                    textName.Text = _selectedUser.FirstName + " " + _selectedUser.LastName;
+                    pbUser.Visible = false;
+                }
+
+                if (_selectedUser.Active)
+                {
+                    btnDelete.Text = "Deactivate";
+                }
+                else
+                {
+                    btnDelete.Text = "Activate";
+                }
+
+                gbDetails.Visible = true;
+            }
         }
 
         private void btnEdit_Click(object sender, EventArgs e)

@@ -93,6 +93,12 @@ namespace MoveMe.MobileApp.ViewModels
             }
         }
 
+        string _additionalError = string.Empty;
+        public string AdditionalError
+        {
+            get { return _additionalError; }
+            set { SetProperty(ref _additionalError, value); }
+        }
         string _emailError = string.Empty;
         public string EmailError
         {

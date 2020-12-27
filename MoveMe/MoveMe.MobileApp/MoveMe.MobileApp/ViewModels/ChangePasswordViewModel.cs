@@ -32,17 +32,18 @@ namespace MoveMe.MobileApp.ViewModels
             get { return _newPassword; }
             set { SetProperty(ref _newPassword, value); }
         }
-        string _newPasswordError = string.Empty;
-        public string NewPasswordError
+
+        string _currentPasswordError = string.Empty;
+        public string CurrentPasswordError
         {
-            get { return _newPasswordError; }
-            set { SetProperty(ref _newPasswordError, value); }
+            get { return _currentPasswordError; }
+            set { SetProperty(ref _currentPasswordError, value); }
         }
-        bool _errorVisible;
-        public bool ErrorVisible
+        bool _currentPasswordErrorVisible;
+        public bool CurrentPasswordErrorVisible
         {
-            get { return _errorVisible; }
-            set { SetProperty(ref _errorVisible, value); }
+            get { return _currentPasswordErrorVisible; }
+            set { SetProperty(ref _currentPasswordErrorVisible, value); }
         }
 
         bool _showMessage;
@@ -51,17 +52,39 @@ namespace MoveMe.MobileApp.ViewModels
             get { return _showMessage; }
             set { SetProperty(ref _showMessage, value); }
         }
+        string _newPasswordError = string.Empty;
+        public string NewPasswordError
+        {
+            get { return _newPasswordError; }
+            set { SetProperty(ref _newPasswordError, value); }
+        }
+        bool _newPasswordErrorVisible;
+        public bool NewPasswordErrorVisible
+        {
+            get { return _newPasswordErrorVisible; }
+            set { SetProperty(ref _newPasswordErrorVisible, value); }
+        }
+
+        string _confirmPasswordError = string.Empty;
+        public string ConfirmPasswordError
+        {
+            get { return _confirmPasswordError; }
+            set { SetProperty(ref _confirmPasswordError, value); }
+        }
+        bool _confirmPasswordErrorVisible;
+        public bool ConfirmPasswordErrorVisible
+        {
+            get { return _confirmPasswordErrorVisible; }
+            set { SetProperty(ref _confirmPasswordErrorVisible, value); }
+        }
         #endregion
 
         private readonly AuthService _authService = new AuthService();
 
         public async Task ChangePassword()
         {
-            ErrorVisible = !IsValid();
-
-            if (ErrorVisible)
+            if (!IsValid())
             {
-                NewPasswordError = Constants.ErrorMinumumLength4;
                 return;
             }
 
@@ -91,7 +114,37 @@ namespace MoveMe.MobileApp.ViewModels
 
         private bool IsValid()
         {
-            return NewPassword.Length >= 4;
+            HideErrors();
+
+            var valid = true;
+
+            if (NewPassword.Length < 5 || NewPassword.Length > 40)
+            {
+                NewPasswordErrorVisible = true;
+                NewPasswordError = Constants.ErrorMinumumLength5;
+                valid = false;
+            }
+
+            if (CurrentPassword.Length < 5 || CurrentPassword.Length > 40)
+            {
+                CurrentPasswordErrorVisible = true;
+                CurrentPasswordError = Constants.ErrorMinumumLength5;
+                valid = false;
+            }
+
+            if (ConfirmPassword.Length < 5 || ConfirmPassword.Length > 40)
+            {
+                ConfirmPasswordErrorVisible = true;
+                ConfirmPasswordError = Constants.ErrorMinumumLength5;
+                valid = false;
+            }
+
+            return valid;
+        }
+
+        void HideErrors()
+        {
+            ConfirmPasswordErrorVisible = CurrentPasswordErrorVisible = NewPasswordErrorVisible = false;
         }
     }
 }

@@ -68,10 +68,13 @@ namespace MoveMe.WinForms.Dashboard
 
         private void dgvRequests_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            var selected = dgvRequests.SelectedRows[0].DataBoundItem as DashboardRequest;
+            if (dgvRequests.SelectedRows.Count > 0)
+            {
+                var selected = dgvRequests.SelectedRows[0].DataBoundItem as DashboardRequest;
 
-            var dialog = new frmRequestDetails(selected.RequestId);
-            dialog.ShowDialog();
+                var dialog = new frmRequestDetails(selected.RequestId);
+                dialog.ShowDialog();
+            }
         }
     }
 }

@@ -35,7 +35,16 @@ namespace MoveMe.WinForms.Dashboard
             lblTransport.Text = $"{request.TransportDistanceApprox} km";
             lblWeight.Text = $"{request.TotalWeightApprox} kg";
             lblRooms.Text = request.Rooms.ToString();
-            lblAdditionalInfo.Text = request.AdditionalInformation;
+            
+            if (request.AdditionalInformation == null || request.AdditionalInformation == "")
+            {
+                lblAdditionalInfo.Text = "No additional information";
+            }
+            else
+            {
+                lblAdditionalInfo.Text = request.AdditionalInformation;
+            }
+
 
             lblName.Text = $"{owner.FirstName} {owner.LastName}";
             lblEmail.Text = owner.Email;

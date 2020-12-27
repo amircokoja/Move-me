@@ -30,8 +30,12 @@ namespace MoveMe.WinForms.Services
                 string text;
                 if (error == null)
                 {
-                    text = "Unknown error occured";
-                } 
+                    text = "Unknown error occurred.";
+                }
+                else if (error.ERROR == null)
+                {
+                    text = "Please enter valid credentials";
+                }
                 else
                 {
                     text = error.ERROR[0];
@@ -50,7 +54,16 @@ namespace MoveMe.WinForms.Services
             catch (FlurlHttpException ex)
             {
                 var error = await ex.GetResponseJsonAsync<ErrorModel>();
-                var text = error.ERROR[0];
+                string text;
+                if (error.ERROR != null)
+                {
+                    text = error.ERROR[0];
+                }
+                else
+                {
+                    text = "Unknown error ocurred";
+                }
+
                 throw new System.Exception(text);
             }
         }

@@ -1,11 +1,6 @@
-﻿using MoveMe.MobileApp.Models;
-using MoveMe.MobileApp.ViewModels;
+﻿using MoveMe.MobileApp.ViewModels;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+using System.Text.RegularExpressions;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -29,6 +24,17 @@ namespace MoveMe.MobileApp.Views
         private async void Button_Clicked(object sender, EventArgs e)
         {
             await model.Submit();
+        }
+
+        private void Entry_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (model != null && model.ZipCode.Length != 0)
+            {
+                if (Regex.IsMatch(model.ZipCode, "[^0-9]"))
+                {
+                    model.ZipCode = model.ZipCode.Remove(model.ZipCode.Length - 1);
+                }
+            }
         }
     }
 }

@@ -116,9 +116,9 @@ namespace MoveMe.WebAPI
             services.AddScoped<IService<Model.Status, object>, BaseService<Model.Status, object, Status>>();
             services.AddScoped<IService<Model.RatingType, object>, BaseService<Model.RatingType, object, RatingType>>();
             services.AddScoped<IService<Model.OfferStatus, object>, BaseService<Model.OfferStatus, object, OfferStatus>>();
+            services.AddScoped<IService<Model.Country, object>, BaseService<Model.Country, object, Country>>();
 
             services.AddScoped<ICRUDService<Model.Rating, Model.Requests.RatingSearchRequest, Model.Requests.RatingUpsertRequest, Model.Requests.RatingUpsertRequest>, RatingService>();
-            services.AddScoped<ICRUDService<Model.Country, object, Model.Requests.CountryUpsertRequest, Model.Requests.CountryUpsertRequest>, BaseCRUDService<Model.Country, object, Model.Requests.CountryUpsertRequest, Model.Requests.CountryUpsertRequest, Country>>();
             services.AddScoped<ICRUDService<Model.Address, object, Model.Requests.AddressUpsertRequest, Model.Requests.AddressUpsertRequest>, BaseCRUDService<Model.Address, object, Model.Requests.AddressUpsertRequest, Model.Requests.AddressUpsertRequest, Address>>();
             services.AddScoped<ICRUDService<Model.Request, Model.Requests.RequestSearchRequest, Model.Requests.RequestInsertRequest, Model.Requests.RequestUpdateRequest>, RequestService>();
             services.AddScoped<ICRUDService<Model.Offer, Model.Requests.OfferSearchRequest, Model.Requests.OfferInsertRequest, Model.Requests.OfferUpdateRequest>, OfferService>();

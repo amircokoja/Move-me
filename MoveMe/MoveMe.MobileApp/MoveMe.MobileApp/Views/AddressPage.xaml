@@ -28,13 +28,14 @@
             <Label IsVisible="{Binding StreetErrorVisible}" Text="{Binding StreetError}" TextColor="Red" FontSize="11"></Label>
 
             <Label Text="ZipCode" />
-            <Entry Text="{Binding ZipCode}"></Entry>
+            <Entry Text="{Binding ZipCode}" PropertyChanged="Entry_PropertyChanged"></Entry>
             <Label IsVisible="{Binding ZipCodeErrorVisible}" Text="{Binding ZipCodeError}" TextColor="Red" FontSize="11"></Label>
 
             <Label Text="Additional address" />
             <Entry Text="{Binding AdditionalAddress}"></Entry>
+            <Label IsVisible="{Binding AdditionalErrorVisible}" Text="{Binding AdditionalError}" TextColor="Red" FontSize="11"></Label>
 
-            <Button Text="Save" Clicked="Button_Clicked"></Button>
+            <Button CornerRadius="10" BackgroundColor="#2967cc" TextColor="white" Text="Save" Clicked="Button_Clicked"></Button>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

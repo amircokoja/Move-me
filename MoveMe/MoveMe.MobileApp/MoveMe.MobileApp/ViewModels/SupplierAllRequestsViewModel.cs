@@ -12,14 +12,14 @@ namespace MoveMe.MobileApp.ViewModels
 {
     public class SupplierAllRequestsViewModel : BaseViewModel
     {
-        int? _minimumPrice;
-        public int? MinimumPrice
+        string _minimumPrice = string.Empty;
+        public string MinimumPrice
         {
             get { return _minimumPrice; }
             set { SetProperty(ref _minimumPrice, value); }
         }
-        int? _maximumRooms;
-        public int? MaximumRooms
+        string _maximumRooms = string.Empty;
+        public string MaximumRooms
         {
             get { return _maximumRooms; }
             set { SetProperty(ref _maximumRooms, value); }
@@ -103,10 +103,26 @@ namespace MoveMe.MobileApp.ViewModels
                 SelectedStatus = anyStatus;
             }
 
+            int? maximumRoomsInt = null;
+            int? minimumPriceInt = null;
+            try
+            {
+                maximumRoomsInt = int.Parse(MaximumRooms);
+            }
+            catch (System.Exception)
+            {}
+
+            try
+            {
+                minimumPriceInt = int.Parse(MinimumPrice);
+            }
+            catch (System.Exception)
+            { }
+
             var searchRequest = new RequestSearchRequest
             {
-                MaximumRooms = _maximumRooms,
-                MinimumPrice = _minimumPrice,
+                MaximumRooms = maximumRoomsInt,
+                MinimumPrice = minimumPriceInt,
                 ShowInactive = false
             };
 

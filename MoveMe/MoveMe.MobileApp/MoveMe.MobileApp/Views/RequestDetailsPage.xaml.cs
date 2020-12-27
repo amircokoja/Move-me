@@ -88,5 +88,16 @@ namespace MoveMe.MobileApp.Views
 
             await Navigation.PushAsync(new RequestDetailsPage(request.RequestId));
         }
+
+        private async void Button_Clicked_6(object sender, System.EventArgs e)
+        {
+            if (!model.isValid())
+            {
+                return;
+            }
+
+            await model.LeaveFeedback();
+            await DisplayAlert("Success", "Feedback was sent successfully", "OK");
+        }
     }
 }

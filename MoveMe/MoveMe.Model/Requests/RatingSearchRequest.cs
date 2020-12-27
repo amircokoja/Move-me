@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace MoveMe.Model.Requests
+﻿namespace MoveMe.Model.Requests
 {
     public class RatingSearchRequest
     {

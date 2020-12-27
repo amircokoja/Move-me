@@ -65,6 +65,12 @@ namespace MoveMe.WebAPI.Services
             If so, then other requests for which user 2 has sent offers are also recommended to user 1.
             This recommendation system only works for requests that are not accepted or finished (requests for
             which you can send offer).
+
+            For the recommendation system to work, user 1 must submit a minimum of two offers for some requests. After that, 
+            it is necessary to restart the application because recommendation system needs to learn from the new data. 
+            When user 2 reaches one of the requests for which user 1 has submitted an offer, he will get a recommendation for 
+            other requests for which user 1 has sent offers. These requests must be in pending status, 
+            as it makes no sense to recommend a request that has already been accepted or finished.
              */
             if (mlContext == null)
             {

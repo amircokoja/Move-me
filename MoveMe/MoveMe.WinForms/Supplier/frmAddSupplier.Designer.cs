@@ -81,7 +81,7 @@
             this.groupBox1.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBox1.Size = new System.Drawing.Size(851, 175);
+            this.groupBox1.Size = new System.Drawing.Size(875, 175);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Details";
@@ -131,6 +131,7 @@
             // 
             this.txtEmail.Location = new System.Drawing.Point(12, 92);
             this.txtEmail.Margin = new System.Windows.Forms.Padding(4);
+            this.txtEmail.MaxLength = 100;
             this.txtEmail.Name = "txtEmail";
             this.txtEmail.Size = new System.Drawing.Size(351, 22);
             this.txtEmail.TabIndex = 3;
@@ -150,6 +151,7 @@
             // 
             this.txtCompany.Location = new System.Drawing.Point(12, 44);
             this.txtCompany.Margin = new System.Windows.Forms.Padding(4);
+            this.txtCompany.MaxLength = 30;
             this.txtCompany.Name = "txtCompany";
             this.txtCompany.Size = new System.Drawing.Size(351, 22);
             this.txtCompany.TabIndex = 1;
@@ -183,7 +185,7 @@
             this.groupBox2.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBox2.Size = new System.Drawing.Size(849, 177);
+            this.groupBox2.Size = new System.Drawing.Size(874, 177);
             this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Address and Contact";
@@ -212,10 +214,12 @@
             // 
             this.txtPhoneNumber.Location = new System.Drawing.Point(484, 94);
             this.txtPhoneNumber.Margin = new System.Windows.Forms.Padding(4);
+            this.txtPhoneNumber.MaxLength = 25;
             this.txtPhoneNumber.Name = "txtPhoneNumber";
             this.txtPhoneNumber.Size = new System.Drawing.Size(351, 22);
             this.txtPhoneNumber.TabIndex = 17;
-            this.txtPhoneNumber.Validating += new System.ComponentModel.CancelEventHandler(this.txtPhoneNumber_Validating_1);
+            this.txtPhoneNumber.TextChanged += new System.EventHandler(this.txtPhoneNumber_TextChanged);
+            this.txtPhoneNumber.Validating += new System.ComponentModel.CancelEventHandler(this.txtPhoneNumber_Validating);
             // 
             // label8
             // 
@@ -231,9 +235,11 @@
             // 
             this.txtZipCode.Location = new System.Drawing.Point(484, 44);
             this.txtZipCode.Margin = new System.Windows.Forms.Padding(4);
+            this.txtZipCode.MaxLength = 10;
             this.txtZipCode.Name = "txtZipCode";
             this.txtZipCode.Size = new System.Drawing.Size(351, 22);
             this.txtZipCode.TabIndex = 15;
+            this.txtZipCode.TextChanged += new System.EventHandler(this.txtZipCode_TextChanged);
             this.txtZipCode.Validating += new System.ComponentModel.CancelEventHandler(this.txtZipCode_Validating);
             // 
             // label7
@@ -250,6 +256,7 @@
             // 
             this.txtAdditional.Location = new System.Drawing.Point(11, 145);
             this.txtAdditional.Margin = new System.Windows.Forms.Padding(4);
+            this.txtAdditional.MaxLength = 60;
             this.txtAdditional.Name = "txtAdditional";
             this.txtAdditional.Size = new System.Drawing.Size(351, 22);
             this.txtAdditional.TabIndex = 13;
@@ -268,6 +275,7 @@
             // 
             this.txtStreet.Location = new System.Drawing.Point(11, 94);
             this.txtStreet.Margin = new System.Windows.Forms.Padding(4);
+            this.txtStreet.MaxLength = 50;
             this.txtStreet.Name = "txtStreet";
             this.txtStreet.Size = new System.Drawing.Size(351, 22);
             this.txtStreet.TabIndex = 11;
@@ -287,6 +295,7 @@
             // 
             this.txtCity.Location = new System.Drawing.Point(11, 44);
             this.txtCity.Margin = new System.Windows.Forms.Padding(4);
+            this.txtCity.MaxLength = 40;
             this.txtCity.Name = "txtCity";
             this.txtCity.Size = new System.Drawing.Size(351, 22);
             this.txtCity.TabIndex = 9;
@@ -312,7 +321,7 @@
             this.gbPassword.Margin = new System.Windows.Forms.Padding(4);
             this.gbPassword.Name = "gbPassword";
             this.gbPassword.Padding = new System.Windows.Forms.Padding(4);
-            this.gbPassword.Size = new System.Drawing.Size(849, 79);
+            this.gbPassword.Size = new System.Drawing.Size(874, 79);
             this.gbPassword.TabIndex = 2;
             this.gbPassword.TabStop = false;
             this.gbPassword.Text = "Password";
@@ -321,6 +330,7 @@
             // 
             this.txtConfirmPassword.Location = new System.Drawing.Point(484, 44);
             this.txtConfirmPassword.Margin = new System.Windows.Forms.Padding(4);
+            this.txtConfirmPassword.MaxLength = 40;
             this.txtConfirmPassword.Name = "txtConfirmPassword";
             this.txtConfirmPassword.PasswordChar = '*';
             this.txtConfirmPassword.Size = new System.Drawing.Size(351, 22);
@@ -341,6 +351,7 @@
             // 
             this.txtPassword.Location = new System.Drawing.Point(11, 44);
             this.txtPassword.Margin = new System.Windows.Forms.Padding(4);
+            this.txtPassword.MaxLength = 40;
             this.txtPassword.Name = "txtPassword";
             this.txtPassword.PasswordChar = '*';
             this.txtPassword.Size = new System.Drawing.Size(351, 22);

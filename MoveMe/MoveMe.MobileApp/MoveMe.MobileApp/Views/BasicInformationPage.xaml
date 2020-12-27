@@ -44,11 +44,11 @@
 
                 <StackLayout>
                     <Label Text="Phone number" LineBreakMode="NoWrap" FontSize="16" />
-                    <Entry Text="{Binding PhoneNumber}"></Entry>
+                    <Entry Text="{Binding PhoneNumber}" PropertyChanged="Entry_PropertyChanged"></Entry>
                     <Label IsVisible="{Binding PhoneNumberErrorVisible}" Text="{Binding PhoneNumberError}" TextColor="Red" FontSize="11"></Label>
                 </StackLayout>
 
-                <Button Text="Save" Clicked="Button_Clicked"></Button>
+                <Button CornerRadius="10" BackgroundColor="#2967cc" TextColor="white" Text="Save" Clicked="Button_Clicked"></Button>
             </StackLayout>
         </StackLayout>
     </ContentPage.Content>

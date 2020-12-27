@@ -44,8 +44,11 @@ namespace MoveMe.MobileApp.ViewModels
             var notificationList = await _notificationService.GetAll<List<Model.Notification>>(search);
 
             NotificationList.Clear();
-            foreach (var notification in notificationList)
+
+            for (int i = notificationList.Count - 1; i >= 0; --i)
             {
+                var notification = notificationList[i];
+
                 var notif = new Notification
                 {
                     NotificationId = notification.NotificationId,

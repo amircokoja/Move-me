@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.IO;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -169,6 +170,11 @@ namespace MoveMe.WinForms.Supplier
                 errorProvider.SetError(txtCompany, "This field is required");
                 e.Cancel = true;
             }
+            else if (txtCompany.Text.Length < 3)
+            {
+                errorProvider.SetError(txtCompany, "Minimum length is 3 characters");
+                e.Cancel = true;
+            }
             else
             {
                 errorProvider.SetError(txtCompany, null);
@@ -177,9 +183,16 @@ namespace MoveMe.WinForms.Supplier
 
         private void txtEmail_Validating(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            string EmailRegex = @"\A(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\Z";
+           
             if (string.IsNullOrWhiteSpace(txtEmail.Text))
             {
                 errorProvider.SetError(txtEmail, "This field is required");
+                e.Cancel = true;
+            }
+            else if (!Regex.IsMatch(txtEmail.Text, EmailRegex, RegexOptions.IgnoreCase))
+            {
+                errorProvider.SetError(txtEmail, "Enter valid email.");
                 e.Cancel = true;
             }
             else
@@ -192,6 +205,11 @@ namespace MoveMe.WinForms.Supplier
             if (string.IsNullOrWhiteSpace(txtStreet.Text))
             {
                 errorProvider.SetError(txtStreet, "This field is required");
+                e.Cancel = true;
+            }
+            else if (txtStreet.Text.Length < 3)
+            {
+                errorProvider.SetError(txtStreet, "Minimum length is 3 characters");
                 e.Cancel = true;
             }
             else
@@ -207,6 +225,11 @@ namespace MoveMe.WinForms.Supplier
                 errorProvider.SetError(txtCity, "This field is required");
                 e.Cancel = true;
             }
+            else if (txtCity.Text.Length < 3)
+            {
+                errorProvider.SetError(txtCity, "Minimum length is 3 characters");
+                e.Cancel = true;
+            }
             else
             {
                 errorProvider.SetError(txtCity, null);
@@ -218,6 +241,11 @@ namespace MoveMe.WinForms.Supplier
             if (string.IsNullOrWhiteSpace(txtZipCode.Text))
             {
                 errorProvider.SetError(txtZipCode, "This field is required");
+                e.Cancel = true;
+            }
+            else if (txtZipCode.Text.Length < 4)
+            {
+                errorProvider.SetError(txtZipCode, "Minimum length is 4 characters");
                 e.Cancel = true;
             }
             else
@@ -276,6 +304,11 @@ namespace MoveMe.WinForms.Supplier
                 errorProvider.SetError(txtPhoneNumber, "This field is required");
                 e.Cancel = true;
             }
+            else if (txtPhoneNumber.Text.Length < 8)
+            {
+                errorProvider.SetError(txtPhoneNumber, "Minimum length is 8 characters");
+                e.Cancel = true;
+            }
             else
             {
                 errorProvider.SetError(txtPhoneNumber, null);
@@ -295,16 +328,21 @@ namespace MoveMe.WinForms.Supplier
             }
         }
 
-        private void txtPhoneNumber_Validating_1(object sender, CancelEventArgs e)
+        private void txtZipCode_TextChanged(object sender, EventArgs e)
         {
-            if (txtPhoneNumber.Text.Length < 5)
+            if (Regex.IsMatch(txtZipCode.Text, "[^0-9]"))
             {
-                errorProvider.SetError(txtPhoneNumber, "This field is required");
-                e.Cancel = true;
+                MessageBox.Show("Please enter only numbers.");
+                txtZipCode.Text = txtZipCode.Text.Remove(txtZipCode.Text.Length - 1);
             }
-            else
+        }
+
+        private void txtPhoneNumber_TextChanged(object sender, EventArgs e)
+        {
+            if (Regex.IsMatch(txtPhoneNumber.Text, "[^0-9]"))
             {
-                errorProvider.SetError(txtPhoneNumber, null);
+                MessageBox.Show("Please enter only numbers.");
+                txtPhoneNumber.Text = txtPhoneNumber.Text.Remove(txtPhoneNumber.Text.Length - 1);
             }
         }
     }

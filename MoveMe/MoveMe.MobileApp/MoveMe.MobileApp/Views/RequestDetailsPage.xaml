@@ -29,21 +29,21 @@
                     </StackLayout>
                     <Frame BackgroundColor="#2967cc" CornerRadius="20">
                         <StackLayout>
-                            <Label Text="Request details" TextColor="White" LineBreakMode="NoWrap" FontSize="16"></Label>
-                            <Label Text="Date" TextColor="White" LineBreakMode="NoWrap" FontSize="16"></Label>
-                            <Label Text="{Binding Date}" TextColor="White" LineBreakMode="NoWrap" FontSize="16" />
+                            <Label FontAttributes="Bold" Text="Request details" TextColor="White" LineBreakMode="NoWrap" FontSize="20"></Label>
+                            <Label FontAttributes="Bold"  Text="Date" TextColor="White" LineBreakMode="NoWrap" FontSize="16"></Label>
+                            <Label Text="{Binding Date,StringFormat='{0:dd/MM/yyyy}'}" TextColor="White" LineBreakMode="NoWrap" FontSize="16" />
 
-                            <Label Text="Number of rooms" TextColor="White" LineBreakMode="NoWrap" FontSize="16"></Label>
+                            <Label FontAttributes="Bold"  Text="Number of rooms" TextColor="White" LineBreakMode="NoWrap" FontSize="16"></Label>
                             <Label Text="{Binding Rooms}" TextColor="White" LineBreakMode="NoWrap" FontSize="16" />
 
-                            <Label Text="Total weight approx" TextColor="White" LineBreakMode="NoWrap" FontSize="16"></Label>
+                            <Label FontAttributes="Bold"  Text="Total weight approx in kg" TextColor="White" LineBreakMode="NoWrap" FontSize="16"></Label>
                             <Label Text="{Binding TotalWeightApprox}" TextColor="White" LineBreakMode="NoWrap" FontSize="16" />
 
-                            <Label Text="Transport distance approx" TextColor="White" LineBreakMode="NoWrap" FontSize="16"></Label>
+                            <Label FontAttributes="Bold"  Text="Transport distance approx in km" TextColor="White" LineBreakMode="NoWrap" FontSize="16"></Label>
                             <Label Text="{Binding TransportDistanceApprox}" TextColor="White" LineBreakMode="NoWrap" FontSize="16" />
 
-                            <Label Text="Additional information" LineBreakMode="NoWrap" TextColor="White" FontSize="16"></Label>
-                            <Label Text="{Binding Additional}" LineBreakMode="NoWrap" TextColor="White" FontSize="16" />
+                            <Label FontAttributes="Bold"  Text="Additional information" LineBreakMode="NoWrap" TextColor="White" FontSize="16"></Label>
+                            <Label Text="{Binding AdditionalInformation}" LineBreakMode="NoWrap" TextColor="White" FontSize="16" />
                         </StackLayout>
                     </Frame>
                     <StackLayout IsVisible="{Binding IsSupplier}" Orientation="Vertical" HorizontalOptions="CenterAndExpand" Padding="10">
@@ -98,16 +98,10 @@
                             <ListView.ItemTemplate>
                                 <DataTemplate>
                                     <ViewCell>
-                                        <StackLayout Padding="10" Orientation="Horizontal" HeightRequest="45" HorizontalOptions="FillAndExpand">
+                                        <StackLayout Padding="10" Orientation="Horizontal" HorizontalOptions="FillAndExpand">
                                             <StackLayout Orientation="Vertical" HorizontalOptions="Start">
-                                                <Label Text="{Binding Company}" 
-                                           LineBreakMode="NoWrap" 
-                                           Style="{DynamicResource ListItemTextStyle}" 
-                                           FontSize="16" />
-                                                <Label Text="{Binding Address}" 
-                                           LineBreakMode="NoWrap"
-                                           Style="{DynamicResource ListItemDetailTextStyle}"
-                                           FontSize="13" />
+                                                <Label Text="{Binding Company}" FontSize="16" />
+                                                <Label Text="{Binding Address}" FontSize="13" />
                                             </StackLayout>
                                             <StackLayout Orientation="Horizontal" HorizontalOptions="EndAndExpand">
                                                 <Button CornerRadius="10" BackgroundColor="Green" TextColor="White" Text="Accept" Clicked="Button_Clicked_1"></Button>
@@ -129,7 +123,7 @@
                             <Entry Text="{Binding Description}"></Entry>
                             <Label IsVisible="{Binding DescriptionErrorVisible}" Text="{Binding DescriptionError}" TextColor="Red" FontSize="11"></Label>
 
-                            <Button CornerRadius="10" BackgroundColor="#2967cc" TextColor="White" Text="Submit" Command="{Binding LeaveFeedbackCommand}"></Button>
+                            <Button CornerRadius="10" BackgroundColor="#2967cc" TextColor="White" Text="Submit" Clicked="Button_Clicked_6"></Button>
                         </StackLayout>
                     </StackLayout>
                 </StackLayout>

@@ -204,7 +204,7 @@ namespace MoveMe.MobileApp.ViewModels
             HideErrors();
 
             var valid = true;
-            if (!Regex.IsMatch(_email, Constants.EmailRegex, RegexOptions.IgnoreCase))
+            if (!Regex.IsMatch(_email, Constants.EmailRegex, RegexOptions.IgnoreCase) || _email.Length > 100)
             {
                 EmailError = Constants.EnterValidEmail;
                 EmailErrorVisible = true;
@@ -213,13 +213,13 @@ namespace MoveMe.MobileApp.ViewModels
 
             if (IsClient)
             {
-                if (_firstName.Length < 2)
+                if (_firstName.Length < 2 || _firstName.Length > 40)
                 {
                     FirstNameError = Constants.EnterValidValue;
                     FirstNameErrorVisible = true;
                     valid = false;
                 }
-                if (_lastName.Length < 2)
+                if (_lastName.Length < 2 || _lastName.Length > 40)
                 {
                     LastNameErrorVisible = true;
                     LastNameError = Constants.EnterValidValue;
@@ -228,7 +228,7 @@ namespace MoveMe.MobileApp.ViewModels
             } 
             else
             {
-                if (_company.Length < 2)
+                if (_company.Length < 2 || _company.Length > 30)
                 {
                     CompanyErrorVisible = true;
                     CompanyError = Constants.EnterValidValue;
@@ -236,7 +236,7 @@ namespace MoveMe.MobileApp.ViewModels
                 }
             }
 
-            if (_phoneNumber.Length < 5)
+            if (_phoneNumber.Length < 8 || _phoneNumber.Length > 25)
             {
                 PhoneNumberErrorVisible = true;
                 PhoneNumberError = Constants.EnterValidValue;

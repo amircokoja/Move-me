@@ -9,7 +9,6 @@ namespace MoveMe.WebAPI.Other
         public Mapper()
         {
             CreateMap<Database.Country, Country>();
-            CreateMap<CountryUpsertRequest, Database.Country>();
 
             CreateMap<Database.Address, Address>();
             CreateMap<AddressUpsertRequest, Database.Address>();

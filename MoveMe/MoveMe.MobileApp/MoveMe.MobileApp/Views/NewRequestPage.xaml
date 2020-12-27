@@ -11,51 +11,51 @@
     <ContentPage.Content>
         <ScrollView>
             <StackLayout Padding="15" VerticalOptions="CenterAndExpand" HorizontalOptions="FillAndExpand">
-                <Label Text="Number of rooms" />
-                <Entry PropertyChanged="Entry_PropertyChanged" Text="{Binding Rooms}"></Entry>
-                <Label IsVisible="{Binding RoomsErrorVisible}" Text="{Binding RoomsError}" TextColor="Red" FontSize="11"></Label>
+
+                <StackLayout>
+                    <Label Text="Number of rooms" />
+                    <Entry PropertyChanged="Entry_PropertyChanged_1"  Text="{Binding Rooms, Mode=TwoWay}"></Entry>
+                    <Label IsVisible="{Binding RoomsErrorVisible}" Text="{Binding RoomsError}" TextColor="Red" FontSize="11"></Label>
+                </StackLayout>
+              
 
                 <Label Text="Total weight approx (kg)" />
-                <Entry PropertyChanged="Entry_PropertyChanged" Text="{Binding TotalWeightApprox, Mode=TwoWay}"></Entry>
+                <Entry PropertyChanged="Entry_PropertyChanged_2"  Text="{Binding TotalWeightApprox, Mode=TwoWay}"></Entry>
                 <Label IsVisible="{Binding TotalWeightApproxErrorVisible}" Text="{Binding TotalWeightApproxError}" TextColor="Red" FontSize="11"></Label>
 
                 <Label Text="Transport distance approx (km)" />
-                <Entry PropertyChanged="Entry_PropertyChanged" Text="{Binding TransportDistanceApprox, Mode=TwoWay}"></Entry>
+                <Entry PropertyChanged="Entry_PropertyChanged_3"  Text="{Binding TransportDistanceApprox, Mode=TwoWay}"></Entry>
                 <Label IsVisible="{Binding TransportDistanceApproxErrorVisible}"  Text="{Binding TransportDistanceApproxError}" TextColor="Red" FontSize="11"></Label>
 
                 <Label Text="Transport date" />
-                <DatePicker Date="{Binding DateValue}"/>
+                <DatePicker Date="{Binding DateValue, Mode=TwoWay}"/>
                 <Label IsVisible="{Binding DateErrorVisible}" Text="{Binding DateError}" TextColor="Red" FontSize="11"></Label>
 
                 <Label Text="Country" />
-                <Picker PropertyChanged="Entry_PropertyChanged" ItemsSource="{Binding CountryList}" SelectedItem="{Binding SelectedCountry, Mode=TwoWay}" SelectedIndex="{Binding SelectedIndex}" ItemDisplayBinding="{Binding Name}"></Picker>
+                <Picker ItemsSource="{Binding CountryList}" SelectedItem="{Binding SelectedCountry, Mode=TwoWay}" SelectedIndex="{Binding SelectedIndex}" ItemDisplayBinding="{Binding Name}"></Picker>
                 <Label IsVisible="{Binding CountryErrorVisible}" Text="{Binding CountryError}" TextColor="Red" FontSize="11"></Label>
 
                 <Label Text="City" />
-                <Entry PropertyChanged="Entry_PropertyChanged" Text="{Binding City}"></Entry>
+                <Entry Text="{Binding City, Mode=TwoWay}"></Entry>
                 <Label IsVisible="{Binding CityErrorVisible}" Text="{Binding CityError}" TextColor="Red" FontSize="11"></Label>
 
                 <Label Text="Street" />
-                <Entry PropertyChanged="Entry_PropertyChanged" Text="{Binding Street}"></Entry>
+                <Entry Text="{Binding Street, Mode=TwoWay}"></Entry>
                 <Label IsVisible="{Binding StreetErrorVisible}" Text="{Binding StreetError}" TextColor="Red" FontSize="11"></Label>
 
                 <Label Text="ZipCode" />
-                <Entry PropertyChanged="Entry_PropertyChanged" Text="{Binding ZipCode}"></Entry>
+                <Entry PropertyChanged="Entry_PropertyChanged_4"  Text="{Binding ZipCode, Mode=TwoWay}"></Entry>
                 <Label IsVisible="{Binding ZipCodeErrorVisible}" Text="{Binding ZipCodeError}" TextColor="Red" FontSize="11"></Label>
 
                 <Label Text="Additional address" />
-                <Entry Text="{Binding Additional}"></Entry>
+                <Entry Text="{Binding Additional, Mode=TwoWay}"></Entry>
+                <Label IsVisible="{Binding AdditionalAddressErrorVisible}" Text="Too long" TextColor="Red" FontSize="11"></Label>
 
                 <Label Text="Additional information" />
-                <Entry Text="{Binding AdditionalInformation}"></Entry>
+                <Entry Text="{Binding AdditionalInformation, Mode=TwoWay}"></Entry>
+                <Label IsVisible="{Binding AdditionalInfoErrorVisible}" Text="Too long" TextColor="Red" FontSize="11"></Label>
 
-          
-
-                <Label Text="Price" />
-                <Label Text="{Binding Price, StringFormat='{0:C}'}" />
-                <Label IsVisible="{Binding PriceErrorVisible}" Text="{Binding PriceError}" TextColor="Red" FontSize="11"></Label>
-
-                <Button CornerRadius="10" BackgroundColor="#2967cc" TextColor="white" Text="Submit" Command="{Binding SubmitCommand}"></Button>
+                <Button CornerRadius="10" BackgroundColor="#2967cc" TextColor="white" Text="Submit" Clicked="Button_Clicked"></Button>
             </StackLayout>
         </ScrollView>
     </ContentPage.Content>

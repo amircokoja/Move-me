@@ -135,7 +135,15 @@ namespace MoveMe.MobileApp.ViewModels
             Street = address.Street;
             City = address.City;
             ZipCode = address.ZipCode;
-            AdditionalAddress = address.AdditionalAddress;
+
+            if (address.AdditionalAddress == null || address.AdditionalAddress == "")
+            {
+                AdditionalAddress = "No additional address";
+            }
+            else
+            {
+                AdditionalAddress = address.AdditionalAddress;
+            }
         }
 
         private void InitCountry(Country country)

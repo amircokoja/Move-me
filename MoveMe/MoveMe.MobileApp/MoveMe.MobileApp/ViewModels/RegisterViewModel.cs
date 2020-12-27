@@ -69,45 +69,52 @@ namespace MoveMe.MobileApp.ViewModels
         public bool IsValid()
         {
             var valid = true;
-            if (!Regex.IsMatch(_email, Constants.EmailRegex, RegexOptions.IgnoreCase))
+            if (!Regex.IsMatch(_email, Constants.EmailRegex, RegexOptions.IgnoreCase) || _email.Length > 100)
             {
                 EmailError = Constants.EnterValidEmail;
                 valid = false;
             }
 
-            if (_firstName.Length < 2)
+            if (_firstName.Length < 2 || _firstName.Length > 40)
             {
                 FirstNameError = Constants.EnterValidValue;
                 valid = false;
             }
 
-            if (_lastName.Length < 2)
+            if (_lastName.Length < 2 || _lastName.Length > 40)
             {
                 LastNameError = Constants.EnterValidValue;
                 valid = false;
             }
 
-            if (_city.Length < 2)
+            if (_city.Length < 3 || _city.Length > 40)
             {
                 CityError = Constants.EnterValidCity;
                 valid = false;
             }
 
-            if (_phoneNumber.Length < 5)
+            if (_phoneNumber.Length < 8 || _phoneNumber.Length > 25)
             {
                 PhoneNumberError = Constants.EnterValidValue;
                 valid = false;
             }
 
-            if (_street.Length < 2)
+            if (_street.Length < 3 || _street.Length > 50)
             {
                 StreetError = Constants.EnterValidStreet;
                 valid = false;
             }
 
-            if (_zipCode.Length < 4)
+            if (_zipCode.Length < 4 || _zipCode.Length > 10)
             {
                 ZipCodeError = Constants.EnterValidZipCode;
+                valid = false;
+            }
+
+
+            if (_additional.Length > 60)
+            {
+                AdditionalError = Constants.TooLong;
                 valid = false;
             }
 
@@ -117,9 +124,14 @@ namespace MoveMe.MobileApp.ViewModels
                 valid = false;
             }
 
-            if (_password.Length < 4)
+            if (_password.Length < 5)
             {
-                PasswordError = Constants.ErrorMinumumLength4;
+                PasswordError = Constants.ErrorMinumumLength5;
+                valid = false;
+            }
+            else if (_password.Length > 40)
+            {
+                PasswordError = Constants.EnterValidValue;
                 valid = false;
             }
 
@@ -128,7 +140,7 @@ namespace MoveMe.MobileApp.ViewModels
 
         void CleanErrors()
         {
-            EmailError = FirstNameError = LastNameError = PhoneNumberError = StreetError = CityError = ZipCodeError = CountryError = PasswordError = "";
+            AdditionalError = EmailError = FirstNameError = LastNameError = PhoneNumberError = StreetError = CityError = ZipCodeError = CountryError = PasswordError = "";
         }
     }
 }

@@ -17,10 +17,10 @@
             <Picker ItemsSource="{Binding CountryList, Mode=TwoWay}" SelectedItem="{Binding SelectedCountry}" ItemDisplayBinding="{Binding Name}" ></Picker>
 
             <Label Text="Minimum price" />
-            <Entry Text="{Binding MinimumPrice, Mode=TwoWay}"></Entry>
+            <Entry Text="{Binding MinimumPrice, Mode=TwoWay}" PropertyChanged="Entry_PropertyChanged"></Entry>
 
             <Label Text="Maximum rooms" />
-            <Entry Text="{Binding MaximumRooms, Mode=TwoWay}"></Entry>
+            <Entry Text="{Binding MaximumRooms, Mode=TwoWay}" PropertyChanged="Entry_PropertyChanged_1"></Entry>
 
             <StackLayout HorizontalOptions="CenterAndExpand">
                 <Button Padding="5" CornerRadius="10" BackgroundColor="#2967cc" TextColor="White" Text="Search" Command="{Binding InitCommand}"></Button>
