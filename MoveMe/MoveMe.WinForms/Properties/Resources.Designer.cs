@@ -61,7 +61,7 @@ namespace MoveMe.WinForms.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to http://localhost:5000/api.
+        ///   Looks up a localized string similar to http://localhost:51886/api.
         /// </summary>
         public static string apiUrl {
             get {

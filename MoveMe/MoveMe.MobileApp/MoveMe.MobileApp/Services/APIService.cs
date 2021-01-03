@@ -15,7 +15,7 @@ namespace MoveMe.MobileApp.Services
         public string url = null;
 
 #if DEBUG
-        public string _apiUrl = "http://localhost:5000/api";
+        public string _apiUrl = "http://localhost:51886/api";
 #endif
 
         public APIService(string route)

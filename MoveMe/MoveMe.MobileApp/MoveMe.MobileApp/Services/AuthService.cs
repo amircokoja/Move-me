@@ -12,7 +12,7 @@ namespace MoveMe.MobileApp.Services
     public class AuthService
     {
 #if DEBUG
-        public string _apiUrl = "http://localhost:5000/api/auth";
+        public string _apiUrl = "http://localhost:51886/api/auth";
 #endif
         public AuthService()
         {
