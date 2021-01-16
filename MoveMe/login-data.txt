@@ -1,3 +1,15 @@
 Admin:
-	email: admin@admin.com
-	password: qweasd
+-email: admin@admin.com
+-password: qweasd
+
+Client:
+- email: chris.simanek@moveme.com
+- password: qweasd
+- email: albie.boyle@moveme.com
+- password: qweasd
+
+Supplier:
+- email: obrelo@moveme.com
+- password: qweasd
+- email: citys@moveme.com
+- password: qweasd
