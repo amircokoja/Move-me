@@ -18,7 +18,7 @@ services:
     build:
       context: .
     environment:
-      - ConnectionStrings:Connection=Server=moveme-sql,1433;Database=170050;User=sa;Password=QWElkj132!;ConnectRetryCount=0
+      - ConnectionStrings:Connection=Server=moveme-sql,1433;Database=170050Docker;User=sa;Password=QWElkj132!;ConnectRetryCount=0
     ports:
       - 51886:80
     networks:
